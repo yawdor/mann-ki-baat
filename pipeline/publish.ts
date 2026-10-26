@@ -2,6 +2,7 @@ import { execFile } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { promisify } from 'node:util';
+import { MONTH_RE } from '../src/lib/schema';
 import type { ContentReport } from '../validators/run';
 
 const run = promisify(execFile);
@@ -14,7 +15,7 @@ const MONTH_NAMES = [
 
 export type PublishResult = {
   branch: 'main' | `drafts/${string}`;
-  /** Every git argv in order (placeholders `<original-branch>` when planned in a dry run). */
+  /** Every git argv in order (placeholder `<original-branch>` when planned in a dry run). */
   commands: string[][];
 };
 
@@ -45,52 +46,69 @@ export async function publish(
   opts: { root: string; dryRun?: boolean },
 ): Promise<PublishResult> {
   const { root, dryRun = false } = opts;
+  if (!MONTH_RE.test(month)) throw new Error(`"${month}" is not a valid month (YYYY-MM)`);
+  if (report.month !== month)
+    throw new Error(`report is for ${String(report.month)}, not ${month}; refusing to publish`);
+  const ok = report.ok === true; // strict: anything else is treated as failing
   const episode = episodeNumber(root, month);
   const git = (...args: string[]) => ['git', ...args];
+  const gitRun = (args: string[]) => run('git', args, { cwd: root });
+  const currentBranch = async () => (await gitRun(['rev-parse', '--abbrev-ref', 'HEAD'])).stdout.trim();
 
-  if (report.ok) {
+  if (ok) {
     const commands = [
       git('add', 'content', 'sources'),
-      git('commit', '-m', commitMessage(month, episode, false)),
+      git('commit', '-m', commitMessage(month, episode, false), '--', 'content', 'sources'),
       git('push', 'origin', 'HEAD:main'),
     ];
-    if (!dryRun) for (const [, ...args] of commands) await run('git', args, { cwd: root });
+    if (dryRun) return { branch: 'main', commands };
+    const cur = await currentBranch();
+    if (cur !== 'main') throw new Error(`refusing to publish to main from branch "${cur}"; check out main first`);
+    for (const [, ...args] of commands) await gitRun(args);
     return { branch: 'main', commands };
   }
 
   const branch = `drafts/${month}` as const;
   const reportRel = `reports/${month}.content.json`;
+  const present = ['content', 'sources'].filter((d) => existsSync(join(root, d)));
   const plan = (orig: string) => [
     git('checkout', '-B', branch),
-    git('add', 'content', 'sources'),
+    ...(present.length ? [git('add', ...present)] : []),
     git('add', '-f', reportRel),
-    git('commit', '-m', commitMessage(month, episode, true)),
-    git('push', '-u', 'origin', branch),
+    git('commit', '-m', commitMessage(month, episode, true), '--', ...present, reportRel),
+    // checkout -B rebuilds the branch from the current HEAD, so a re-run diverges from the old remote draft.
+    git('push', '--force-with-lease', '-u', 'origin', branch),
     git('checkout', orig),
   ];
   if (dryRun) return { branch, commands: plan('<original-branch>') };
 
-  const { stdout } = await run('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: root });
-  const original = stdout.trim();
+  const original = await currentBranch();
+  if (original === 'HEAD') throw new Error('refusing to publish a draft from a detached HEAD');
   const commands = plan(original);
   const reportAbs = join(root, reportRel);
   mkdirSync(dirname(reportAbs), { recursive: true });
   writeFileSync(reportAbs, JSON.stringify(report, null, 2) + '\n');
   let switched = false;
+  let failure: unknown;
   try {
-    for (const [i, [, ...args]] of commands.entries()) {
-      if (i === commands.length - 1) break; // switching back happens in finally
-      await run('git', args, { cwd: root });
+    for (const [, ...args] of commands.slice(0, -1)) {
       switched = true;
+      await gitRun(args);
     }
-  } finally {
-    if (switched) await run('git', ['checkout', original], { cwd: root });
+  } catch (e) {
+    failure = e;
   }
+  if (switched) {
+    try {
+      await gitRun(['checkout', original]);
+    } catch (restoreErr) {
+      if (failure === undefined) throw restoreErr;
+      throw new Error(
+        `${failure instanceof Error ? failure.message : String(failure)} (and restoring branch "${original}" failed)`,
+        { cause: restoreErr },
+      );
+    }
+  }
+  if (failure !== undefined) throw failure;
   return { branch, commands };
-}
-
-export function readReport(root: string, month: string): ContentReport {
-  const p = join(root, 'reports', `${month}.content.json`);
-  if (!existsSync(p)) throw new Error(`missing ${p}; run validate:content first`);
-  return JSON.parse(readFileSync(p, 'utf8')) as ContentReport;
 }

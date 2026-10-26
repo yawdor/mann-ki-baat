@@ -1,8 +1,10 @@
-import { resolve } from 'node:path';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { MONTH_RE } from '../src/lib/schema';
 import { discoverEpisode } from './discover';
 import { saveSources } from './fetch';
-import { publish, readReport } from './publish';
+import { publish } from './publish';
+import { runContentValidation } from '../validators/run';
 import { shouldRun } from './window';
 
 const USAGE =
@@ -47,7 +49,11 @@ export async function main(argv: string[]): Promise<unknown> {
     }
     case 'publish': {
       const month = needMonth(pos[0]);
-      const report = readReport(root, month);
+      // Never trust a stored report: re-validate now, record it, and gate on the fresh result.
+      const report = await runContentValidation(month, { root, fetch });
+      mkdirSync(join(root, 'reports'), { recursive: true });
+      writeFileSync(join(root, 'reports', `${month}.content.json`), JSON.stringify(report, null, 2) + '\n');
+      if (report.month !== month) throw new Error(`report month ${report.month} does not match ${month}`);
       return await publish(month, report, { root, dryRun: rest.includes('--dry-run') });
     }
     default:

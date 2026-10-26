@@ -45,3 +45,13 @@ export async function fetchWithRetry(
   }
   return { ok: false, status, error: last };
 }
+
+/** Only https://www.pmindia.gov.in is ever fetched by the pipeline. */
+export function isPmindiaUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    return u.protocol === 'https:' && u.hostname === 'www.pmindia.gov.in';
+  } catch {
+    return false;
+  }
+}

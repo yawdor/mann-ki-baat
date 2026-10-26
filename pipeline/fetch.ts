@@ -1,7 +1,8 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { fetchWithRetry, type RetryOptions } from '../src/lib/http';
+import { MONTH_RE } from '../src/lib/schema';
+import { fetchWithRetry, isPmindiaUrl, type RetryOptions } from '../src/lib/http';
 import { parseTranscript } from './paras';
 
 export type SourceMeta = {
@@ -27,6 +28,9 @@ export async function saveSources(
   urls: { en: string; hi: string },
   opts: { root: string; fetch?: typeof fetch; retry?: RetryOptions },
 ): Promise<SourceMeta> {
+  if (!MONTH_RE.test(month)) throw new Error(`"${month}" is not a valid month (YYYY-MM)`);
+  for (const u of [urls.en, urls.hi])
+    if (!isPmindiaUrl(u)) throw new Error(`refusing to fetch ${u}: only https://www.pmindia.gov.in is allowed`);
   const f = opts.fetch ?? fetch;
   const [en, hi] = await Promise.all([
     fetchHtml(f, urls.en, opts.retry),
@@ -36,6 +40,11 @@ export async function saveSources(
   const pHi = parseTranscript(hi);
   if (!pEn.paragraphs.length) throw new Error(`no transcript paragraphs found at ${urls.en}`);
   if (!pHi.paragraphs.length) throw new Error(`no transcript paragraphs found at ${urls.hi}`);
+  if (pEn.episode !== pHi.episode)
+    throw new Error(`episode mismatch: en page says ${pEn.episode}, hi page says ${pHi.episode}`);
+  for (const [lang, p] of [['en', pEn], ['hi', pHi]] as const)
+    if (!p.date || !p.date.startsWith(month))
+      throw new Error(`${lang} page date ${p.date ?? '(none)'} is not in ${month}`);
   const sha = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex');
   const meta: SourceMeta = {
     urls,

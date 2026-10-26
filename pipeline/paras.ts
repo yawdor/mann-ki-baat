@@ -4,6 +4,8 @@ export const TRANSCRIPT_SELECTOR = 'div.news-bg > p';
 
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
+const STAFF_INITIALS = /^[A-Z]{2,}(\/[A-Z]{2,})+$/;
+
 const clean = (s: string) => s.replace(/[\s ]+/g, ' ').trim();
 
 /**
@@ -24,6 +26,8 @@ export function extractParagraphs(html: string, selector: string): string[] {
     if (t === '' || t === '>>>') continue;
     out.push(t);
   }
+  // Hindi pages end with the PIB staff-initials line (e.g. "MJPS/SS/VJ/VK"); it is not speech.
+  if (out.length && STAFF_INITIALS.test(out[out.length - 1])) out.pop();
   return out;
 }
 

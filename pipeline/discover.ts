@@ -1,5 +1,5 @@
 import { parse } from 'node-html-parser';
-import { fetchWithRetry, type RetryOptions } from '../src/lib/http';
+import { fetchWithRetry, isPmindiaUrl, type RetryOptions } from '../src/lib/http';
 import { parseTranscript } from './paras';
 
 const BASE = 'https://www.pmindia.gov.in';
@@ -86,6 +86,7 @@ async function confirmHindi(
     if (!numRe.test(`${a.getAttribute('title') ?? ''} ${a.text} ${safeDecode(href)}`)) continue;
     const url = new URL(href, BASE);
     url.search = '';
+    if (!isPmindiaUrl(url.toString())) continue;
     const html = await getHtml(fetchFn, url.toString(), retry);
     if (html !== null && has(html)) return url.toString();
   }

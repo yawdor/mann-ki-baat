@@ -43,6 +43,8 @@ describe('targetMonth (IST)', () => {
     ['2026-10-15T06:00:00Z', null],
     ['2026-10-25T20:00:00Z', '2026-10'], // already 26 Oct 01:30 IST
     ['2026-10-25T18:29:00Z', null], // still 25 Oct 23:59 IST
+    ['2026-10-31T19:00:00Z', '2026-10'], // 1 Nov 00:30 IST
+    ['2026-11-04T18:29:00Z', '2026-10'], // 4 Nov 23:59 IST
   ])('%s -> %s', (iso, want) => {
     expect(targetMonth(new Date(iso))).toBe(want);
   });
@@ -69,11 +71,14 @@ describe('transcript parsing (real saved pages)', () => {
   // (grep -o "<p[ >]" over that line range), minus paragraphs that are empty after stripping tags
   // and &nbsp; (the stray DOCTYPE/<html><body> first <p> in hi, plus blank spacer paragraphs).
   // en-138 68, en-139 69, hi-138 67-3=64, hi-139 53-2=51. The iframe <p> is outside news-bg.
+  // The Hindi pages also end with a staff-initials line ("MJPS/SS/ST/VK"), which is dropped: hi 63 and 50.
+  // Research's HI-138 figure of 68 counted the first tweet's <p lang=...>, which shares the line holding
+  // <div class="tweet-container">; excluding it gives 67 raw openers.
   test.each([
     ['en-138', 68, 138, '2026-09-27'],
     ['en-139', 69, 139, '2026-10-25'],
-    ['hi-138', 64, 138, '2026-09-27'],
-    ['hi-139', 51, 139, '2026-10-25'],
+    ['hi-138', 63, 138, '2026-09-27'],
+    ['hi-139', 50, 139, '2026-10-25'],
   ])('%s has %i paragraphs, episode %i, date %s', (name, count, episode, date) => {
     const html = fx(name);
     expect(extractParagraphs(html, 'div.news-bg > p')).toHaveLength(count);
@@ -175,7 +180,7 @@ describe('saveSources (mocked fetch)', () => {
     const dir = join(root, 'sources', '2026-10');
     const paras = (l: string) => JSON.parse(readFileSync(join(dir, `${l}.paras.json`), 'utf8'));
     expect(paras('en')).toHaveLength(69);
-    expect(paras('hi')).toHaveLength(51);
+    expect(paras('hi')).toHaveLength(50);
     expect(readFileSync(join(dir, 'en.html'), 'utf8')).toBe(fx('en-139'));
     const meta = JSON.parse(readFileSync(join(dir, 'meta.json'), 'utf8'));
     expect(meta.urls).toEqual(urls);
@@ -230,7 +235,8 @@ describe('publish (dry run only)', () => {
     const argv = r.commands.map((c) => c.join(' '));
     expect(argv[0]).toBe('git checkout -B drafts/2026-10');
     expect(argv).toContain('git add -f reports/2026-10.content.json');
-    expect(argv).toContain('git push -u origin drafts/2026-10');
+    expect(argv).toContain('git push --force-with-lease -u origin drafts/2026-10');
+    expect(argv.some((a) => a.startsWith('git commit') && a.endsWith('-- reports/2026-10.content.json'))).toBe(true);
     expect(argv.at(-1)).toBe('git checkout <original-branch>');
     expect(argv.some((a) => a.includes('HEAD:main'))).toBe(false);
     expect(r.commands.every((c) => c[0] === 'git')).toBe(true);
@@ -244,8 +250,51 @@ describe('publish (dry run only)', () => {
     const r = await publish('2026-10', report(true), { root, dryRun: true });
     expect(r.branch).toBe('main');
     expect(r.commands[0]).toEqual(['git', 'add', 'content', 'sources']);
+    expect(r.commands[1].slice(-3)).toEqual(['--', 'content', 'sources']);
     expect(r.commands[1].slice(0, 3)).toEqual(['git', 'commit', '-m']);
     expect(r.commands[1][3]).toBe(`content: Mann Ki Baat October 2026 (episode 139)\n\n${trailer}`);
     expect(r.commands[2]).toEqual(['git', 'push', 'origin', 'HEAD:main']);
+  });
+
+  test('draft plan only adds paths that exist', async () => {
+    const root = tmp();
+    mkdirSync(join(root, 'content'), { recursive: true });
+    const argv = (await publish('2026-10', report(false), { root, dryRun: true })).commands.map((c) => c.join(' '));
+    expect(argv).toContain('git add content');
+  });
+
+  test('strict gate and validation: truthy ok, wrong month and bad month are refused', async () => {
+    const root = tmp();
+    const truthy = { ...report(false), ok: 'yes' } as unknown as ContentReport;
+    expect((await publish('2026-10', truthy, { root, dryRun: true })).branch).toBe('drafts/2026-10');
+    await expect(publish('2026-09', report(true), { root, dryRun: true })).rejects.toThrow(/not 2026-09/);
+    await expect(publish('../x', { ...report(true), month: '../x' }, { root, dryRun: true })).rejects.toThrow(/valid month/);
+  });
+});
+
+describe('guards', () => {
+  test('saveSources rejects a bad month, foreign hosts, episode and date mismatches', async () => {
+    const root = tmp();
+    const urls = { en: enUrl(139), hi: hiUrl(139) };
+    const f = mockFetch({ [urls.en]: fx('en-139'), [urls.hi]: fx('hi-139'), 'https://evil.example/x': fx('en-139') });
+    await expect(saveSources('2026-13', urls, { root, fetch: f, retry: RETRY })).rejects.toThrow(/valid month/);
+    await expect(saveSources('2026-10', { en: 'https://evil.example/x', hi: urls.hi }, { root, fetch: f, retry: RETRY })).rejects.toThrow(/only https:\/\/www\.pmindia/);
+    expect(f).not.toHaveBeenCalled();
+    await expect(saveSources('2026-09', urls, { root, fetch: f, retry: RETRY })).rejects.toThrow(/not in 2026-09/);
+    const f2 = mockFetch({ [urls.en]: fx('en-139'), [urls.hi]: fx('hi-138') });
+    await expect(saveSources('2026-10', urls, { root, fetch: f2, retry: RETRY })).rejects.toThrow(/episode mismatch/);
+    expect(existsSync(join(root, 'sources'))).toBe(false);
+  });
+
+  test('Hindi listing fallback ignores off-site links', async () => {
+    const evil = 'https://evil.example/hi/news_updates/139/';
+    const f = mockFetch({ [EN_LISTING]: listing(138), [enUrl(139)]: fx('en-139'), [HI_LISTING]: `<a href="${evil}">139</a>`, [evil]: fx('hi-139') });
+    await expect(discoverEpisode({ fetch: f, month: '2026-10', retry: RETRY })).rejects.toThrow(/Hindi page/);
+    expect(f.mock.calls.map((c) => String(c[0]))).not.toContain(evil);
+  });
+
+  test('trailing staff-initials line is dropped', () => {
+    const html = `<div class='news-bg'><p>Hello</p><p>MJPS/SS/VJ/VK</p></div>`;
+    expect(extractParagraphs(html, 'div.news-bg > p')).toEqual(['Hello']);
   });
 });
