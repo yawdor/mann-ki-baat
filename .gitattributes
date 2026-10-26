@@ -1,1 +1,4 @@
 * text=auto eol=lf
+# Saved official pages are evidence: their bytes must match meta.json sha256, so never convert them.
+sources/** -text
+tests/fixtures/sources/** -text

@@ -10,6 +10,7 @@ import {
 } from '../src/lib/schema';
 import { completeLangs } from '../src/lib/langs';
 import { schemaCheck } from './checks/schema';
+import { evidence } from './checks/evidence';
 import { quotes } from './checks/quotes';
 import { sources } from './checks/sources';
 import { links } from './checks/links';
@@ -29,6 +30,7 @@ export type ContentReport = {
 const readJson = (p: string): unknown => JSON.parse(readFileSync(p, 'utf8'));
 
 export const CHECKS: Check[] = [
+  evidence,
   quotes,
   sources,
   links,
@@ -123,6 +125,7 @@ export async function runContentValidation(
   if (prevMessages.length) results.push(result('previous', 'error', prevMessages));
 
   const ctx: ValidationContext = {
+    root,
     month,
     episode,
     schemes,

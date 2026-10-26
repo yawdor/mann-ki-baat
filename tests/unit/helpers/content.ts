@@ -57,6 +57,7 @@ export function ctxFor(name?: string, overrides: Partial<ValidationContext> = {}
     else episode = raw as Episode;
   }
   return {
+    root: FX,
     month: '2026-09',
     episode,
     schemes,
@@ -68,7 +69,9 @@ export function ctxFor(name?: string, overrides: Partial<ValidationContext> = {}
 }
 
 /** Temp root laid out as content/ + sources/, copied from fixtures, optionally patched. */
-export function makeRoot(opts: { month?: string; episode?: unknown; scheme?: [string, unknown] } = {}): string {
+export function makeRoot(
+  opts: { month?: string; episode?: unknown; scheme?: [string, unknown]; meta?: Record<string, unknown> } = {},
+): string {
   const month = opts.month ?? '2026-09';
   const root = mkdtempSync(join(tmpdir(), 'mkb-'));
   mkdirSync(join(root, 'content'), { recursive: true });
@@ -77,6 +80,10 @@ export function makeRoot(opts: { month?: string; episode?: unknown; scheme?: [st
   cpSync(`${FX}/sources`, join(root, 'sources'), { recursive: true });
   if (opts.episode)
     writeFileSync(join(root, 'content', 'episodes', `${month}.json`), JSON.stringify(opts.episode));
+  if (opts.meta) {
+    const p = join(root, 'sources', month, 'meta.json');
+    writeFileSync(p, JSON.stringify({ ...JSON.parse(readFileSync(p, 'utf8')), ...opts.meta }, null, 2) + '\n');
+  }
   if (opts.scheme)
     writeFileSync(join(root, 'content', 'schemes', `${opts.scheme[0]}.json`), JSON.stringify(opts.scheme[1]));
   return root;

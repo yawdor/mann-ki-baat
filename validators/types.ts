@@ -8,6 +8,8 @@ export type CheckResult = {
 };
 
 export type ValidationContext = {
+  /** Repository root holding `content/` and `sources/`. */
+  root: string;
   month: string;
   episode: Episode;
   schemes: Map<string, Scheme>;

@@ -1,0 +1,13 @@
+{
+  "urls": {
+    "en": "https://www.pmindia.gov.in/en/sample-2026-09",
+    "hi": "https://www.pmindia.gov.in/hi/sample-2026-09"
+  },
+  "fetchedAt": "2026-09-27T12:00:00.000Z",
+  "sha256": {
+    "en": "2327f53372e70193c312fe66fb4ec8645f1ac6999113a6031ec7ff13f09cb572",
+    "hi": "d09b96cb53b437e9a0b29f21baa1b693409f49774ee084b3151c900a930260cd"
+  },
+  "episode": 138,
+  "date": "2026-09-27"
+}

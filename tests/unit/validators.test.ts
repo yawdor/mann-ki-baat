@@ -1,4 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
+import { readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { quotes } from '../../validators/checks/quotes';
 import { sources } from '../../validators/checks/sources';
 import { makeLinksCheck } from '../../validators/checks/links';
@@ -185,8 +187,10 @@ describe('sanity', () => {
     expect(r.messages.join()).toContain('last Sunday');
     expect((await sanity(ctxFor('sanity-not-last-sunday'))).ok).toBe(true);
 
+    // The date comes from the saved page, so meta.json carries the same (non-last-Sunday) date.
     const { raw } = applyBroken('sanity-not-last-sunday');
-    const report = await runContentValidation('2026-09', { root: makeRoot({ episode: raw }), fetch: ctxFor().fetch });
+    const root = makeRoot({ episode: raw, meta: { date: raw.date } });
+    const report = await runContentValidation('2026-09', { root, fetch: ctxFor().fetch });
     expect(report.ok).toBe(true);
   });
   test('last Sunday of 2026-09 is accepted', async () => {
@@ -291,5 +295,76 @@ describe('scheme file names and ids (schema check)', () => {
     const msgs = report.results.find((r) => r.check === 'schema')!.messages.join('\n');
     expect(msgs).toContain('duplicate scheme id "pm-kisan" in pm-kisan-copy.json and pm-kisan.json');
     expect(msgs).toContain('scheme pm-kisan-copy.json: file must be named pm-kisan.json');
+  });
+});
+
+describe('evidence', () => {
+  const load = async () => (await import('../../validators/checks/evidence')).evidence;
+  const ctxAt = (root: string, episode = ctxFor().episode) => ctxFor(undefined, { root, episode });
+  const msgs = async (ctx: ReturnType<typeof ctxFor>) => {
+    const r = await (await load())(ctx);
+    expect(r.level).toBe('error');
+    return r.messages.join('\n');
+  };
+
+  test('valid fixture passes', async () => {
+    const r = await (await load())(ctxFor());
+    expect(r.messages).toEqual([]);
+    expect(r.ok).toBe(true);
+  });
+
+  test('episode number, date and source URLs must equal meta.json', async () => {
+    const ep = structuredClone(ctxFor().episode);
+    ep.episode = 140;
+    ep.date = '2026-09-20';
+    ep.sources.en = 'https://www.pmindia.gov.in/en/other';
+    ep.sources.hi = 'https://www.pmindia.gov.in/hi/other';
+    const m = await msgs(ctxAt(makeRoot(), ep));
+    expect(m).toContain('episode 140 does not match sources/2026-09/meta.json episode 138');
+    expect(m).toContain('date 2026-09-20 does not match sources/2026-09/meta.json date 2026-09-27');
+    expect(m).toContain('sources.en https://www.pmindia.gov.in/en/other does not match meta.urls.en');
+    expect(m).toContain('sources.hi https://www.pmindia.gov.in/hi/other does not match meta.urls.hi');
+  });
+
+  test('saved HTML whose sha256 differs from meta.json fails', async () => {
+    const root = makeRoot();
+    const p = join(root, 'sources', '2026-09', 'hi.html');
+    writeFileSync(p, readFileSync(p, 'utf8').replace('</body>', '<!-- x --></body>'));
+    expect(await msgs(ctxAt(root))).toContain('sources/2026-09/hi.html: sha256');
+  });
+
+  test('CRLF-converted HTML fails the hash check (bytes must be preserved)', async () => {
+    const root = makeRoot();
+    const p = join(root, 'sources', '2026-09', 'en.html');
+    writeFileSync(p, readFileSync(p, 'utf8').replace(/\n/g, '\r\n'));
+    expect(await msgs(ctxAt(root))).toContain('sources/2026-09/en.html: sha256');
+  });
+
+  test('paras.json that does not match a re-parse of the saved HTML fails', async () => {
+    const root = makeRoot();
+    const p = join(root, 'sources', '2026-09', 'en.paras.json');
+    const paras = JSON.parse(readFileSync(p, 'utf8'));
+    paras[1] = 'An invented paragraph.';
+    writeFileSync(p, JSON.stringify(paras));
+    const m = await msgs(ctxAt(root));
+    expect(m).toContain('sources/2026-09/en.paras.json does not match the paragraphs parsed from en.html');
+    expect(m).toContain('first difference at paragraph 2');
+  });
+
+  test('missing meta.json or HTML is an error', async () => {
+    const root = makeRoot();
+    rmSync(join(root, 'sources', '2026-09', 'meta.json'));
+    expect(await msgs(ctxAt(root))).toContain('sources/2026-09/meta.json');
+    const root2 = makeRoot();
+    rmSync(join(root2, 'sources', '2026-09', 'en.html'));
+    expect(await msgs(ctxAt(root2))).toContain('sources/2026-09/en.html');
+  });
+
+  test('runContentValidation runs evidence as an error-level check', async () => {
+    const root = makeRoot();
+    writeFileSync(join(root, 'sources', '2026-09', 'en.html'), 'tampered');
+    const report = await runContentValidation('2026-09', { root, fetch: ctxFor().fetch });
+    expect(report.ok).toBe(false);
+    expect(report.results.find((r) => r.check === 'evidence')).toMatchObject({ ok: false, level: 'error' });
   });
 });
