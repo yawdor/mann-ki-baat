@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { parse } from 'node-html-parser';
@@ -70,5 +71,43 @@ describe('PlacesMap component', () => {
     expect(doc.querySelector('figcaption')!.text).toContain('Survey of India boundaries via DataMeet / ramSeraph');
     const hi = await render(places, 'hi');
     expect(hi.querySelector('svg[role="img"]')!.getAttribute('aria-label')).toContain(places[0].name.hi);
+  });
+});
+
+describe('india-states.geojson boundary invariants', () => {
+  const geo = JSON.parse(readFileSync('src/data/india-states.geojson', 'utf8')) as {
+    features: { properties: { name: string }; geometry: { coordinates: unknown } }[];
+  };
+  const bbox = (name: string) => {
+    const f = geo.features.find((x) => x.properties.name === name);
+    if (!f) throw new Error(`missing feature ${name}`);
+    let minLon = Infinity, minLat = Infinity, maxLon = -Infinity, maxLat = -Infinity;
+    const walk = (c: unknown): void => {
+      if (Array.isArray(c) && typeof c[0] === 'number') {
+        const [lon, lat] = c as number[];
+        minLon = Math.min(minLon, lon); maxLon = Math.max(maxLon, lon);
+        minLat = Math.min(minLat, lat); maxLat = Math.max(maxLat, lat);
+      } else (c as unknown[]).forEach(walk);
+    };
+    walk(f.geometry.coordinates);
+    return { minLon, minLat, maxLon, maxLat };
+  };
+
+  it('has exactly 36 features', () => {
+    expect(geo.features).toHaveLength(36);
+  });
+  it('Ladakh reaches the claimed extent', () => {
+    const b = bbox('Ladakh');
+    expect(b.maxLat).toBeGreaterThanOrEqual(37.0);
+    expect(b.minLon).toBeLessThanOrEqual(72.6);
+    expect(b.maxLon).toBeGreaterThanOrEqual(80.3);
+  });
+  it('Arunachal Pradesh reaches the claimed extent', () => {
+    const b = bbox('Arunachal Pradesh');
+    expect(b.maxLon).toBeGreaterThanOrEqual(97.4);
+    expect(b.maxLat).toBeGreaterThanOrEqual(29.4);
+  });
+  it('Jammu and Kashmir reaches the claimed west edge', () => {
+    expect(bbox('Jammu and Kashmir').minLon).toBeLessThanOrEqual(73.5);
   });
 });

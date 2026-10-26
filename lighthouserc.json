@@ -1,0 +1,19 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npx astro preview --port 4322 --ignore-lock",
+      "startServerReadyPattern": "4322",
+      "url": [
+        "http://localhost:4322/mann-ki-baat/",
+        "http://localhost:4322/mann-ki-baat/2026-09/"
+      ],
+      "numberOfRuns": 3
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.9 }],
+        "categories:accessibility": ["warn", { "minScore": 0.95 }]
+      }
+    }
+  }
+}

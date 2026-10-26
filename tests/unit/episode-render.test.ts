@@ -169,10 +169,12 @@ describe('episode page — hi', () => {
 
 describe('episode page — kn (machine language)', () => {
   it('sets <html lang="kn"> and loads the Kannada fonts', async () => {
-    const { doc } = await renderPath('kn', '2026-09');
+    const { doc, html } = await renderPath('kn', '2026-09');
     expect(doc.querySelector('html')!.getAttribute('lang')).toBe('kn');
-    const fonts = doc.querySelectorAll('link[rel="stylesheet"]').map((l) => l.getAttribute('href') ?? '');
-    expect(fonts.some((h) => h.includes('Baloo+Tamma+2') && h.includes('Noto+Sans+Kannada'))).toBe(true);
+    // The fonts stylesheet is injected after load (Lighthouse) and linked in <noscript>; the URL is in the HTML either way.
+    const href = html.match(/https:\/\/fonts\.googleapis\.com\/css2\?[^"'<\s]+/)?.[0] ?? '';
+    expect(href).toContain('Baloo+Tamma+2');
+    expect(href).toContain('Noto+Sans+Kannada');
   });
 
   it('shows the exact machine-translate notice near the top', async () => {

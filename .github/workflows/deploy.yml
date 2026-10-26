@@ -1,0 +1,65 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Design tokens are in sync
+        run: |
+          npm run tokens
+          git diff --exit-code src/styles/tokens.css
+      - run: npx vitest run
+      - run: npx tsc --noEmit
+      - name: Build fixture site
+        run: npm run build:fixtures
+      - run: npx playwright install --with-deps chromium
+      - name: Playwright, axe and size budget
+        run: npm run validate:site
+      - name: Lighthouse
+        run: npm run lhci
+
+  deploy:
+    needs: test
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Build real content
+        run: npx astro build
+      - name: Size budget on real build
+        run: npx tsx scripts/size-budget.ts dist
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

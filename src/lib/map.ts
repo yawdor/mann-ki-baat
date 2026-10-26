@@ -45,10 +45,56 @@ function projection(width: number, height: number): GeoProjection {
   return p;
 }
 
-/** SVG path `d` strings, one per state / UT, in feature order. */
+/** Douglas-Peucker on an open polyline (iterative), tolerance in pixels. */
+function simplify(pts: number[][], tol: number): number[][] {
+  const keep = new Uint8Array(pts.length);
+  keep[0] = keep[pts.length - 1] = 1;
+  const stack: [number, number][] = [[0, pts.length - 1]];
+  while (stack.length) {
+    const [a, b] = stack.pop()!;
+    const [ax, ay] = pts[a];
+    const dx = pts[b][0] - ax;
+    const dy = pts[b][1] - ay;
+    const len = Math.hypot(dx, dy) || 1;
+    let max = 0;
+    let at = -1;
+    for (let i = a + 1; i < b; i++) {
+      const d = Math.abs(dy * (pts[i][0] - ax) - dx * (pts[i][1] - ay)) / len;
+      if (d > max) { max = d; at = i; }
+    }
+    if (at >= 0 && max > tol) {
+      keep[at] = 1;
+      stack.push([a, at], [at, b]);
+    }
+  }
+  return pts.filter((_, i) => keep[i]);
+}
+
+/** Pixels: below this a vertex is invisible at the 600px drawing size, and every vertex costs HTML bytes and layout time. */
+const SIMPLIFY_PX = 0.5;
+
+/** SVG path `d` strings, one per state / UT, in feature order. Rings are simplified in pixel space. */
 export function statePaths(width: number, height: number): string[] {
-  const path = geoPath(projection(width, height));
-  return features.map((f) => path(f as never) ?? '').filter(Boolean);
+  const proj = projection(width, height);
+  const flat = geoPath(); // planar: coordinates below are already pixels
+  const ring = (r: Ring): Ring => {
+    const px = r.map((c) => proj(c as [number, number]) as number[]);
+    // A closed ring has identical ends, so split it at the vertex farthest from the start first.
+    let far = 1;
+    for (let i = 2; i < px.length - 1; i++) {
+      if (Math.hypot(px[i][0] - px[0][0], px[i][1] - px[0][1]) > Math.hypot(px[far][0] - px[0][0], px[far][1] - px[0][1])) far = i;
+    }
+    const out = px.length > 8 ? [...simplify(px.slice(0, far + 1), SIMPLIFY_PX).slice(0, -1), ...simplify(px.slice(far), SIMPLIFY_PX)] : px;
+    return out.length >= 4 ? out : px; // keep tiny rings (Delhi, Goa islands) intact
+  };
+  return features
+    .map((f) => {
+      const g = f.geometry;
+      const coordinates =
+        g.type === 'Polygon' ? (g.coordinates as Ring[]).map(ring) : (g.coordinates as Ring[][]).map((p) => p.map(ring));
+      return flat.digits(1)({ type: 'Feature', properties: {}, geometry: { type: g.type, coordinates } } as never) ?? '';
+    })
+    .filter(Boolean);
 }
 
 /** Pixel bounds [[x0,y0],[x1,y1]] of a state / UT by its `name` property. */

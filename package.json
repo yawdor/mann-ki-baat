@@ -12,7 +12,10 @@
     "preview": "astro preview",
     "test": "vitest run",
     "validate:content": "tsx validators/cli.ts",
-    "tokens": "tsx scripts/tokens-to-css.ts"
+    "tokens": "tsx scripts/tokens-to-css.ts",
+    "build:fixtures": "cross-env MKB_CONTENT_DIR=tests/fixtures astro build",
+    "validate:site": "npm run build:fixtures && playwright test && tsx scripts/size-budget.ts",
+    "lhci": "lhci autorun"
   },
   "dependencies": {
     "astro": "7.4.2"
@@ -22,6 +25,7 @@
     "@lhci/cli": "0.15.1",
     "@playwright/test": "1.64.1",
     "@types/d3-geo": "3.1.0",
+    "cross-env": "10.1.0",
     "d3-geo": "3.1.1",
     "node-html-parser": "9.0.5",
     "tsx": "4.23.15",

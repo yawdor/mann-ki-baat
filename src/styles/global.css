@@ -84,3 +84,9 @@ html.js .bloom.visible {
     transform: none;
   }
 }
+
+/* Below-the-fold episode sections skip style/layout/paint until near the viewport (keeps first render cheap). */
+main > section:not(#top):not(#glance) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
