@@ -34,11 +34,12 @@ const month = z.string().regex(MONTH_RE);
 export const LocalizedSchema = z.object({
   en: text,
   hi: text,
-  kn: text.optional(),
-  ta: text.optional(),
-  te: text.optional(),
-  bn: text.optional(),
-  mr: text.optional(),
+  // Machine languages may be empty strings (treated as missing by the validators).
+  kn: z.string().optional(),
+  ta: z.string().optional(),
+  te: z.string().optional(),
+  bn: z.string().optional(),
+  mr: z.string().optional(),
 });
 export type Localized = z.infer<typeof LocalizedSchema>;
 

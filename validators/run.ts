@@ -104,10 +104,23 @@ export async function runContentValidation(
     .filter((m) => MONTH_RE.test(m) && m < month)
     .sort();
   const prevMonth = earlier[earlier.length - 1];
+  const prevMessages: string[] = [];
   if (prevMonth) {
-    const p = EpisodeSchema.safeParse(readJson(join(epDir, `${prevMonth}.json`)));
-    if (p.success) previous = p.data;
+    const pPath = join(epDir, `${prevMonth}.json`);
+    try {
+      const p = EpisodeSchema.safeParse(readJson(pPath));
+      if (p.success) previous = p.data;
+      else
+        prevMessages.push(
+          `previous episode ${prevMonth} fails the schema: ${p.error.issues[0]?.message ?? 'invalid'}`,
+        );
+    } catch (e) {
+      prevMessages.push(
+        `previous episode ${prevMonth} unreadable: ${e instanceof Error ? e.message : String(e)}`,
+      );
+    }
   }
+  if (prevMessages.length) results.push(result('previous', 'error', prevMessages));
 
   const ctx: ValidationContext = {
     month,
@@ -117,6 +130,12 @@ export async function runContentValidation(
     previous,
     fetch: opts.fetch ?? fetch,
   };
-  for (const check of CHECKS) results.push(await check(ctx));
+  for (const check of CHECKS) {
+    try {
+      results.push(await check(ctx));
+    } catch (e) {
+      results.push(result(check.name || 'check', 'error', [`threw: ${e instanceof Error ? e.message : String(e)}`]));
+    }
+  }
   return finish(month, results, completeLangs(episode, schemes));
 }

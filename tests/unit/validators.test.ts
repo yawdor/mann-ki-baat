@@ -219,3 +219,59 @@ describe('runContentValidation', () => {
     expect(report.results[0].check).toBe('load');
   });
 });
+
+describe('fix round 1', () => {
+  test('parseArgs handles month with and without --root', async () => {
+    const { parseArgs } = await import('../../validators/args');
+    const { resolve } = await import('node:path');
+    expect(parseArgs(['2026-10'])).toEqual({ month: '2026-10', root: resolve('.') });
+    expect(parseArgs(['2026-10', '--root', 'x'])).toEqual({ month: '2026-10', root: resolve('x') });
+    expect(parseArgs(['--root', 'x', '2026-10']).month).toBe('2026-10');
+    expect(parseArgs([]).month).toBeUndefined();
+  });
+
+  test('a check that throws becomes an error result, not a rejected run', async () => {
+    const { CHECKS } = await import('../../validators/run');
+    CHECKS.push((() => {
+      throw new Error('boom');
+    }) as Check);
+    try {
+      const report = await runContentValidation('2026-09', { root: makeRoot(), fetch: ctxFor().fetch });
+      expect(report.ok).toBe(false);
+      expect(report.results.some((r) => r.messages.join().includes('threw: boom'))).toBe(true);
+    } finally {
+      CHECKS.pop();
+    }
+  });
+
+  test('malformed previous episode JSON is an error result', async () => {
+    const root = makeRoot();
+    const { writeFileSync } = await import('node:fs');
+    writeFileSync(`${root}/content/episodes/2026-08.json`, '{ not json');
+    const report = await runContentValidation('2026-09', { root, fetch: ctxFor().fetch });
+    expect(report.ok).toBe(false);
+    expect(report.results.find((r) => r.check === 'previous')!.messages.join()).toContain('2026-08');
+  });
+
+  test('previous episode failing the schema is an error result', async () => {
+    const root = makeRoot();
+    const { writeFileSync } = await import('node:fs');
+    writeFileSync(`${root}/content/episodes/2026-08.json`, JSON.stringify({ episode: 137 }));
+    const report = await runContentValidation('2026-09', { root, fetch: ctxFor().fetch });
+    expect(report.ok).toBe(false);
+    expect(report.results.find((r) => r.check === 'previous')!.messages.join()).toContain('schema');
+  });
+
+  test('empty machine-language string parses and is reported incomplete', async () => {
+    const raw = loadFx('episodes/2026-09');
+    raw.topics[0].title.kn = '';
+    const { EpisodeSchema } = await import('../../src/lib/schema');
+    expect(EpisodeSchema.safeParse(raw).success).toBe(true);
+    const report = await runContentValidation('2026-09', { root: makeRoot({ episode: raw }), fetch: ctxFor().fetch });
+    expect(report.ok).toBe(true);
+    expect(report.completeLangs).toEqual(['en', 'hi']);
+    expect(report.results.find((r) => r.check === 'languages.machine')!.messages.join()).toContain('topics[0].title.kn');
+    raw.topics[0].title.hi = '';
+    expect(EpisodeSchema.safeParse(raw).success).toBe(false);
+  });
+});
