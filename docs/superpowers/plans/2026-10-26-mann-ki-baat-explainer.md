@@ -25,7 +25,7 @@
 - Fonts for other scripts (loaded only on that language's pages): display Baloo Tamma 2 (kn), Baloo Thambi 2 (ta), Baloo Tammudu 2 (te), Baloo Da 2 (bn); body Noto Sans Kannada, Tamil, Telugu and Bengali. Marathi uses Rozha One and Mukta (Devanagari).
 - Allowed official domains: hosts ending in `.gov.in` or `.nic.in`, plus `pib.gov.in` and `pmindia.gov.in`.
 - **No-guessing rule:** a scheme with `detailLevel: 'full'` must have `checkedAt` and an official `source` for its eligibility, steps and documents. Otherwise it must be `'mention-only'`.
-- Palette (exact): Kumkum `#7A1431`, Haldi `#F2B705`, Marigold `#F07F13`, Peacock `#0B4F6C`, Mehendi `#12915A`, Gulabi `#B0124A`, Chandan `#FFF3D1`, Text `#2A1205`, White `#FFFFFF`.
+- Palette (exact): Kumkum `#7A1431`, Haldi `#F2B705`, Marigold `#F07F13`, Peacock `#0B4F6C`, Mehendi `#118754`, Gulabi `#B0124A`, Chandan `#FFF3D1`, Text `#2A1205`, White `#FFFFFF`.
 - Fonts: Rozha One (headlines), Mukta 400/500/600/700 (body), from Google Fonts. Body text is 17–18px.
 - Ornaments are inline SVG with `aria-hidden="true"`. No national emblem, no PMO or GoI logos, and no photos of the PM.
 - Footer disclaimer (exact English): "An independent, unofficial explainer. Not affiliated with the Prime Minister's Office or the Government of India. Quotes are taken word for word from the official transcript; scheme details are checked against official portals. Translations beyond English and Hindi are machine-generated — rely on the official links for exact eligibility."
