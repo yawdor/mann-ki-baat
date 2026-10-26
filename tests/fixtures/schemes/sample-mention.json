@@ -1,0 +1,22 @@
+{
+  "id": "sample-mention",
+  "name": {
+    "en": "Sample Scheme (fictional)",
+    "hi": "नमूना योजना (काल्पनिक)"
+  },
+  "gives": {
+    "en": "A fictional scheme used to test mention-only display.",
+    "hi": "मात्र उल्लेख वाले प्रदर्शन के परीक्षण के लिए एक काल्पनिक योजना।"
+  },
+  "officialUrl": "https://www.india.gov.in/",
+  "audiences": [
+    "households"
+  ],
+  "states": [
+    "all"
+  ],
+  "mentions": [
+    "2026-08"
+  ],
+  "detailLevel": "mention-only"
+}

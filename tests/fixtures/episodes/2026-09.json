@@ -1,0 +1,308 @@
+{
+  "episode": 138,
+  "date": "2026-09-27",
+  "title": {
+    "en": "Sample Episode: Together We Grow",
+    "hi": "नमूना एपिसोड: साथ मिलकर आगे",
+    "kn": "ಮಾದರಿ ಸಂಚಿಕೆ: ಒಟ್ಟಿಗೆ ಬೆಳೆಯೋಣ",
+    "ta": "மாதிரி அத்தியாயம்: சேர்ந்து வளர்வோம்"
+  },
+  "summary": {
+    "en": "Synthetic sample data for testing. Farmers share storage, a neighbour cleans a river, a folk dance returns and students build an alarm.",
+    "hi": "परीक्षण के लिए कृत्रिम नमूना डेटा। किसान भंडार साझा करते हैं, एक पड़ोसी नदी साफ़ करती हैं, लोकनृत्य लौटता है और छात्र अलार्म बनाते हैं।",
+    "kn": "ಪರೀಕ್ಷೆಗಾಗಿ ಕೃತಕ ಮಾದರಿ ಡೇಟಾ. ರೈತರು ಸಂಗ್ರಹಣೆ ಹಂಚಿಕೊಳ್ಳುತ್ತಾರೆ, ನೆರೆಯವರು ನದಿ ಸ್ವಚ್ಛಗೊಳಿಸುತ್ತಾರೆ.",
+    "ta": "சோதனைக்கான செயற்கை மாதிரித் தரவு. விவசாயிகள் சேமிப்பைப் பகிர்கிறார்கள், அண்டை வீட்டார் ஆற்றைச் சுத்தம் செய்கிறார்."
+  },
+  "theme": {
+    "accent": "#12915A",
+    "motif": "wheat"
+  },
+  "sources": {
+    "en": "https://www.pmindia.gov.in/en/sample-2026-09",
+    "hi": "https://www.pmindia.gov.in/hi/sample-2026-09"
+  },
+  "topics": [
+    {
+      "id": "millet-sharing",
+      "title": {
+        "en": "Sharing a millet store",
+        "hi": "मोटे अनाज का साझा भंडार",
+        "kn": "ರಾಗಿ ಹಂಚಿಕೆ ಸಂಗ್ರಹ",
+        "ta": "தினை பகிர்வு சேமிப்பு"
+      },
+      "category": "Schemes",
+      "explainer": {
+        "en": "Farmers in Sample Village pooled one storage shed for millets. Support such as PM-KISAN can help small farmers.",
+        "hi": "सैंपल गाँव के किसानों ने मोटे अनाज के लिए एक भंडार साझा किया। पीएम-किसान जैसी सहायता छोटे किसानों के काम आ सकती है।",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಗ್ರಾಮದ ರೈತರು ಒಂದೇ ಗೋದಾಮನ್ನು ಹಂಚಿಕೊಂಡರು.",
+        "ta": "மாதிரி கிராம விவசாயிகள் ஒரு சேமிப்புக் கிடங்கைப் பகிர்ந்தனர்."
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Farmers share one storage shed.",
+            "hi": "किसान एक भंडार साझा करते हैं।",
+            "kn": "ರೈತರು ಒಂದು ಗೋದಾಮು ಹಂಚಿಕೊಳ್ಳುತ್ತಾರೆ.",
+            "ta": "விவசாயிகள் ஒரு கிடங்கைப் பகிர்கிறார்கள்."
+          },
+          "source": {
+            "transcript": "en",
+            "para": 2
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "farmers have started growing millets together and sharing one storage shed",
+          "hi": "किसानों ने मिलकर मोटा अनाज उगाना शुरू किया है और एक ही भंडार साझा करते हैं",
+          "kn": "ರೈತರು ಒಟ್ಟಿಗೆ ರಾಗಿ ಬೆಳೆಯಲು ಪ್ರಾರಂಭಿಸಿದ್ದಾರೆ",
+          "ta": "விவசாயிகள் சேர்ந்து தினை பயிரிடத் தொடங்கினர்"
+        },
+        "para": 2
+      },
+      "schemeIds": [
+        "pm-kisan"
+      ],
+      "placeIds": [
+        "sample-village"
+      ],
+      "personIds": []
+    },
+    {
+      "id": "river-cleanup",
+      "title": {
+        "en": "A river cleaned by one neighbour",
+        "hi": "एक पड़ोसी ने साफ़ की नदी",
+        "kn": "ಒಬ್ಬ ನೆರೆಯವರು ಸ್ವಚ್ಛಗೊಳಿಸಿದ ನದಿ",
+        "ta": "ஒரு அண்டை வீட்டார் சுத்தம் செய்த ஆறு"
+      },
+      "category": "Environment",
+      "explainer": {
+        "en": "Asha Sample cleans the riverbank each morning. Neighbours joined, and the bank is visibly cleaner.",
+        "hi": "आशा सैंपल हर सुबह नदी का किनारा साफ़ करती हैं। पड़ोसी जुड़े और किनारा साफ़ दिखता है।",
+        "kn": "ಆಶಾ ಸ್ಯಾಂಪಲ್ ಪ್ರತಿದಿನ ನದಿ ದಂಡೆ ಸ್ವಚ್ಛಗೊಳಿಸುತ್ತಾರೆ."
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Neighbours joined the daily cleanup.",
+            "hi": "पड़ोसी रोज़ की सफ़ाई में जुड़े।",
+            "kn": "ನೆರೆಯವರು ದೈನಂದಿನ ಸ್ವಚ್ಛತೆಗೆ ಸೇರಿದರು.",
+            "ta": "அண்டை வீட்டார் தினசரி சுத்தத்தில் இணைந்தனர்."
+          },
+          "source": {
+            "transcript": "hi",
+            "para": 3
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "Asha Sample cleans the riverbank every morning",
+          "hi": "आशा सैंपल हर सुबह नदी का किनारा साफ़ करती हैं",
+          "kn": "ಆಶಾ ಸ್ಯಾಂಪಲ್ ಪ್ರತಿ ಬೆಳಿಗ್ಗೆ ನದಿ ದಂಡೆ ಸ್ವಚ್ಛಗೊಳಿಸುತ್ತಾರೆ",
+          "ta": "ஆஷா சாம்பிள் தினமும் காலை ஆற்றங்கரையைச் சுத்தம் செய்கிறார்"
+        },
+        "para": 3
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "sample-ghat"
+      ],
+      "personIds": [
+        "asha-sample"
+      ]
+    },
+    {
+      "id": "coastal-folk-dance",
+      "title": {
+        "en": "A folk dance returns",
+        "hi": "लोकनृत्य की वापसी",
+        "kn": "ಜಾನಪದ ನೃತ್ಯದ ವಾಪಸಾತಿ",
+        "ta": "நாட்டுப்புற நடனத்தின் மீள்வருகை"
+      },
+      "category": "Culture",
+      "explainer": {
+        "en": "Young artists on Sample Coast are reviving a nearly forgotten folk dance.",
+        "hi": "सैंपल तट के युवा कलाकार लगभग भुला दिए गए लोकनृत्य को फिर जीवित कर रहे हैं।",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಕರಾವಳಿಯ ಯುವ ಕಲಾವಿದರು ಜಾನಪದ ನೃತ್ಯವನ್ನು ಪುನರುಜ್ಜೀವನಗೊಳಿಸುತ್ತಿದ್ದಾರೆ.",
+        "ta": "மாதிரி கடற்கரை இளம் கலைஞர்கள் நடனத்தை மீட்டெடுக்கிறார்கள்."
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "The dance was once nearly forgotten.",
+            "hi": "यह नृत्य लगभग भुला दिया गया था।",
+            "kn": "ಈ ನೃತ್ಯ ಬಹುತೇಕ ಮರೆತುಹೋಗಿತ್ತು.",
+            "ta": "இந்த நடனம் கிட்டத்தட்ட மறக்கப்பட்டிருந்தது."
+          },
+          "source": {
+            "transcript": "en",
+            "para": 4
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "young artists are bringing it back",
+          "hi": "युवा कलाकार उसे फिर से जीवित कर रहे हैं",
+          "kn": "ಯುವ ಕಲಾವಿದರು ಅದನ್ನು ಮರಳಿ ತರುತ್ತಿದ್ದಾರೆ",
+          "ta": "இளம் கலைஞர்கள் அதை மீண்டும் கொண்டுவருகிறார்கள்"
+        },
+        "para": 4
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "sample-coast"
+      ],
+      "personIds": []
+    },
+    {
+      "id": "school-robotics",
+      "title": {
+        "en": "A school robotics alarm",
+        "hi": "स्कूल का रोबोटिक्स अलार्म",
+        "kn": "ಶಾಲೆಯ ರೋಬೋಟಿಕ್ಸ್ ಅಲಾರಂ",
+        "ta": "பள்ளி ரோபோட்டிக்ஸ் அலாரம்"
+      },
+      "category": "Youth",
+      "explainer": {
+        "en": "A school club in Sample Town built a water-level alarm from scrap parts.",
+        "hi": "सैंपल टाउन के स्कूल क्लब ने कबाड़ से पानी के स्तर का अलार्म बनाया।",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಟೌನ್‌ನ ಶಾಲಾ ಕ್ಲಬ್ ಗುಜರಿ ಭಾಗಗಳಿಂದ ಅಲಾರಂ ಮಾಡಿತು.",
+        "ta": "மாதிரி நகரப் பள்ளி மன்றம் பழைய பாகங்களில் அலாரம் செய்தது."
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "The alarm was built from scrap parts.",
+            "hi": "अलार्म कबाड़ से बना।",
+            "kn": "ಅಲಾರಂ ಗುಜರಿ ಭಾಗಗಳಿಂದ ಮಾಡಲಾಯಿತು.",
+            "ta": "அலாரம் பழைய பாகங்களால் செய்யப்பட்டது."
+          },
+          "source": {
+            "transcript": "en",
+            "para": 5
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "built a working water-level alarm from scrap parts",
+          "hi": "कबाड़ से पानी के स्तर का अलार्म बनाया",
+          "kn": "ಗುಜರಿ ಭಾಗಗಳಿಂದ ನೀರಿನ ಮಟ್ಟದ ಅಲಾರಂ ನಿರ್ಮಿಸಿತು",
+          "ta": "பழைய பாகங்களில் நீர்மட்ட அலாரம் உருவாக்கியது"
+        },
+        "para": 5
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "sample-town"
+      ],
+      "personIds": []
+    }
+  ],
+  "people": [
+    {
+      "id": "asha-sample",
+      "name": {
+        "en": "Asha Sample",
+        "hi": "आशा सैंपल",
+        "kn": "ಆಶಾ ಸ್ಯಾಂಪಲ್",
+        "ta": "ஆஷா சாம்பிள்"
+      },
+      "place": {
+        "en": "Sample Ghat",
+        "hi": "सैंपल घाट",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಘಾಟ್",
+        "ta": "மாதிரி படித்துறை"
+      },
+      "story": {
+        "en": "Cleans the riverbank every morning; neighbours have joined her.",
+        "hi": "हर सुबह नदी का किनारा साफ़ करती हैं; पड़ोसी जुड़ गए हैं।",
+        "kn": "ಪ್ರತಿ ಬೆಳಿಗ್ಗೆ ನದಿ ದಂಡೆ ಸ್ವಚ್ಛಗೊಳಿಸುತ್ತಾರೆ.",
+        "ta": "தினமும் காலை ஆற்றங்கரையைச் சுத்தம் செய்கிறார்."
+      },
+      "topicId": "river-cleanup",
+      "source": {
+        "transcript": "en",
+        "para": 3
+      }
+    }
+  ],
+  "places": [
+    {
+      "id": "sample-village",
+      "name": {
+        "en": "Sample Village",
+        "hi": "सैंपल गाँव",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಗ್ರಾಮ",
+        "ta": "மாதிரி கிராமம்"
+      },
+      "state": "Maharashtra",
+      "lat": 19,
+      "lng": 75.3,
+      "topicId": "millet-sharing"
+    },
+    {
+      "id": "sample-ghat",
+      "name": {
+        "en": "Sample Ghat",
+        "hi": "सैंपल घाट",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಘಾಟ್",
+        "ta": "மாதிரி படித்துறை"
+      },
+      "state": "Uttar Pradesh",
+      "lat": 25.3,
+      "lng": 82.9,
+      "topicId": "river-cleanup"
+    },
+    {
+      "id": "sample-coast",
+      "name": {
+        "en": "Sample Coast",
+        "hi": "सैंपल तट",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಕರಾವಳಿ",
+        "ta": "மாதிரி கடற்கரை"
+      },
+      "state": "Kerala",
+      "lat": 10,
+      "lng": 76.3,
+      "topicId": "coastal-folk-dance"
+    },
+    {
+      "id": "sample-town",
+      "name": {
+        "en": "Sample Town",
+        "hi": "सैंपल टाउन",
+        "kn": "ಸ್ಯಾಂಪಲ್ ಟೌನ್",
+        "ta": "மாதிரி நகரம்"
+      },
+      "state": "Gujarat",
+      "lat": 23,
+      "lng": 72.6,
+      "topicId": "school-robotics"
+    }
+  ],
+  "stats": [
+    {
+      "value": "120",
+      "label": {
+        "en": "Schools in the science fair",
+        "hi": "विज्ञान मेले में स्कूल",
+        "kn": "ವಿಜ್ಞಾನ ಮೇಳದಲ್ಲಿ ಶಾಲೆಗಳು",
+        "ta": "அறிவியல் கண்காட்சியில் பள்ளிகள்"
+      },
+      "context": {
+        "en": "Sample number from the synthetic address.",
+        "hi": "कृत्रिम संबोधन से नमूना संख्या।",
+        "kn": "ಕೃತಕ ಭಾಷಣದ ಮಾದರಿ ಸಂಖ್ಯೆ.",
+        "ta": "செயற்கை உரையிலிருந்து மாதிரி எண்."
+      },
+      "source": {
+        "transcript": "en",
+        "para": 6
+      }
+    }
+  ]
+}

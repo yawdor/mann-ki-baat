@@ -1,0 +1,57 @@
+{
+  "id": "pm-kisan",
+  "name": {
+    "en": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)",
+    "hi": "पीएम-किसान (प्रधानमंत्री किसान सम्मान निधि)"
+  },
+  "gives": {
+    "en": "Rs 6,000 a year in three instalments of Rs 2,000.",
+    "hi": "₹6,000 प्रति वर्ष, ₹2,000 की तीन किस्तों में।"
+  },
+  "eligibility": [
+    {
+      "en": "Landholding farmer families, subject to the exclusions listed on the portal.",
+      "hi": "भूमिधारक किसान परिवार, पोर्टल पर दी गई शर्तों के अधीन।"
+    }
+  ],
+  "steps": [
+    {
+      "en": "Register on the PM-KISAN portal or at a Common Service Centre.",
+      "hi": "पीएम-किसान पोर्टल या कॉमन सर्विस सेंटर पर पंजीकरण करें।"
+    },
+    {
+      "en": "Complete eKYC.",
+      "hi": "ई-केवाईसी पूरा करें।"
+    }
+  ],
+  "documents": [
+    {
+      "en": "Aadhaar",
+      "hi": "आधार"
+    },
+    {
+      "en": "Land records",
+      "hi": "भूमि अभिलेख"
+    },
+    {
+      "en": "Bank account details",
+      "hi": "बैंक खाते का विवरण"
+    }
+  ],
+  "officialUrl": "https://pmkisan.gov.in/",
+  "helpline": "155261",
+  "audiences": [
+    "farmers"
+  ],
+  "states": [
+    "all"
+  ],
+  "checkedAt": "2026-10-20",
+  "mentions": [
+    "2026-09"
+  ],
+  "detailLevel": "full",
+  "detailSource": {
+    "url": "https://pmkisan.gov.in/"
+  }
+}

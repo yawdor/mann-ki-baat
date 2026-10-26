@@ -1,0 +1,127 @@
+{
+  "episode": 137,
+  "date": "2026-08-31",
+  "title": {
+    "en": "Sample Episode: Roots and Festivals",
+    "hi": "नमूना एपिसोड: जड़ें और उत्सव"
+  },
+  "summary": {
+    "en": "Synthetic sample data for testing. A seed bank, a fort festival and an eye-check camp.",
+    "hi": "परीक्षण के लिए कृत्रिम नमूना डेटा। बीज बैंक, किला उत्सव और आँखों की जाँच का शिविर।"
+  },
+  "theme": {
+    "accent": "#B0124A",
+    "motif": "lotus"
+  },
+  "sources": {
+    "en": "https://www.pmindia.gov.in/en/sample-2026-08",
+    "hi": "https://www.pmindia.gov.in/hi/sample-2026-08"
+  },
+  "topics": [
+    {
+      "id": "seed-bank",
+      "title": {
+        "en": "A community seed bank",
+        "hi": "सामुदायिक बीज बैंक"
+      },
+      "category": "Environment",
+      "explainer": {
+        "en": "A women self-help group runs a seed bank in Sample Hills.",
+        "hi": "महिला समूह सैंपल पहाड़ियों में बीज बैंक चलाता है।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "A self-help group started the seed bank.",
+            "hi": "स्वयं सहायता समूह ने बीज बैंक शुरू किया।"
+          },
+          "source": {
+            "transcript": "en",
+            "para": 2
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "a women self-help group started a community seed bank",
+          "hi": "महिला स्वयं सहायता समूह ने सामुदायिक बीज बैंक शुरू किया"
+        },
+        "para": 2
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    },
+    {
+      "id": "fort-festival",
+      "title": {
+        "en": "The Sample Fort festival",
+        "hi": "सैंपल किला उत्सव"
+      },
+      "category": "Culture",
+      "explainer": {
+        "en": "A local craft festival drew visitors from many districts.",
+        "hi": "स्थानीय शिल्प उत्सव में कई ज़िलों के लोग आए।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Visitors came from many districts.",
+            "hi": "कई ज़िलों से लोग आए।"
+          },
+          "source": {
+            "transcript": "en",
+            "para": 3
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "drew visitors from many districts to enjoy local crafts",
+          "hi": "कई ज़िलों से आए लोगों ने स्थानीय शिल्प का आनंद लिया"
+        },
+        "para": 3
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    },
+    {
+      "id": "eye-camp",
+      "title": {
+        "en": "An eye-check camp for elders",
+        "hi": "बुज़ुर्गों के लिए नेत्र शिविर"
+      },
+      "category": "Health",
+      "explainer": {
+        "en": "A health camp checked the eyesight of hundreds of elders.",
+        "hi": "स्वास्थ्य शिविर में सैकड़ों बुज़ुर्गों की आँखों की जाँच हुई।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Hundreds of elders were checked.",
+            "hi": "सैकड़ों बुज़ुर्गों की जाँच हुई।"
+          },
+          "source": {
+            "transcript": "en",
+            "para": 4
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "checked eyesight for hundreds of elders",
+          "hi": "सैकड़ों बुज़ुर्गों की आँखों की जाँच हुई"
+        },
+        "para": 4
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    }
+  ],
+  "people": [],
+  "places": [],
+  "stats": []
+}
