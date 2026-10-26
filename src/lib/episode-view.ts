@@ -1,5 +1,5 @@
-import { t, type UiKey } from './i18n';
-import type { Category, Lang } from './schema';
+import { pick, t, type UiKey } from './i18n';
+import type { Category, Lang, Scheme } from './schema';
 
 type Audience = 'farmers' | 'women' | 'students' | 'senior-citizens' | 'households' | 'youth' | 'health' | 'business' | 'workers' | 'children';
 
@@ -58,3 +58,11 @@ export function initial(s: string): string {
   for (const { segment } of seg) return segment;
   return '';
 }
+
+/** Lower-case haystack for the scheme search box (src/scripts/schemes.ts): names, one-liners, audiences, states. */
+export const schemeSearchText = (s: Scheme, lang: Lang) =>
+  [
+    s.name.en, s.name.hi, pick(s.name, lang), s.gives.en, s.gives.hi, pick(s.gives, lang),
+    ...s.audiences.flatMap((a) => [a, audienceLabel('en', a), audienceLabel(lang, a)]),
+    ...s.states,
+  ].join(' ').toLowerCase();

@@ -13,18 +13,27 @@ import People from './People.astro';
 import Places from './Places.astro';
 import EpisodeNav from './EpisodeNav.astro';
 import Footer from './Footer.astro';
-import { LANG_META, completeLangs, pick, t, type Lang } from '../../lib/i18n';
+import { LANG_META, completeLangs, localePath, pick, t, type Lang } from '../../lib/i18n';
 import { referencedSchemes } from '../../lib/langs';
 import { monthOf, type EpisodePageProps } from '../../lib/episode-paths';
 
 type Props = EpisodePageProps;
-const { episode, schemes, lang, prev, next } = Astro.props;
+const { episode, schemes, lang, prev, next, homeLang = lang } = Astro.props;
 const month = monthOf(episode);
 const complete = completeLangs(episode, schemes);
 const langs: Lang[] = complete.length ? complete : ['en', 'hi'];
 const episodeSchemes = referencedSchemes(episode, schemes);
 const quote = episode.topics.find((tp) => tp.quote)?.quote;
 const title = `${pick(episode.title, lang)} · ${t(lang, 'siteName')}`;
+const hasSchemes = episodeSchemes.length > 0;
+const hasMap = episode.places.length > 0;
+const nav = [
+  { href: '#glance', label: t(lang, 'navGlance') },
+  { href: '#topics', label: t(lang, 'navTopics') },
+  ...(hasSchemes ? [{ href: '#schemes', label: t(lang, 'navSchemes') }] : []),
+  ...(hasMap ? [{ href: '#map', label: t(lang, 'navMap') }] : []),
+  { href: localePath(homeLang, '/') + '#archive', label: t(lang, 'navArchive') },
+];
 ---
 <Base
   lang={lang}
@@ -35,7 +44,7 @@ const title = `${pick(episode.title, lang)} · ${t(lang, 'siteName')}`;
   accent={episode.theme.accent}
 >
   <a class="skip-link" href="#main">{t(lang, 'ctaExplainer')} ↓</a>
-  <Header lang={lang} month={month} langs={langs} hasSchemes={episodeSchemes.length > 0} hasMap={episode.places.length > 0} />
+  <Header lang={lang} path={`/${month}/`} langs={langs} nav={nav} homeLang={homeLang} />
   {LANG_META[lang].machine && <MachineNotice lang={lang} />}
   <main id="main">
     <Hero episode={episode} lang={lang} hasSchemes={episodeSchemes.length > 0} />

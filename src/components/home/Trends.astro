@@ -1,0 +1,130 @@
+---
+import { t, type Lang } from '../../lib/i18n';
+import type { TrendView } from '../../lib/home-paths';
+
+/** Theme × month "flower" grid (canvas Archive board). The grid is one image; the hidden table carries the data. */
+interface Props { view: TrendView; lang: Lang }
+const { view, lang } = Astro.props;
+const cols = view.months.length;
+---
+<section id="trends" class="trends">
+  <div class="wrap inner">
+    <p class="eyebrow">{t(lang, 'navTrends')}</p>
+    <h2 class="section-title">{t(lang, 'trendsTitle')}</h2>
+    <div class="panel">
+      <div class="scroll">
+        <div class="grid" role="img" aria-label={view.summary} style={`--cols: ${cols}`}>
+          <span></span>
+          {view.months.map((m) => <span class="month-head">{m.short}</span>)}
+          {view.rows.map((r) => (
+            <>
+              <span class="theme">{r.label}</span>
+              {r.cells.map((c) => (
+                <span class="cell">
+                  {c.size > 0 && <span class="flower" style={`width: ${c.size}px; height: ${c.size}px; background: ${r.colour}`}></span>}
+                </span>
+              ))}
+            </>
+          ))}
+        </div>
+      </div>
+      <div class="visually-hidden">
+      <table>
+        <caption>{t(lang, 'trendsSummary')}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{t(lang, 'navTopics')}</th>
+            {view.months.map((m) => <th scope="col">{m.label}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {view.rows.map((r) => (
+            <tr>
+              <th scope="row">{r.label}</th>
+              {r.cells.map((c) => <td>{c.value}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+      <p class="note">{t(lang, 'trendsNote')}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trends {
+    background: var(--chandan);
+    margin-top: 80px;
+  }
+  .inner {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+  .section-title {
+    margin-bottom: 24px;
+  }
+  .panel {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 2px 0 var(--line-haldi);
+  }
+  .scroll {
+    overflow-x: auto;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 190px repeat(var(--cols), minmax(64px, 1fr));
+    gap: 8px;
+    align-items: center;
+    min-width: calc(190px + var(--cols) * 72px);
+  }
+  .month-head {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6B4A2E;
+    text-align: center;
+  }
+  .theme {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 46px;
+  }
+  .flower {
+    display: block;
+    border-radius: 999px;
+    box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 4px var(--line-card);
+  }
+  .note {
+    margin: 18px 0 0;
+    font-size: 14px;
+    color: #6B4A2E;
+  }
+  @media (max-width: 760px) {
+    .trends {
+      margin-top: 48px;
+    }
+    .inner {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .panel {
+      padding: 16px;
+      border-radius: 20px;
+    }
+    .grid {
+      grid-template-columns: 112px repeat(var(--cols), minmax(48px, 1fr));
+      gap: 6px;
+      min-width: calc(112px + var(--cols) * 54px);
+    }
+    .theme {
+      font-size: 14px;
+    }
+  }
+</style>

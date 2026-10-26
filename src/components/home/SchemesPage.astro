@@ -1,0 +1,78 @@
+---
+import '../../styles/episode.css';
+import Base from '../../layouts/Base.astro';
+import Header from '../episode/Header.astro';
+import MachineNotice from '../episode/MachineNotice.astro';
+import Footer from '../episode/Footer.astro';
+import SchemeFinder from '../SchemeFinder.astro';
+import SchemeIndex from '../SchemeIndex.astro';
+import { LANG_META, t } from '../../lib/i18n';
+import { schemeRows, siteNav, type HomePageProps } from '../../lib/home-paths';
+import { AUDIENCES } from '../../lib/schema';
+
+type Props = HomePageProps;
+const p = Astro.props;
+const { lang, episodes, schemes, langs } = p;
+const rows = schemeRows(episodes, schemes, lang);
+const audiences = AUDIENCES.filter((a) => rows.some((r) => r.scheme.audiences.includes(a)));
+---
+<Base
+  lang={lang}
+  title={`${t(lang, 'navSchemeIndex')} · ${t(lang, 'siteName')}`}
+  description={`${t(lang, 'schemeIndexTitle')}. ${t(lang, 'schemesIntro')}`}
+  path="/schemes/"
+  langs={langs}
+  ogType="website"
+>
+  <a class="skip-link" href="#main">{t(lang, 'navSchemeIndex')} ↓</a>
+  <Header lang={lang} path="/schemes/" langs={langs} nav={siteNav(p, 'schemes', episodes.length >= 2)} />
+  {LANG_META[lang].machine && <MachineNotice lang={lang} />}
+  <main id="main" class="wrap page">
+    <div class="head">
+      <div>
+        <p class="eyebrow">{t(lang, 'navSchemeIndex')}</p>
+        <h1 class="section-title">{t(lang, 'schemeIndexTitle')}</h1>
+        <p class="intro">{t(lang, 'schemesIntro')}</p>
+      </div>
+      {rows.length > 0 && <SchemeFinder lang={lang} audiences={audiences} />}
+    </div>
+    <SchemeIndex rows={rows} lang={lang} searchable />
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .page {
+    padding-top: 48px;
+    padding-bottom: 96px;
+  }
+  .head {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 28px;
+    align-items: end;
+    margin-bottom: 32px;
+  }
+  .head .section-title {
+    margin-bottom: 10px;
+  }
+  .intro {
+    margin: 0;
+    color: var(--text-soft);
+  }
+  @media (max-width: 760px) {
+    .page {
+      padding-top: 28px;
+      padding-bottom: 56px;
+    }
+    .head {
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+  }
+</style>
+
+<script>
+  import '../../scripts/nav';
+  import '../../scripts/schemes';
+</script>

@@ -1,6 +1,7 @@
 ---
 import { LANG_META, pick, t, type Lang } from '../../lib/i18n';
-import { AUDIENCE_COLOURS, ROTATING, audienceLabel, host, longDate } from '../../lib/episode-view';
+import SchemeFinder from '../SchemeFinder.astro';
+import { ROTATING, audienceLabel, host, longDate, schemeSearchText } from '../../lib/episode-view';
 import { AUDIENCES, type Localized, type Scheme } from '../../lib/schema';
 
 interface Props { schemes: Scheme[]; lang: Lang }
@@ -9,12 +10,6 @@ const audiences = AUDIENCES.filter((a) => schemes.some((s) => s.audiences.includ
 const has = (b: Localized) => typeof b[lang] === 'string' && !!b[lang]!.trim();
 /** Machine-language pages fall back to English when a scheme lacks that language. */
 const inEnglish = (s: Scheme) => LANG_META[lang].machine && !(has(s.name) && has(s.gives));
-const searchText = (s: Scheme) =>
-  [
-    s.name.en, s.name.hi, pick(s.name, lang), s.gives.en, s.gives.hi, pick(s.gives, lang),
-    ...s.audiences.flatMap((a) => [a, audienceLabel('en', a), audienceLabel(lang, a)]),
-    ...s.states,
-  ].join(' ').toLowerCase();
 ---
 <section id="schemes" class="wrap schemes">
   <div class="head bloom">
@@ -23,20 +18,7 @@ const searchText = (s: Scheme) =>
       <h2 class="section-title">{t(lang, 'schemesTitle')}</h2>
       <p class="intro">{t(lang, 'schemesIntro')}</p>
     </div>
-    <div class="finder needs-js">
-      <label for="scheme-search">{t(lang, 'searchLabel')}</label>
-      <div class="search">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--kumkum)" stroke-width="2.2" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></svg>
-        <input id="scheme-search" type="search" placeholder={t(lang, 'searchPlaceholder')} autocomplete="off" aria-controls="scheme-list" />
-      </div>
-      {audiences.length > 0 && (
-        <div class="aud" role="group" aria-label={t(lang, 'searchLabel')}>
-          {audiences.map((a) => (
-            <button type="button" data-audience={a} aria-pressed="false" style={`--chip: ${AUDIENCE_COLOURS[a]}`}>{audienceLabel(lang, a)}</button>
-          ))}
-        </div>
-      )}
-    </div>
+    <SchemeFinder lang={lang} audiences={audiences} />
   </div>
 
   <div id="scheme-list" class="list">
@@ -63,7 +45,7 @@ const searchText = (s: Scheme) =>
       const attrs = {
         id: `scheme-${s.id}`,
         'data-scheme': s.id,
-        'data-search': searchText(s),
+        'data-search': schemeSearchText(s, lang),
         'data-audiences': s.audiences.join(' '),
       };
       return s.detailLevel === 'full' ? (
@@ -143,67 +125,6 @@ const searchText = (s: Scheme) =>
   .intro {
     margin: 0;
     color: var(--text-soft);
-  }
-  .finder {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: var(--chandan);
-    border-radius: var(--radius-card);
-    padding: 20px;
-  }
-  label {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--kumkum);
-  }
-  .search {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--white);
-    border: 2px solid var(--line-haldi);
-    border-radius: var(--radius-button);
-    padding: 0 16px;
-    min-height: 54px;
-  }
-  .search:focus-within {
-    border-color: var(--peacock);
-  }
-  input {
-    flex: 1;
-    border: 0;
-    font: 17px var(--font-body);
-    background: transparent;
-    color: var(--text);
-    min-width: 0;
-    min-height: 50px;
-  }
-  input:focus-visible {
-    outline: none;
-  }
-  .aud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .aud button {
-    min-height: 40px;
-    padding: 0 14px;
-    border-radius: var(--radius-pill);
-    border: 2px solid var(--chip);
-    background: var(--chip);
-    color: var(--white);
-    font: 600 14px var(--font-body);
-    cursor: pointer;
-  }
-  .aud button[aria-pressed='true'] {
-    background: var(--white);
-    color: var(--chip);
-    box-shadow: inset 0 0 0 2px var(--chip);
-  }
-  .aud button[aria-pressed='true']::before {
-    content: '✓ ';
   }
   .list {
     display: flex;
@@ -434,14 +355,6 @@ const searchText = (s: Scheme) =>
     .head {
       gap: 16px;
       margin-bottom: 16px;
-    }
-    .finder {
-      padding: 0;
-      background: transparent;
-      gap: 8px;
-    }
-    label {
-      font-size: 15px;
     }
     .scheme {
       border-radius: 20px;

@@ -1,0 +1,95 @@
+---
+import '../../styles/episode.css';
+import Base from '../../layouts/Base.astro';
+import Header from '../episode/Header.astro';
+import MachineNotice from '../episode/MachineNotice.astro';
+import Footer from '../episode/Footer.astro';
+import LatestBanner from './LatestBanner.astro';
+import ArchiveGrid from './ArchiveGrid.astro';
+import Trends from './Trends.astro';
+import SchemeIndex from '../SchemeIndex.astro';
+import { LANG_META, localePath, pick, t } from '../../lib/i18n';
+import { archiveCards, schemeRows, siteNav, trendView, type HomePageProps } from '../../lib/home-paths';
+
+type Props = HomePageProps;
+const p = Astro.props;
+const { lang, episodes, schemes, langs } = p;
+const latest = episodes[0];
+const trends = trendView(episodes, lang, t(lang, 'trendsSummary'));
+const rows = schemeRows(episodes, schemes, lang);
+---
+<Base
+  lang={lang}
+  title={`${t(lang, 'siteName')} · ${t(lang, 'navAll')}`}
+  description={latest ? `${t(lang, 'heroDek')} ${pick(latest.title, lang)}.` : t(lang, 'heroDek')}
+  path="/"
+  langs={langs}
+  accent={latest?.theme.accent}
+  ogType="website"
+>
+  <a class="skip-link" href="#main">{t(lang, 'navAll')} ↓</a>
+  <Header lang={lang} path="/" langs={langs} nav={siteNav(p, 'home', !!trends)} />
+  {LANG_META[lang].machine && <MachineNotice lang={lang} />}
+  <main id="main">
+    <LatestBanner episode={latest} schemes={schemes} lang={lang} />
+    {episodes.length > 0 && <ArchiveGrid cards={archiveCards(episodes, schemes, lang)} lang={lang} />}
+    {trends && <Trends view={trends} lang={lang} />}
+    <section id="index" class:list={['wrap', 'index', { 'after-band': !trends }]}>
+      <div class="head">
+        <div>
+          <p class="eyebrow">{t(lang, 'navSchemeIndex')}</p>
+          <h2 class="section-title">{t(lang, 'schemeIndexTitle')}</h2>
+        </div>
+        {rows.length > 0 && (
+          <a class="all" href={localePath(lang, '/schemes/')}>{t(lang, 'searchLabel')} →</a>
+        )}
+      </div>
+      <SchemeIndex rows={rows} lang={lang} />
+    </section>
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .index {
+    padding-top: 80px;
+    padding-bottom: 96px;
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: 12px 24px;
+    margin-bottom: 24px;
+  }
+  .head .section-title {
+    margin: 0;
+  }
+  .all {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: var(--radius-button);
+    border: 2px solid var(--kumkum);
+    color: var(--kumkum);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .all:hover {
+    background: var(--kumkum);
+    color: var(--white);
+  }
+  @media (max-width: 760px) {
+    .index {
+      padding-top: 48px;
+      padding-bottom: 56px;
+    }
+  }
+</style>
+
+<script>
+  import '../../scripts/nav';
+  import '../../scripts/motion';
+</script>

@@ -1,0 +1,116 @@
+---
+import { t, type Lang } from '../lib/i18n';
+import { schemeSearchText } from '../lib/episode-view';
+import type { SchemeRow } from '../lib/home-paths';
+
+/**
+ * Every scheme ever mentioned (canvas Archive board). With `searchable`, rows carry the
+ * hooks src/scripts/schemes.ts filters on, inside #scheme-list.
+ */
+interface Props { rows: SchemeRow[]; lang: Lang; searchable?: boolean }
+const { rows, lang, searchable = false } = Astro.props;
+---
+{rows.length === 0 ? (
+  <p class="none">{t(lang, 'noSchemesYet')}</p>
+) : (
+  <div class="box" id={searchable ? 'scheme-list' : undefined}>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{t(lang, 'colScheme')}</th>
+          <th scope="col">{t(lang, 'colFor')}</th>
+          <th scope="col">{t(lang, 'colMentioned')}</th>
+          <th scope="col">{t(lang, 'colOfficial')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr
+            data-scheme={r.scheme.id}
+            data-search={searchable ? schemeSearchText(r.scheme, lang) : undefined}
+            data-audiences={searchable ? r.scheme.audiences.join(' ') : undefined}
+          >
+            <th scope="row" lang={r.nameInEnglish ? 'en' : undefined}>{r.name}</th>
+            <td>{r.audiences.join(', ')}</td>
+            <td>
+              {r.mentions.map((m, i) => (
+                <>
+                  {i > 0 && ', '}
+                  {m.href ? <a href={m.href} hreflang={m.hreflang}>{m.label}</a> : <span>{m.label}</span>}
+                </>
+              ))}
+            </td>
+            <td><a href={r.scheme.officialUrl} rel="noopener" lang="en">{r.officialHost}</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    {searchable && <p class="empty" hidden>{t(lang, 'noSchemeMatch')}</p>}
+  </div>
+)}
+
+<style>
+  .box {
+    overflow-x: auto;
+    background: var(--white);
+    border: 2px solid var(--line-card);
+    border-radius: 22px;
+  }
+  table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    font-size: 17px;
+  }
+  thead tr {
+    text-align: left;
+    background: var(--kumkum);
+    color: var(--white);
+    font-size: 14px;
+  }
+  thead th:lang(en) {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  th,
+  td {
+    padding: 16px 24px;
+    text-align: left;
+    vertical-align: top;
+  }
+  tbody th {
+    font-weight: 700;
+  }
+  tbody tr:not(:last-child) > * {
+    border-bottom: 2px dotted var(--line-card);
+  }
+  tbody tr:nth-child(even) {
+    background: var(--cream-card);
+  }
+  td a {
+    overflow-wrap: anywhere;
+  }
+  .empty,
+  .none {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-soft);
+    background: var(--cream-card);
+  }
+  .none {
+    border-radius: var(--radius-card);
+  }
+  @media (max-width: 760px) {
+    .box {
+      border-radius: 18px;
+    }
+    table {
+      font-size: 16px;
+    }
+    th,
+    td {
+      padding: 12px 16px;
+    }
+  }
+</style>

@@ -1,4 +1,6 @@
-// Scheme cards: expand/collapse, search box and audience chips.
+// Scheme search box and audience chips over every `[data-scheme]` element (episode-page
+// cards or scheme-index table rows, each with data-search / data-audiences); cards with a
+// toggle button also expand/collapse.
 const cards = [...document.querySelectorAll<HTMLElement>('[data-scheme]')];
 const search = document.querySelector<HTMLInputElement>('#scheme-search');
 const audChips = [...document.querySelectorAll<HTMLButtonElement>('button[data-audience]')];

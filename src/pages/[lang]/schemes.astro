@@ -1,0 +1,11 @@
+---
+import SchemesPage from '../../components/home/SchemesPage.astro';
+import { homePaths, type HomePageProps } from '../../lib/home-paths';
+
+export function getStaticPaths() {
+  return homePaths();
+}
+
+type Props = HomePageProps;
+---
+<SchemesPage {...Astro.props} />

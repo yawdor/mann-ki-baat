@@ -1,0 +1,134 @@
+---
+import { t, type Lang } from '../../lib/i18n';
+import type { ArchiveCard } from '../../lib/home-paths';
+
+/** One arch card per episode, newest first, topped in the episode's accent (canvas Archive board). */
+interface Props { cards: ArchiveCard[]; lang: Lang }
+const { cards, lang } = Astro.props;
+---
+<section id="archive" class="wrap archive">
+  <p class="eyebrow">{t(lang, 'navArchive')}</p>
+  <h2 class="section-title">{t(lang, 'archiveTitle')}</h2>
+  <div class="grid">
+    {cards.map((c) => (
+      <a
+        class="arch bloom"
+        href={c.link.href}
+        hreflang={c.link.lang}
+        data-month={c.month}
+        style={`--arch: ${c.accent}; --arch-ink: ${c.ink}`}
+      >
+        <span class="top" aria-hidden="true"><span class="short">{c.short}</span></span>
+        <span class="body">
+          <span class="label">{c.label}</span>
+          <h3 class="headline" lang={c.titleLang}>{c.title}</h3>
+          <span class="counts">
+            {t(lang, 'navTopics')}: {c.counts.topics} · {t(lang, 'navSchemes')}: {c.counts.schemes}
+          </span>
+        </span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .archive {
+    padding-top: 80px;
+  }
+  .section-title {
+    margin-bottom: 30px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 22px;
+  }
+  .arch {
+    display: flex;
+    flex-direction: column;
+    background: var(--cream-card);
+    border: 2px solid var(--line-card);
+    border-radius: 999px 999px 22px 22px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text);
+    text-align: center;
+    transition: transform 160ms ease-out, box-shadow 160ms ease-out;
+  }
+  .arch:hover {
+    color: var(--text);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(122, 20, 49, 0.14);
+  }
+  .top {
+    height: 120px;
+    background: var(--arch);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 14px;
+  }
+  .short {
+    font-family: var(--font-display);
+    font-size: 34px;
+    line-height: 1;
+    color: var(--arch-ink);
+  }
+  .body {
+    padding: 18px 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #A44A00;
+  }
+  .label:lang(en) {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .headline {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  .counts {
+    font-size: 15px;
+    color: var(--text-soft);
+  }
+  @media (max-width: 760px) {
+    .archive {
+      padding-top: 48px;
+    }
+    .section-title {
+      margin-bottom: 20px;
+    }
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .top {
+      height: 88px;
+      padding-bottom: 10px;
+    }
+    .short {
+      font-size: 26px;
+    }
+    .body {
+      padding: 12px 12px 16px;
+    }
+    .label {
+      font-size: 12px;
+    }
+    .headline {
+      font-size: 19px;
+    }
+    .counts {
+      font-size: 14px;
+    }
+  }
+</style>

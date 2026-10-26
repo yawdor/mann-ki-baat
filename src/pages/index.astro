@@ -1,12 +1,5 @@
 ---
+import HomePage from '../components/home/HomePage.astro';
+import { homeProps } from '../lib/home-paths';
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Mann Ki Baat Explained</title>
-  </head>
-  <body>
-    <h1>Mann Ki Baat Explained</h1>
-  </body>
-</html>
+<HomePage {...homeProps('en')} />
