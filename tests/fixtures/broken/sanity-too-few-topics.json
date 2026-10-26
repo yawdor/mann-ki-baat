@@ -1,0 +1,1 @@
+{ "base": "episodes/2026-09", "truncate": { "topics": 2 }, "expect": "topics:" }

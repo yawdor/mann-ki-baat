@@ -1,0 +1,1 @@
+{ "base": "episodes/2026-09", "set": { "topics.0.personIds": ["nobody"] }, "expect": "topics[0].personIds" }
