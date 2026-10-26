@@ -1,0 +1,25 @@
+---
+interface Props { height?: number }
+const { height = 76 } = Astro.props;
+const id = `toran-${crypto.randomUUID().slice(0, 8)}`;
+const RUST = '#C2410C';
+const PETAL_PINK = '#D6336C';
+const DEEP_LEAF = '#0A5C38';
+---
+<svg width="100%" height={height} aria-hidden="true" focusable="false" style="position: relative; display: block">
+  <defs>
+    <pattern id={id} width="88" height="76" patternUnits="userSpaceOnUse">
+      <path d="M0 6 Q44 18 88 6" fill="none" stroke="var(--haldi)" stroke-width="2.5" />
+      <line x1="22" y1="12" x2="22" y2="52" stroke="var(--haldi)" stroke-width="1.5" />
+      <circle cx="22" cy="30" r="11" fill="var(--marigold)" />
+      <circle cx="22" cy="30" r="7" fill="var(--haldi)" />
+      <circle cx="22" cy="30" r="2.5" fill={RUST} />
+      <circle cx="22" cy="54" r="8" fill="var(--haldi)" />
+      <circle cx="22" cy="54" r="4" fill="var(--marigold)" />
+      <circle cx="22" cy="68" r="3" fill={PETAL_PINK} />
+      <path d="M66 12 C76 24 76 40 66 54 C56 40 56 24 66 12Z" fill="var(--mehendi)" />
+      <path d="M66 16 L66 50" stroke={DEEP_LEAF} stroke-width="1.5" />
+    </pattern>
+  </defs>
+  <rect width="100%" height="76" fill={`url(#${id})`} />
+</svg>

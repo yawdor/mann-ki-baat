@@ -1,0 +1,14 @@
+---
+interface Props { corner: 'tl' | 'br' }
+const { corner } = Astro.props;
+const pos = corner === 'tl'
+  ? 'position: absolute; left: -30px; top: -30px'
+  : 'position: absolute; right: -30px; bottom: -30px; transform: rotate(180deg)';
+---
+<svg width="220" height="220" viewBox="0 0 100 100" aria-hidden="true" focusable="false" data-corner={corner} style={pos}>
+  <g fill="none" stroke="var(--haldi)" stroke-width="2.2">
+    <path d="M50 8 C80 8 94 38 84 62 C74 88 38 94 22 78 C8 64 18 42 38 42 C54 42 58 26 50 8Z" />
+    <path d="M48 20 C68 22 78 42 72 58 C66 74 44 80 34 70" />
+    <circle cx="38" cy="58" r="6" fill="var(--marigold)" stroke="none" />
+  </g>
+</svg>

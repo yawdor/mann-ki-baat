@@ -1,0 +1,22 @@
+---
+interface Props { tone: 'haldi' | 'mehendi' }
+const { tone } = Astro.props;
+const id = `kolam-${tone}-${crypto.randomUUID().slice(0, 8)}`;
+const HALDI_DARK = '#E2A400';
+const colour = tone === 'haldi' ? HALDI_DARK : 'var(--mehendi)';
+---
+<svg width="100%" height="100%" aria-hidden="true" focusable="false" data-tone={tone} style="position: absolute; inset: 0">
+  <defs>
+    {tone === 'haldi' ? (
+      <pattern id={id} width="28" height="28" patternUnits="userSpaceOnUse">
+        <circle cx="14" cy="14" r="2" fill={colour} fill-opacity="0.35" />
+      </pattern>
+    ) : (
+      <pattern id={id} width="30" height="30" patternUnits="userSpaceOnUse">
+        <circle cx="15" cy="15" r="2.2" fill={colour} fill-opacity="0.35" />
+        <path d="M15 3 Q27 15 15 27 Q3 15 15 3Z" fill="none" stroke={colour} stroke-opacity="0.16" />
+      </pattern>
+    )}
+  </defs>
+  <rect width="100%" height="100%" fill={`url(#${id})`} />
+</svg>

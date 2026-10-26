@@ -1,0 +1,73 @@
+---
+import type { Motif } from '../../lib/schema';
+interface Props { size: number; motif: Motif; spin?: boolean }
+const { size, motif, spin = false } = Astro.props;
+const uid = crypto.randomUUID().slice(0, 8);
+const [p1, p2, p3] = [`hp1-${uid}`, `hp2-${uid}`, `hp3-${uid}`];
+const PETAL_PINK = '#D6336C';
+const DEEP_MAROON = '#5E0F25';
+const rot = (n: number) => Array.from({ length: n }, (_, i) => (360 / n) * i);
+---
+<svg width={size} height={size} viewBox="-250 -250 500 500" aria-hidden="true" focusable="false" data-motif={motif} class:list={[{ spin }]}>
+  <defs>
+    <ellipse id={p1} cx="0" cy="-188" rx="30" ry="58" fill="var(--marigold)" stroke="var(--haldi)" stroke-width="3" />
+    <ellipse id={p2} cx="0" cy="-108" rx="22" ry="42" fill={PETAL_PINK} stroke="var(--white)" stroke-width="2" />
+    <ellipse id={p3} cx="0" cy="-48" rx="14" ry="26" fill="var(--haldi)" />
+  </defs>
+  <circle r="240" fill="none" stroke="var(--haldi)" stroke-width="2" stroke-dasharray="2 10" />
+  {rot(16).map((a) => <use href={`#${p1}`} transform={a ? `rotate(${a})` : undefined} />)}
+  <circle r="150" fill={DEEP_MAROON} stroke="var(--haldi)" stroke-width="4" />
+  <circle r="162" fill="none" stroke="var(--haldi)" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 21" />
+  {rot(12).map((a) => <use href={`#${p2}`} transform={a ? `rotate(${a})` : undefined} />)}
+  <circle r="72" fill="var(--peacock)" stroke="var(--haldi)" stroke-width="4" />
+  {rot(8).map((a) => <use href={`#${p3}`} transform={a ? `rotate(${a})` : undefined} />)}
+  <circle r="30" fill="var(--peacock)" />
+  <g transform="scale(1.1)" fill="none" stroke="var(--white)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    {motif === 'lotus' && (
+      <>
+        <path d="M0 -22 C10 -10 10 4 0 12 C-10 4 -10 -10 0 -22Z" />
+        <path d="M-24 -6 C-12 -6 -4 2 0 12 C-12 14 -22 6 -24 -6Z" />
+        <path d="M24 -6 C12 -6 4 2 0 12 C12 14 22 6 24 -6Z" />
+        <path d="M-22 18 Q0 28 22 18" />
+      </>
+    )}
+    {motif === 'diya' && (
+      <>
+        <path d="M-22 4 Q0 26 22 4 Z" fill="var(--haldi)" />
+        <path d="M0 -22 C8 -12 8 -4 0 0 C-8 -4 -8 -12 0 -22Z" fill="var(--marigold)" stroke="var(--haldi)" />
+        <path d="M-12 22 H12" />
+      </>
+    )}
+    {motif === 'peacock' && (
+      <>
+        <path d="M0 24 V4" />
+        <ellipse cx="0" cy="-8" rx="13" ry="18" />
+        <ellipse cx="0" cy="-8" rx="7" ry="10" fill="var(--mehendi)" />
+        <circle cx="0" cy="-8" r="3" fill="var(--haldi)" stroke="none" />
+      </>
+    )}
+    {motif === 'wheat' && (
+      <>
+        <path d="M0 24 V-18" />
+        <path d="M0 -4 C-12 -6 -14 -14 -14 -14 C-4 -16 0 -8 0 -4Z" />
+        <path d="M0 -4 C12 -6 14 -14 14 -14 C4 -16 0 -8 0 -4Z" />
+        <path d="M0 8 C-12 6 -14 -2 -14 -2 C-4 -4 0 4 0 8Z" />
+        <path d="M0 8 C12 6 14 -2 14 -2 C4 -4 0 4 0 8Z" />
+        <path d="M0 -18 C-4 -22 -2 -26 0 -28 C2 -26 4 -22 0 -18Z" />
+      </>
+    )}
+    {motif === 'wheel' && (
+      <>
+        <circle r="22" />
+        <circle r="4" fill="var(--white)" stroke="none" />
+        {rot(12).map((a) => <line x1="0" y1="-5" x2="0" y2="-22" transform={`rotate(${a})`} stroke-width="2" />)}
+      </>
+    )}
+    {motif === 'mandala' && (
+      <>
+        {rot(8).map((a) => <ellipse cx="0" cy="-13" rx="5" ry="10" transform={`rotate(${a})`} stroke-width="2" />)}
+        <circle r="5" fill="var(--haldi)" stroke="none" />
+      </>
+    )}
+  </g>
+</svg>
