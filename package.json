@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "test": "vitest run",
     "validate:content": "tsx validators/cli.ts",
+    "pipeline": "tsx pipeline/cli.ts",
     "tokens": "tsx scripts/tokens-to-css.ts",
     "build:fixtures": "cross-env MKB_CONTENT_DIR=tests/fixtures astro build",
     "validate:site": "npm run build:fixtures && playwright test && tsx scripts/size-budget.ts",

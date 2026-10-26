@@ -1,9 +1,7 @@
 import { allSources } from './sources';
 import { isOfficialUrl } from '../../src/lib/schema';
+import { fetchWithRetry } from '../../src/lib/http';
 import { result, type Check, type ValidationContext } from '../types';
-
-const UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
 
 export function distinctOfficialUrls(ctx: ValidationContext): string[] {
   const urls = new Set<string>([ctx.episode.sources.en, ctx.episode.sources.hi]);
@@ -33,23 +31,12 @@ export function makeLinksCheck({
     const urls = distinctOfficialUrls(ctx);
     const messages: string[] = [];
     const probe = async (url: string): Promise<string | null> => {
-      let last = '';
-      for (let attempt = 1; attempt <= retries; attempt++) {
-        try {
-          const res = await ctx.fetch(url, {
-            redirect: 'follow',
-            headers: { 'User-Agent': UA, Accept: 'text/html,*/*' },
-            signal: AbortSignal.timeout(timeoutMs),
-          });
-          await res.body?.cancel().catch(() => {});
-          if (res.ok) return null;
-          last = `HTTP ${res.status}`;
-        } catch (e) {
-          last = e instanceof Error ? e.message : String(e);
-        }
-        if (attempt < retries && backoffMs > 0)
-          await new Promise((r) => setTimeout(r, backoffMs * attempt));
+      const r = await fetchWithRetry(ctx.fetch, url, { retries, timeoutMs, backoffMs });
+      if (r.ok) {
+        await r.res.body?.cancel().catch(() => {});
+        return null;
       }
+      const last = r.error;
       return `${url}: ${last} after ${retries} attempts`;
     };
     let next = 0;
