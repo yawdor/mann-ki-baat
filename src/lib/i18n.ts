@@ -41,6 +41,7 @@ export const LANG_META: Record<
 const en = {
   siteName: 'Mann Ki Baat Explained',
   tagline: 'Mann Ki Baat · every month, in plain language',
+  heroDek: 'Every topic the Prime Minister spoke about, the schemes you can apply for, and the people he highlighted — in five minutes.',
   navGlance: 'At a glance',
   navTopics: 'Topics',
   navSchemes: 'Schemes',
@@ -128,6 +129,7 @@ type Dict = Record<UiKey, string>;
 const hi: Dict = {
   siteName: 'मन की बात, आसान भाषा में',
   tagline: 'मन की बात · हर महीने, सरल भाषा में',
+  heroDek: 'प्रधानमंत्री ने जिन विषयों पर बात की, जिन योजनाओं का आप लाभ उठा सकते हैं, और जिन लोगों का उन्होंने ज़िक्र किया — सब कुछ पाँच मिनट में।',
   navGlance: 'एक नज़र में',
   navTopics: 'विषय',
   navSchemes: 'योजनाएँ',
@@ -211,6 +213,7 @@ const hi: Dict = {
 const kn: Dict = {
   siteName: 'ಮನ್ ಕಿ ಬಾತ್ ವಿವರಣೆ',
   tagline: 'ಮನ್ ಕಿ ಬಾತ್ · ಪ್ರತಿ ತಿಂಗಳು, ಸರಳ ಭಾಷೆಯಲ್ಲಿ',
+  heroDek: 'ಪ್ರಧಾನಮಂತ್ರಿಯವರು ಮಾತನಾಡಿದ ಪ್ರತಿ ವಿಷಯ, ನೀವು ಅರ್ಜಿ ಸಲ್ಲಿಸಬಹುದಾದ ಯೋಜನೆಗಳು ಮತ್ತು ಅವರು ಉಲ್ಲೇಖಿಸಿದ ಜನರು — ಐದು ನಿಮಿಷಗಳಲ್ಲಿ.',
   navGlance: 'ಒಂದು ನೋಟದಲ್ಲಿ',
   navTopics: 'ವಿಷಯಗಳು',
   navSchemes: 'ಯೋಜನೆಗಳು',
@@ -294,6 +297,7 @@ const kn: Dict = {
 const ta: Dict = {
   siteName: 'மன் கி பாத் விளக்கம்',
   tagline: 'மன் கி பாத் · ஒவ்வொரு மாதமும், எளிய மொழியில்',
+  heroDek: 'பிரதமர் பேசிய ஒவ்வொரு தலைப்பும், நீங்கள் விண்ணப்பிக்கக்கூடிய திட்டங்களும், அவர் குறிப்பிட்ட மக்களும் — ஐந்து நிமிடங்களில்.',
   navGlance: 'ஒரே பார்வையில்',
   navTopics: 'தலைப்புகள்',
   navSchemes: 'திட்டங்கள்',
@@ -377,6 +381,7 @@ const ta: Dict = {
 const te: Dict = {
   siteName: 'మన్ కీ బాత్ వివరణ',
   tagline: 'మన్ కీ బాత్ · ప్రతి నెలా, సులభమైన భాషలో',
+  heroDek: 'ప్రధానమంత్రి మాట్లాడిన ప్రతి అంశం, మీరు దరఖాస్తు చేయదగిన పథకాలు, ఆయన ప్రస్తావించిన వ్యక్తులు — ఐదు నిమిషాల్లో.',
   navGlance: 'ఒక చూపులో',
   navTopics: 'అంశాలు',
   navSchemes: 'పథకాలు',
@@ -460,6 +465,7 @@ const te: Dict = {
 const bn: Dict = {
   siteName: 'মন কি বাত ব্যাখ্যা',
   tagline: 'মন কি বাত · প্রতি মাসে, সহজ ভাষায়',
+  heroDek: 'প্রধানমন্ত্রী যে সব বিষয়ে কথা বলেছেন, যে প্রকল্পে আপনি আবেদন করতে পারেন, আর যাঁদের কথা তিনি বলেছেন — সবকিছু পাঁচ মিনিটে।',
   navGlance: 'এক নজরে',
   navTopics: 'বিষয়',
   navSchemes: 'প্রকল্প',
@@ -543,6 +549,7 @@ const bn: Dict = {
 const mr: Dict = {
   siteName: 'मन की बात सोप्या भाषेत',
   tagline: 'मन की बात · दर महिन्याला, सोप्या भाषेत',
+  heroDek: 'पंतप्रधानांनी बोललेला प्रत्येक विषय, तुम्ही अर्ज करू शकता अशा योजना आणि त्यांनी उल्लेख केलेली माणसे — पाच मिनिटांत.',
   navGlance: 'एका नजरेत',
   navTopics: 'विषय',
   navSchemes: 'योजना',

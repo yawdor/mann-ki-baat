@@ -21,7 +21,7 @@ const transcript = lang === 'en' ? episode.sources.en : episode.sources.hi;
       <time datetime={episode.date}>{longDate(episode.date, lang, true)}</time>
     </p>
     <h1>{pick(episode.title, lang)}</h1>
-    <p class="dek">{pick(episode.summary, lang)}</p>
+    <p class="dek">{t(lang, 'heroDek')}</p>
     <div class="ctas">
       <a class="cta primary" href={hasSchemes ? '#schemes' : '#topics'}>
         {hasSchemes ? t(lang, 'ctaSchemes') : t(lang, 'ctaExplainer')}

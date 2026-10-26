@@ -47,6 +47,14 @@ describe('episode page — en', () => {
     expect(doc.querySelector('meta[property="og:type"]')!.getAttribute('content')).toBe('article');
   });
 
+  it('shows the summary in At a glance and the generic dek in the hero (summary once)', async () => {
+    const { doc } = await renderPath('en', '2026-09');
+    const summary = 'Synthetic sample data for testing. Farmers share storage, a neighbour cleans a river, a folk dance returns and students build an alarm.';
+    expect(doc.querySelector('#glance .summary')!.text).toBe(summary);
+    expect(doc.querySelector('#top .dek')!.text).toBe(t('en', 'heroDek'));
+    expect(doc.querySelector('main')!.text.split(summary)).toHaveLength(2);
+  });
+
   it('renders filter chips only for categories present, plus All', async () => {
     const chips = (d: HTMLElement) => d.querySelectorAll('button[data-filter]').map((b) => b.getAttribute('data-filter'));
     expect(chips((await renderPath('en', '2026-09')).doc)).toEqual(['all', 'Schemes', 'Environment', 'Culture', 'Youth']);

@@ -29,6 +29,8 @@ export function isOfficialUrl(url: string): boolean {
 }
 
 const text = z.string().min(1);
+/** http(s) URL on an official domain; also keeps `javascript:` / `data:` URLs out of rendered hrefs. */
+const officialUrl = z.url().refine(isOfficialUrl, 'must be an http(s) URL on .gov.in / .nic.in');
 const id = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'must be kebab-case');
 const month = z.string().regex(MONTH_RE);
 
@@ -49,7 +51,7 @@ const ParaSchema = z.object({ en: z.number().int().min(1), hi: z.number().int().
 
 export const SourceSchema = z.union([
   z.object({ para: ParaSchema }),
-  z.object({ url: z.url() }),
+  z.object({ url: officialUrl }),
 ]);
 export type Source = z.infer<typeof SourceSchema>;
 
@@ -107,7 +109,7 @@ export const EpisodeSchema = z.object({
   title: LocalizedSchema,
   summary: LocalizedSchema,
   theme: z.object({ accent: z.enum(ACCENTS), motif: z.enum(MOTIFS) }),
-  sources: z.object({ en: z.url(), hi: z.url() }),
+  sources: z.object({ en: officialUrl, hi: officialUrl }),
   topics: z.array(TopicSchema),
   people: z.array(PersonSchema),
   places: z.array(PlaceSchema),
@@ -123,7 +125,7 @@ export const SchemeSchema = z
     eligibility: z.array(LocalizedSchema).default([]),
     steps: z.array(LocalizedSchema).default([]),
     documents: z.array(LocalizedSchema).default([]),
-    officialUrl: z.url().refine(isOfficialUrl, 'must be on .gov.in / .nic.in'),
+    officialUrl,
     helpline: z.string().min(1).optional(),
     audiences: z.array(z.enum(AUDIENCES)),
     /** `["all"]` or a list of state names. */
@@ -131,7 +133,7 @@ export const SchemeSchema = z
     checkedAt: z.iso.date().optional(),
     mentions: z.array(month).default([]),
     detailLevel: z.enum(['full', 'mention-only']),
-    detailSource: z.object({ url: z.url() }).optional(),
+    detailSource: z.object({ url: officialUrl }).optional(),
   })
   .superRefine((s, ctx) => {
     if (s.detailLevel !== 'full') return;

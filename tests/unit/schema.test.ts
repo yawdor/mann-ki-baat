@@ -94,3 +94,36 @@ describe('schema', () => {
     expect([...AUDIENCES]).toEqual(['farmers','women','students','senior-citizens','households','youth','health','business','workers','children']);
   });
 });
+
+describe('URL fields reject non-http(s) and non-official URLs', () => {
+  const bad = ['javascript:alert(1)', 'data:text/html,<b>x</b>', 'https://example.com/x'];
+
+  test.each(bad)('episode fact source %s', (url) => {
+    const ep = load('episodes/2026-09.json');
+    ep.topics[0].facts[0].source = { url };
+    expect(EpisodeSchema.safeParse(ep).success).toBe(false);
+  });
+
+  test.each(bad)('episode sources.en / sources.hi %s', (url) => {
+    for (const k of ['en', 'hi']) {
+      const ep = load('episodes/2026-09.json');
+      ep.sources[k] = url;
+      expect(EpisodeSchema.safeParse(ep).success, k).toBe(false);
+    }
+  });
+
+  test.each(bad)('scheme officialUrl and detailSource %s', (url) => {
+    const a = load('schemes/sample-mention.json');
+    a.officialUrl = url;
+    expect(SchemeSchema.safeParse(a).success).toBe(false);
+    const b = load('schemes/sample-mention.json');
+    b.detailSource = { url };
+    expect(SchemeSchema.safeParse(b).success).toBe(false);
+  });
+
+  test('official https URLs still parse', () => {
+    const ep = load('episodes/2026-09.json');
+    ep.topics[0].facts[0].source = { url: 'https://pib.gov.in/x' };
+    expect(EpisodeSchema.safeParse(ep).success).toBe(true);
+  });
+});
