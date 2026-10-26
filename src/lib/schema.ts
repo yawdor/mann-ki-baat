@@ -147,3 +147,20 @@ export const SchemeSchema = z
       need('detailSource', 'full scheme requires detailSource on an official domain');
   });
 export type Scheme = z.infer<typeof SchemeSchema>;
+
+/**
+ * Scheme files must be named `<id>.json` and ids must be unique. Takes `[fileName, id]` pairs in
+ * directory order and returns one message per problem (duplicates first).
+ */
+export function schemeFileIssues(files: [file: string, id: string][]): string[] {
+  const out: string[] = [];
+  const seen = new Map<string, string>();
+  for (const [file, id] of files) {
+    const first = seen.get(id);
+    if (first) out.push(`duplicate scheme id "${id}" in ${first} and ${file}`);
+    else seen.set(id, file);
+  }
+  for (const [file, id] of files)
+    if (file !== `${id}.json`) out.push(`scheme ${file}: file must be named ${id}.json`);
+  return out;
+}

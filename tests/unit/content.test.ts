@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { loadEpisodes, loadSchemes, deriveCounts, buildTrends } from '../../src/lib/content';
@@ -96,5 +96,24 @@ describe('i18n', () => {
     const ep = eps().find((e) => e.episode === 138)!;
     expect(completeLangs(ep, schemes())).toEqual(['en', 'hi', 'kn']);
     expect(MACHINE_LANGS).toContain('ta');
+  });
+});
+
+describe('scheme file names and ids', () => {
+  const pmKisan = () => JSON.parse(readFileSync('tests/fixtures/schemes/pm-kisan.json', 'utf8'));
+  const dirWith = (files: Record<string, unknown>) => {
+    const dir = mkdtempSync(join(tmpdir(), 'mkb-schemes-'));
+    for (const [f, v] of Object.entries(files)) writeFileSync(join(dir, f), JSON.stringify(v));
+    return dir;
+  };
+
+  test('loadSchemes throws on duplicate ids, naming both files', () => {
+    expect(() => loadSchemes(dirWith({ 'pm-kisan.json': pmKisan(), 'pm-kisan-copy.json': pmKisan() }))).toThrow(
+      /duplicate scheme id "pm-kisan".*pm-kisan-copy\.json.*pm-kisan\.json|duplicate scheme id "pm-kisan".*pm-kisan\.json.*pm-kisan-copy\.json/,
+    );
+  });
+
+  test('loadSchemes throws when a file name is not <id>.json', () => {
+    expect(() => loadSchemes(dirWith({ 'kisan.json': pmKisan() }))).toThrow(/kisan\.json.*must be named pm-kisan\.json/);
   });
 });

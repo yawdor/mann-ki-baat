@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
-  CATEGORIES, EpisodeSchema, SchemeSchema,
+  CATEGORIES, EpisodeSchema, SchemeSchema, schemeFileIssues,
   type Category, type Episode, type Scheme,
 } from './schema';
 import { referencedSchemes } from './langs';
@@ -32,8 +32,12 @@ export function loadEpisodes(dir = path.join(contentRoot(), 'episodes')): Episod
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
+/** Validated schemes keyed by id. Throws on an invalid file, a duplicate id or a file not named `<id>.json`. */
 export function loadSchemes(dir = path.join(contentRoot(), 'schemes')): Map<string, Scheme> {
-  return new Map(readDir(dir, (r) => SchemeSchema.parse(r)).map((x) => [x.value.id, x.value]));
+  const files = readDir(dir, (r) => SchemeSchema.parse(r));
+  const issues = schemeFileIssues(files.map((x) => [x.file, x.value.id]));
+  if (issues.length) throw new Error(`${dir}: ${issues.join('; ')}`);
+  return new Map(files.map((x) => [x.value.id, x.value]));
 }
 
 export function deriveCounts(ep: Episode, schemes: Map<string, Scheme>) {

@@ -275,3 +275,21 @@ describe('fix round 1', () => {
     expect(EpisodeSchema.safeParse(raw).success).toBe(false);
   });
 });
+
+describe('scheme file names and ids (schema check)', () => {
+  test('schemaCheck rejects a file whose name is not <id>.json', async () => {
+    const { schemaCheck } = await import('../../validators/checks/schema');
+    const r = schemaCheck(loadFx('episodes/2026-09'), new Map([['kisan.json', loadFx('schemes/pm-kisan')]]));
+    expect(r.ok).toBe(false);
+    expect(r.messages.join()).toContain('scheme kisan.json: file must be named pm-kisan.json');
+  });
+
+  test('runContentValidation errors on a misnamed duplicate scheme file', async () => {
+    const root = makeRoot({ scheme: ['pm-kisan-copy', loadFx('schemes/pm-kisan')] });
+    const report = await runContentValidation('2026-09', { root, fetch: ctxFor().fetch });
+    expect(report.ok).toBe(false);
+    const msgs = report.results.find((r) => r.check === 'schema')!.messages.join('\n');
+    expect(msgs).toContain('duplicate scheme id "pm-kisan" in pm-kisan-copy.json and pm-kisan.json');
+    expect(msgs).toContain('scheme pm-kisan-copy.json: file must be named pm-kisan.json');
+  });
+});
