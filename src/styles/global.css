@@ -38,7 +38,13 @@ h3 {
   outline-offset: 3px;
 }
 
-.bloom {
+/* Peacock would vanish on kumkum, peacock and dark surfaces: use haldi there. */
+.on-dark :focus-visible {
+  outline-color: var(--haldi);
+}
+
+/* Hidden only when JS is present (html.js), so content stays visible without JS. */
+html.js .bloom {
   opacity: 0;
   transform: translateY(var(--bloom-distance));
   transition:
@@ -46,7 +52,7 @@ h3 {
     transform var(--bloom-duration) ease-out;
 }
 
-.bloom.visible {
+html.js .bloom.visible {
   opacity: 1;
   transform: none;
 }
@@ -73,7 +79,7 @@ h3 {
     transition: none !important;
     scroll-behavior: auto !important;
   }
-  .bloom {
+  html.js .bloom {
     opacity: 1;
     transform: none;
   }

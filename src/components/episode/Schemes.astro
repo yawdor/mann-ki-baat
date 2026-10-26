@@ -1,0 +1,494 @@
+---
+import { LANG_META, pick, t, type Lang } from '../../lib/i18n';
+import { AUDIENCE_COLOURS, ROTATING, audienceLabel, host, longDate } from '../../lib/episode-view';
+import { AUDIENCES, type Localized, type Scheme } from '../../lib/schema';
+
+interface Props { schemes: Scheme[]; lang: Lang }
+const { schemes, lang } = Astro.props;
+const audiences = AUDIENCES.filter((a) => schemes.some((s) => s.audiences.includes(a)));
+const has = (b: Localized) => typeof b[lang] === 'string' && !!b[lang]!.trim();
+/** Machine-language pages fall back to English when a scheme lacks that language. */
+const inEnglish = (s: Scheme) => LANG_META[lang].machine && !(has(s.name) && has(s.gives));
+const searchText = (s: Scheme) =>
+  [
+    s.name.en, s.name.hi, pick(s.name, lang), s.gives.en, s.gives.hi, pick(s.gives, lang),
+    ...s.audiences.flatMap((a) => [a, audienceLabel('en', a), audienceLabel(lang, a)]),
+    ...s.states,
+  ].join(' ').toLowerCase();
+---
+<section id="schemes" class="wrap schemes">
+  <div class="head bloom">
+    <div>
+      <p class="eyebrow">{t(lang, 'schemesLabel')}</p>
+      <h2 class="section-title">{t(lang, 'schemesTitle')}</h2>
+      <p class="intro">{t(lang, 'schemesIntro')}</p>
+    </div>
+    <div class="finder needs-js">
+      <label for="scheme-search">{t(lang, 'searchLabel')}</label>
+      <div class="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--kumkum)" stroke-width="2.2" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></svg>
+        <input id="scheme-search" type="search" placeholder={t(lang, 'searchPlaceholder')} autocomplete="off" aria-controls="scheme-list" />
+      </div>
+      {audiences.length > 0 && (
+        <div class="aud" role="group" aria-label={t(lang, 'searchLabel')}>
+          {audiences.map((a) => (
+            <button type="button" data-audience={a} aria-pressed="false" style={`--chip: ${AUDIENCE_COLOURS[a]}`}>{audienceLabel(lang, a)}</button>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div id="scheme-list" class="list">
+    {schemes.map((s, i) => {
+      const en = inEnglish(s);
+      const l: Lang = en ? 'en' : lang;
+      const icon = (
+        <span class="icon" aria-hidden="true" style={`background: ${ROTATING[i % ROTATING.length]}`}>
+          <svg width="34" height="34" viewBox="-50 -50 100 100" focusable="false"><g fill="#FFFFFF">{[0, 60, 120, 180, 240, 300].map((a) => <ellipse cx="0" cy="-26" rx="9" ry="16" transform={`rotate(${a})`} />)}</g><circle r="9" fill="#F2B705" /></svg>
+        </span>
+      );
+      const titleBlock = (
+        <span class="title" lang={en ? 'en' : undefined}>
+          <span class="name">{pick(s.name, l)}</span>
+          <span class="gives">{pick(s.gives, l)}</span>
+        </span>
+      );
+      const tags = (
+        <span class="tags">
+          {en && <span class="en-note" lang={lang}>{t(lang, 'detailsInEnglish')}</span>}
+          {s.audiences.map((a) => <span class="tag">{audienceLabel(lang, a)}</span>)}
+        </span>
+      );
+      const attrs = {
+        id: `scheme-${s.id}`,
+        'data-scheme': s.id,
+        'data-search': searchText(s),
+        'data-audiences': s.audiences.join(' '),
+      };
+      return s.detailLevel === 'full' ? (
+        <article class="scheme bloom" {...attrs}>
+          <h3 class="h">
+            <button type="button" class="toggle" aria-expanded="false" aria-controls={`scheme-panel-${s.id}`}>
+              {icon}{titleBlock}
+              <span class="side">{tags}<span class="sign" aria-hidden="true"></span></span>
+            </button>
+          </h3>
+          <div class="panel" id={`scheme-panel-${s.id}`} hidden lang={en ? 'en' : undefined}>
+            <div>
+              <h4>{t(lang, 'whoCanApply')}</h4>
+              <ul class="who">
+                {s.eligibility.map((w) => (
+                  <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--mehendi)" stroke-width="2.6" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg><span>{pick(w, l)}</span></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4>{t(lang, 'howToApply')}</h4>
+              <ol class="steps">
+                {s.steps.map((st, n) => <li><span class="step-n" aria-hidden="true">{n + 1}</span><span>{pick(st, l)}</span></li>)}
+              </ol>
+            </div>
+            <div class="act">
+              <div>
+                <h4>{t(lang, 'keepReady')}</h4>
+                <p>{s.documents.map((d) => pick(d, l)).join(', ')}</p>
+              </div>
+              <a class="apply" href={s.officialUrl} rel="noopener">
+                {t(lang, 'ctaApply')} {host(s.officialUrl)}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8" /></svg>
+              </a>
+              <p class="meta" lang={lang}>
+                {s.helpline && <>{t(lang, 'helpline')}: <strong>{s.helpline}</strong> · </>}
+                {t(lang, 'checkedAgainst')} <time datetime={s.checkedAt}>{longDate(s.checkedAt!, lang)}</time>
+              </p>
+            </div>
+          </div>
+        </article>
+      ) : (
+        <article class="scheme mention bloom" {...attrs}>
+          <div class="row">
+            {icon}
+            <h3 class="h title-h">{titleBlock}</h3>
+            <span class="side">
+              {tags}
+              <a class="official" href={s.officialUrl} rel="noopener">
+                {t(lang, 'officialWebsite')}: {host(s.officialUrl)}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8" /></svg>
+              </a>
+            </span>
+          </div>
+        </article>
+      );
+    })}
+    <p class="empty" hidden>{t(lang, 'noSchemeMatch')}</p>
+  </div>
+</section>
+
+<style>
+  .schemes {
+    padding-top: 96px;
+    padding-bottom: 72px;
+  }
+  .head {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 28px;
+    align-items: end;
+    margin-bottom: 32px;
+  }
+  .head .section-title {
+    margin-bottom: 10px;
+  }
+  .intro {
+    margin: 0;
+    color: var(--text-soft);
+  }
+  .finder {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--chandan);
+    border-radius: var(--radius-card);
+    padding: 20px;
+  }
+  label {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--kumkum);
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border: 2px solid var(--line-haldi);
+    border-radius: var(--radius-button);
+    padding: 0 16px;
+    min-height: 54px;
+  }
+  .search:focus-within {
+    border-color: var(--peacock);
+  }
+  input {
+    flex: 1;
+    border: 0;
+    font: 17px var(--font-body);
+    background: transparent;
+    color: var(--text);
+    min-width: 0;
+    min-height: 50px;
+  }
+  input:focus-visible {
+    outline: none;
+  }
+  .aud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .aud button {
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--chip);
+    background: var(--chip);
+    color: var(--white);
+    font: 600 14px var(--font-body);
+    cursor: pointer;
+  }
+  .aud button[aria-pressed='true'] {
+    background: var(--white);
+    color: var(--chip);
+    box-shadow: inset 0 0 0 2px var(--chip);
+  }
+  .aud button[aria-pressed='true']::before {
+    content: '✓ ';
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .scheme {
+    background: var(--white);
+    border: 2px solid var(--line-card);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    scroll-margin-top: 24px;
+  }
+  .scheme[hidden] {
+    display: none;
+  }
+  .h {
+    margin: 0;
+    font: inherit;
+  }
+  .toggle,
+  .row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+    text-align: left;
+    border: 0;
+    background: var(--cream-card);
+    padding: 22px 26px;
+    font: inherit;
+    color: inherit;
+  }
+  .toggle {
+    cursor: pointer;
+  }
+  .icon {
+    flex: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 999px 999px 12px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .title {
+    flex: 999 1 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .title-h {
+    flex: 999 1 380px;
+    min-width: 0;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--text);
+  }
+  .gives {
+    color: var(--text-soft);
+    font-size: 17px;
+  }
+  .side {
+    flex: 1 1 200px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .tags {
+    display: contents;
+  }
+  .tag,
+  .en-note {
+    font-size: 14px;
+    font-weight: 600;
+    background: #FFE9B0;
+    color: #7A3A00;
+    border-radius: var(--radius-pill);
+    padding: 4px 12px;
+  }
+  .en-note {
+    background: #E3F0F5;
+    color: var(--peacock);
+  }
+  .sign {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    background: var(--kumkum);
+    color: var(--white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .sign::before {
+    content: '+';
+  }
+  .toggle[aria-expanded='true'] .sign::before {
+    content: '−';
+  }
+  .official {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: var(--radius-button);
+    border: 2px solid var(--kumkum);
+    color: var(--kumkum);
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  .official:hover {
+    background: var(--kumkum);
+    color: var(--white);
+  }
+  .panel {
+    border-top: 2px dashed var(--line-card);
+    padding: 28px 26px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 28px;
+  }
+  .panel[hidden] {
+    display: none;
+  }
+  /* Without JS the toggle cannot open the panel, so show it. */
+  :global(html:not(.js)) .panel[hidden] {
+    display: grid;
+  }
+  h4 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0E7A4B;
+  }
+  .who,
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .who li {
+    margin: 0 0 8px;
+    display: flex;
+    gap: 10px;
+    font-size: 17px;
+  }
+  .who svg {
+    flex: none;
+    margin-top: 3px;
+  }
+  .steps li {
+    margin: 0 0 10px;
+    display: flex;
+    gap: 12px;
+    font-size: 17px;
+  }
+  .step-n {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-pill);
+    background: #B35500;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .act {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .act p {
+    margin: 0;
+    font-size: 17px;
+  }
+  .apply {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 20px;
+    border-radius: var(--radius-button);
+    background: var(--kumkum);
+    color: var(--white);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 0 #4A0B1E;
+    overflow-wrap: anywhere;
+  }
+  .apply:hover {
+    color: var(--white);
+    background: #8E1A3C;
+  }
+  .act .meta {
+    font-size: 15px;
+    color: var(--text-soft);
+  }
+  .empty {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-soft);
+    background: var(--cream-card);
+    border-radius: var(--radius-card);
+  }
+  @media (max-width: 760px) {
+    .schemes {
+      padding-top: 32px;
+      padding-bottom: 8px;
+    }
+    .head {
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .finder {
+      padding: 0;
+      background: transparent;
+      gap: 8px;
+    }
+    label {
+      font-size: 15px;
+    }
+    .scheme {
+      border-radius: 20px;
+    }
+    .toggle,
+    .row {
+      padding: 18px;
+      gap: 12px 14px;
+      flex-wrap: wrap;
+    }
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px 999px 10px 10px;
+    }
+    .icon svg {
+      width: 28px;
+      height: 28px;
+    }
+    .title,
+    .title-h {
+      flex: 1 1 0;
+    }
+    .name {
+      font-size: 24px;
+    }
+    .gives {
+      font-size: 15px;
+    }
+    .side {
+      flex-basis: 100%;
+      justify-content: flex-start;
+    }
+    .sign {
+      margin-left: auto;
+    }
+    .panel {
+      padding: 18px;
+      gap: 16px;
+    }
+    .who li,
+    .steps li,
+    .act p {
+      font-size: 16px;
+    }
+    .act .meta {
+      font-size: 14px;
+    }
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import '../../styles/episode.css';
+import Base from '../../layouts/Base.astro';
+import BlockBand from '../ornaments/BlockBand.astro';
+import Header from './Header.astro';
+import MachineNotice from './MachineNotice.astro';
+import Hero from './Hero.astro';
+import Glance from './Glance.astro';
+import Topics from './Topics.astro';
+import Quote from './Quote.astro';
+import Schemes from './Schemes.astro';
+import People from './People.astro';
+import Places from './Places.astro';
+import EpisodeNav from './EpisodeNav.astro';
+import Footer from './Footer.astro';
+import { LANG_META, completeLangs, pick, t, type Lang } from '../../lib/i18n';
+import { referencedSchemes } from '../../lib/langs';
+import { monthOf, type EpisodePageProps } from '../../lib/episode-paths';
+
+type Props = EpisodePageProps;
+const { episode, schemes, lang, prev, next } = Astro.props;
+const month = monthOf(episode);
+const complete = completeLangs(episode, schemes);
+const langs: Lang[] = complete.length ? complete : ['en', 'hi'];
+const episodeSchemes = referencedSchemes(episode, schemes);
+const quote = episode.topics.find((tp) => tp.quote)?.quote;
+const title = `${pick(episode.title, lang)} · ${t(lang, 'siteName')}`;
+---
+<Base
+  lang={lang}
+  title={title}
+  description={pick(episode.summary, lang)}
+  path={`/${month}/`}
+  langs={langs}
+  accent={episode.theme.accent}
+>
+  <a class="skip-link" href="#main">{t(lang, 'ctaExplainer')} ↓</a>
+  <Header lang={lang} month={month} langs={langs} hasSchemes={episodeSchemes.length > 0} hasMap={episode.places.length > 0} />
+  {LANG_META[lang].machine && <MachineNotice lang={lang} />}
+  <main id="main">
+    <Hero episode={episode} lang={lang} hasSchemes={episodeSchemes.length > 0} />
+    <BlockBand variant="haldi" />
+    <Glance episode={episode} schemes={schemes} lang={lang} />
+    <Topics episode={episode} schemes={schemes} lang={lang} />
+    {quote && <Quote episode={episode} quote={quote} lang={lang} />}
+    {episodeSchemes.length > 0 && <Schemes schemes={episodeSchemes} lang={lang} />}
+    {episode.people.length > 0 && <People episode={episode} lang={lang} />}
+    {episode.places.length > 0 && <Places episode={episode} lang={lang} />}
+    <EpisodeNav lang={lang} prev={prev} next={next} />
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<script>
+  import '../../scripts/nav';
+  import '../../scripts/filter';
+  import '../../scripts/schemes';
+  import '../../scripts/motion';
+</script>

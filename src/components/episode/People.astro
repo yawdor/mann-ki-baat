@@ -1,0 +1,123 @@
+---
+import Ajrakh from '../ornaments/Ajrakh.astro';
+import { pick, t, type Lang } from '../../lib/i18n';
+import { ROTATING, initial } from '../../lib/episode-view';
+import type { Episode } from '../../lib/schema';
+
+interface Props { episode: Episode; lang: Lang }
+const { episode, lang } = Astro.props;
+const topics = new Map(episode.topics.map((tp) => [tp.id, tp]));
+---
+<section id="people" class="people on-dark" aria-labelledby="people-title">
+  <Ajrakh />
+  <div class="wrap inner">
+    <p class="eyebrow">{t(lang, 'peopleLabel')}</p>
+    <h2 class="section-title" id="people-title">{t(lang, 'peopleTitle')}</h2>
+    <div class="grid">
+      {episode.people.map((p, i) => {
+        const name = pick(p.name, lang);
+        const topic = topics.get(p.topicId);
+        return (
+          <article class="card bloom">
+            <span class="ini" aria-hidden="true" style={`background: ${ROTATING[i % ROTATING.length]}`}>{initial(name)}</span>
+            <h3>{name}</h3>
+            <span class="place">{pick(p.place, lang)}</span>
+            <p>{pick(p.story, lang)}</p>
+            {topic && <a class="topic" href={`#topic-${topic.id}`}>{pick(topic.title, lang)}</a>}
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .people {
+    background: var(--maroon-deep);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .inner {
+    position: relative;
+    padding-top: 88px;
+    padding-bottom: 88px;
+  }
+  .section-title {
+    margin-bottom: 36px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 380px));
+    justify-content: center;
+    gap: 32px;
+    padding: 11px;
+  }
+  .card {
+    border-radius: 999px 999px 24px 24px;
+    padding: 40px 28px 30px;
+    background: #FFF8EC;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    box-shadow: 0 0 0 6px var(--haldi), 0 0 0 9px var(--maroon-deep), 0 0 0 11px var(--marigold);
+  }
+  .ini {
+    width: 96px;
+    height: 96px;
+    border-radius: var(--radius-pill);
+    border: 4px solid var(--haldi);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 38px;
+    color: var(--white);
+  }
+  h3 {
+    margin: 0;
+    font-size: 23px;
+  }
+  .place {
+    font-size: 15px;
+    font-weight: 600;
+    color: #A44A00;
+  }
+  p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 17px;
+  }
+  .topic {
+    font-size: 14px;
+    font-weight: 600;
+    background: #FFE9B0;
+    color: #7A3A00;
+    border-radius: var(--radius-pill);
+    padding: 4px 14px;
+    text-decoration: none;
+  }
+  .topic:hover {
+    background: var(--haldi);
+    color: var(--text);
+  }
+  /* Cards are on a light surface: peacock focus ring again. */
+  .people .card :focus-visible {
+    outline-color: var(--peacock);
+  }
+  @media (max-width: 760px) {
+    .inner {
+      padding-top: 40px;
+      padding-bottom: 48px;
+    }
+    .section-title {
+      margin-bottom: 20px;
+    }
+    .card {
+      padding: 32px 20px 24px;
+    }
+  }
+</style>

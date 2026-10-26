@@ -1,0 +1,188 @@
+---
+import { pick, t, type Lang, type UiKey } from '../../lib/i18n';
+import { deriveCounts } from '../../lib/content';
+import type { Episode, Scheme } from '../../lib/schema';
+
+interface Props { episode: Episode; schemes: Map<string, Scheme>; lang: Lang }
+const { episode, schemes, lang } = Astro.props;
+const counts = deriveCounts(episode, schemes);
+const tiles: { n: number; key: UiKey; bg: string; fg: string }[] = [
+  { n: counts.topics, key: 'countTopics', bg: 'var(--haldi)', fg: 'var(--text)' },
+  { n: counts.schemes, key: 'countSchemes', bg: 'var(--mehendi)', fg: 'var(--white)' },
+  { n: counts.people, key: 'countPeople', bg: 'var(--peacock)', fg: 'var(--white)' },
+  { n: counts.states, key: 'countStates', bg: 'var(--gulabi)', fg: 'var(--white)' },
+].filter((x) => x.n > 0);
+---
+<section id="glance" class="wrap glance">
+  <div class="grid bloom">
+    <div>
+      <p class="eyebrow">{t(lang, 'glanceLabel')}</p>
+      <h2 class="section-title">{t(lang, 'glanceTitle')}</h2>
+      <ol class="topic-list">
+        {episode.topics.map((tp, i) => (
+          <li><a href={`#topic-${tp.id}`}><span class="n" aria-hidden="true">{i + 1}</span>{pick(tp.title, lang)}</a></li>
+        ))}
+      </ol>
+    </div>
+    <ul class="tiles" style={`--cols: ${tiles.length}`}>
+      {tiles.map((s) => (
+        <li class="tile" style={`background: ${s.bg}; color: ${s.fg}`}>
+          <span class="tile-n" data-countup={s.n}>{s.n}</span>
+          <span class="tile-label">{t(lang, s.key)}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {episode.stats.length > 0 && (
+    <div class="numbers bloom">
+      <h3>{t(lang, 'numbersLabel')}</h3>
+      <ul>
+        {episode.stats.map((s) => (
+          <li>
+            <span class="value">{s.value}</span>
+            <span class="label">{pick(s.label, lang)}</span>
+            <span class="context">{pick(s.context, lang)}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</section>
+
+<style>
+  .glance {
+    padding-top: 80px;
+    padding-bottom: 72px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 56px;
+    align-items: center;
+  }
+  .topic-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--text-soft);
+    font-size: 19px;
+  }
+  .topic-list a {
+    display: inline-flex;
+    gap: 12px;
+    align-items: baseline;
+    color: inherit;
+    text-decoration: none;
+    padding: 4px 0;
+  }
+  .topic-list a:hover {
+    color: var(--kumkum);
+    text-decoration: underline;
+  }
+  .topic-list .n {
+    flex: none;
+    font-family: var(--font-display);
+    color: var(--marigold);
+    min-width: 1.4em;
+  }
+  .tiles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+    gap: 14px;
+  }
+  .tile {
+    border-radius: var(--radius-arch);
+    padding: 44px 10px 24px;
+    text-align: center;
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .tile-n {
+    font-family: var(--font-display);
+    font-size: 50px;
+    line-height: 1;
+  }
+  .tile-label {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .numbers {
+    margin-top: 48px;
+    background: var(--chandan);
+    border-radius: var(--radius-card);
+    padding: 24px 26px;
+  }
+  .numbers h3 {
+    margin: 0 0 14px;
+    font-size: 24px;
+    color: var(--kumkum);
+  }
+  .numbers ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 18px;
+  }
+  .numbers li {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+  }
+  .value {
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.1;
+    color: var(--kumkum);
+  }
+  .label {
+    font-weight: 700;
+  }
+  .context {
+    font-size: 15px;
+    color: var(--text-soft);
+  }
+  @media (max-width: 760px) {
+    .glance {
+      padding-top: 32px;
+      padding-bottom: 12px;
+    }
+    .grid {
+      gap: 20px;
+    }
+    .topic-list {
+      font-size: 17px;
+    }
+    .tiles {
+      gap: 8px;
+    }
+    .tile {
+      border-radius: 999px 999px 12px 12px;
+      padding: 24px 4px 12px;
+      box-shadow: none;
+    }
+    .tile-n {
+      font-size: 28px;
+    }
+    .tile-label {
+      margin-top: 4px;
+      font-size: 13px;
+    }
+    .numbers {
+      margin-top: 24px;
+      padding: 18px;
+    }
+  }
+</style>

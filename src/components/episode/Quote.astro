@@ -1,0 +1,105 @@
+---
+import Paisley from '../ornaments/Paisley.astro';
+import { LANG_META, pick, t, type Lang } from '../../lib/i18n';
+import { host } from '../../lib/episode-view';
+import type { Episode, Topic } from '../../lib/schema';
+
+interface Props { episode: Episode; quote: NonNullable<Topic['quote']>; lang: Lang }
+const { episode, quote, lang } = Astro.props;
+const machine = LANG_META[lang].machine;
+// Machine-language pages quote the official Hindi original verbatim.
+const srcLang: 'en' | 'hi' = lang === 'en' ? 'en' : 'hi';
+const original = quote.text[srcLang];
+const para = quote.para[srcLang];
+const source = episode.sources[srcLang];
+---
+<section class="quote-section on-dark" aria-label={t(lang, 'quoteTranscript')}>
+  <Paisley corner="tl" />
+  <Paisley corner="br" />
+  <figure class="quote bloom">
+    {machine && <p class="original-label">{t(lang, 'quoteOriginal')}</p>}
+    <blockquote lang={srcLang} cite={source}><p>“{original}”</p></blockquote>
+    {machine && (
+      <p class="translation" lang={lang}>
+        <span class="tr-label">{t(lang, 'quoteTranslation')}</span>
+        <span class="tr-text">{pick(quote.text, lang)}</span>
+      </p>
+    )}
+    <figcaption>
+      {t(lang, 'quoteEpisode')} {episode.episode} ·
+      <a href={source} rel="noopener">{t(lang, 'quoteTranscript')}</a>, {t(lang, 'quoteParagraph')} {para} ·
+      <a href={source} rel="noopener">{host(source)}</a>
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .quote-section {
+    background: var(--peacock);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .quote {
+    position: relative;
+    margin: 0 auto;
+    max-width: 980px;
+    padding: 96px var(--space-gutter);
+    text-align: center;
+  }
+  blockquote {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.3;
+  }
+  blockquote p {
+    margin: 0;
+  }
+  /* The Hindi original on machine-language pages uses the Devanagari display face. */
+  blockquote:lang(hi) {
+    font-family: 'Rozha One', serif;
+  }
+  .original-label,
+  .tr-label {
+    display: block;
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--haldi);
+  }
+  .translation {
+    margin: 26px auto 0;
+    max-width: 760px;
+    padding-top: 20px;
+    border-top: 2px dotted rgba(242, 183, 5, 0.6);
+    font-size: 22px;
+    line-height: 1.5;
+    color: #E6F3F8;
+  }
+  figcaption {
+    margin-top: 26px;
+    font-size: 16px;
+    color: #CFE6EF;
+  }
+  figcaption a {
+    color: var(--haldi);
+  }
+  figcaption a:hover {
+    color: var(--white);
+  }
+  @media (max-width: 760px) {
+    .quote {
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+    blockquote {
+      font-size: 28px;
+    }
+    .translation {
+      font-size: 18px;
+    }
+  }
+</style>

@@ -1,0 +1,376 @@
+---
+import { LANG_META, localePath, t, type Lang } from '../../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  month: string;
+  /** Complete languages of this episode. */
+  langs: Lang[];
+  hasSchemes: boolean;
+  hasMap: boolean;
+}
+
+const { lang, month, langs, hasSchemes, hasMap } = Astro.props;
+const href = (l: Lang) => localePath(l, `/${month}/`);
+const machine = langs.filter((l) => LANG_META[l].machine);
+const site = t(lang, 'siteName');
+// "Mann Ki Baat Explained": the last word in marigold, as on the canvas.
+const split = lang === 'en' ? site.lastIndexOf(' ') : -1;
+const brandA = split > 0 ? site.slice(0, split) : site;
+const brandB = split > 0 ? site.slice(split + 1) : '';
+const subLang: Lang = lang === 'en' ? 'hi' : lang;
+const nav = [
+  { href: '#glance', label: t(lang, 'navGlance') },
+  { href: '#topics', label: t(lang, 'navTopics') },
+  ...(hasSchemes ? [{ href: '#schemes', label: t(lang, 'navSchemes') }] : []),
+  ...(hasMap ? [{ href: '#map', label: t(lang, 'navMap') }] : []),
+  { href: localePath(lang, '/'), label: t(lang, 'navArchive') },
+];
+const pill = [
+  { l: 'en' as Lang, label: 'English' },
+  { l: 'hi' as Lang, label: 'हिंदी' },
+].filter((p) => langs.includes(p.l));
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={localePath(lang, '/')}>
+      <svg width="46" height="46" viewBox="-50 -50 100 100" aria-hidden="true" focusable="false">
+        <g fill="var(--marigold)">
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => <ellipse cx="0" cy="-30" rx="9" ry="17" transform={`rotate(${a})`} />)}
+        </g>
+        <circle r="22" fill="var(--kumkum)" /><circle r="13" fill="var(--haldi)" /><circle r="5" fill="var(--kumkum)" />
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">{brandA}{brandB && <> <span class="brand-accent">{brandB}</span></>}</span>
+        <span class="brand-tag" lang={subLang}>{t(subLang, 'tagline')}</span>
+      </span>
+    </a>
+
+    <button type="button" class="menu-toggle needs-js" aria-expanded="false" aria-controls="site-nav">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+      <span class="visually-hidden">{t(lang, 'menu')}</span>
+    </button>
+
+    <nav id="site-nav" class="nav" aria-label={t(lang, 'menu')}>
+      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+    </nav>
+
+    <div class="lang-switch">
+      <div class="pill" role="group" aria-label={t(lang, 'language')}>
+        {pill.map((p) => (
+          <a
+            href={href(p.l)}
+            hreflang={p.l}
+            lang={p.l}
+            data-keep-hash
+            aria-current={p.l === lang ? 'page' : undefined}
+            class:list={['pill-btn', { on: p.l === lang }]}
+          >{p.label}</a>
+        ))}
+      </div>
+      <details class="more">
+        <summary>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" /></svg>
+          <span>{LANG_META[lang].machine ? LANG_META[lang].nativeName : t(lang, 'moreLanguages')}</span>
+        </summary>
+        <div class="more-panel">
+          {machine.length > 0 && (
+            <ul>
+              {machine.map((l) => (
+                <li>
+                  <a href={href(l)} hreflang={l} lang={l} data-keep-hash aria-current={l === lang ? 'page' : undefined}>
+                    {LANG_META[l].nativeName}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          <div class="other">
+            <strong>{t(lang, 'otherLanguages')}</strong>
+            <p>{t(lang, 'translateGuide')}</p>
+            <p class="small">{t(lang, 'machineNotice')}</p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--white);
+    position: relative;
+    z-index: 20;
+  }
+  .bar {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--kumkum);
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 26px;
+  }
+  .brand-accent {
+    /* Darker than marigold so the large brand text keeps 3:1 contrast on white. */
+    color: #C25E00;
+  }
+  .brand-tag {
+    font-size: 14px;
+    color: #6B4A2E;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 22px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .nav a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 10px 0;
+  }
+  .nav a:hover {
+    color: var(--kumkum);
+  }
+  .menu-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: 2px solid var(--haldi);
+    border-radius: 12px;
+    background: #FFF8E1;
+    color: var(--kumkum);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pill {
+    display: flex;
+    border: 2px solid var(--haldi);
+    border-radius: var(--radius-pill);
+    padding: 3px;
+    background: #FFF8E1;
+  }
+  .pill-btn {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-pill);
+    padding: 6px 16px;
+    min-height: 40px;
+    color: var(--kumkum);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .pill-btn.on {
+    background: var(--kumkum);
+    color: var(--white);
+  }
+  .more {
+    position: relative;
+  }
+  .more summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--peacock);
+    background: var(--white);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    min-height: 44px;
+    color: var(--peacock);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .more summary::-webkit-details-marker {
+    display: none;
+  }
+  .more-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    width: min(320px, calc(100vw - 32px));
+    background: var(--white);
+    color: var(--text);
+    border: 2px solid var(--line-card);
+    border-radius: 18px;
+    box-shadow: 0 12px 28px rgba(122, 20, 49, 0.18);
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+  .more-panel ul {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0 0 12px;
+    border-bottom: 2px dotted var(--line-haldi);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .more-panel li a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: var(--radius-pill);
+    background: #FFF8E1;
+    color: var(--kumkum);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .more-panel li a[aria-current] {
+    background: var(--kumkum);
+    color: var(--white);
+  }
+  .other p {
+    margin: 4px 0 0;
+    line-height: 1.45;
+  }
+  .other .small {
+    font-size: 14px;
+    color: var(--text-soft);
+  }
+
+  @media (max-width: 760px) {
+    .bar {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      flex-wrap: nowrap;
+    }
+    .brand {
+      gap: 10px;
+      min-width: 0;
+    }
+    .brand svg {
+      width: 38px;
+      height: 38px;
+      flex: none;
+    }
+    .brand-name {
+      font-size: 21px;
+    }
+    .brand-tag {
+      display: none;
+    }
+    .menu-toggle {
+      display: inline-flex;
+      flex: none;
+    }
+    /* With JS the nav collapses behind the menu button; without JS it stays visible below the bar. */
+    .nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      flex-direction: column;
+      gap: 0;
+      background: var(--white);
+      border-bottom: 3px solid var(--haldi);
+      padding: 4px 16px 12px;
+      box-shadow: 0 12px 24px rgba(122, 20, 49, 0.12);
+    }
+    :global(html.js) .nav:not(.open) {
+      display: none;
+    }
+    :global(html:not(.js)) .bar {
+      flex-wrap: wrap;
+    }
+    :global(html:not(.js)) .nav {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0 18px;
+      box-shadow: none;
+      border: 0;
+      padding: 0;
+      width: 100%;
+    }
+    .nav a {
+      padding: 12px 0;
+    }
+    /* Language switch becomes the fixed bottom bar (Mobile board). */
+    .lang-switch {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 16px;
+      z-index: 40;
+      gap: 6px;
+      background: var(--kumkum);
+      border: 3px solid var(--haldi);
+      border-radius: var(--radius-pill);
+      padding: 5px;
+      box-shadow: 0 8px 24px rgba(122, 20, 49, 0.35);
+    }
+    .lang-switch :focus-visible {
+      outline-color: var(--haldi);
+    }
+    .lang-switch .more-panel :focus-visible {
+      outline-color: var(--peacock);
+    }
+    .pill {
+      flex: 2;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      gap: 6px;
+    }
+    .pill-btn {
+      flex: 1;
+      justify-content: center;
+      min-height: 44px;
+      color: var(--white);
+      padding: 0 8px;
+    }
+    .pill-btn.on {
+      background: var(--haldi);
+      color: var(--text);
+    }
+    .more {
+      flex: 1;
+      position: static;
+    }
+    .more summary {
+      justify-content: center;
+      border: 0;
+      background: transparent;
+      color: var(--white);
+      min-height: 44px;
+      padding: 0 8px;
+    }
+    .more-panel {
+      top: auto;
+      bottom: calc(100% + 10px);
+      left: 0;
+      right: 0;
+      width: auto;
+    }
+  }
+</style>

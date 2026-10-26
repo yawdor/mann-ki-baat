@@ -1,0 +1,72 @@
+---
+import { t, type Lang } from '../../lib/i18n';
+import type { EpisodeLink } from '../../lib/episode-paths';
+
+interface Props { lang: Lang; prev?: EpisodeLink; next?: EpisodeLink }
+const { lang, prev, next } = Astro.props;
+---
+{(prev || next) && (
+  <nav class="wrap episode-nav" aria-label={t(lang, 'navAll')}>
+    {prev ? (
+      <a class="prev" rel="prev" href={prev.href} hreflang={prev.lang}>
+        <span class="dir">← {t(lang, 'prevEpisode')}</span>
+        <span class="title" lang={prev.lang}>{prev.title}</span>
+      </a>
+    ) : <span />}
+    {next && (
+      <a class="next" rel="next" href={next.href} hreflang={next.lang}>
+        <span class="dir">{t(lang, 'nextEpisode')} →</span>
+        <span class="title" lang={next.lang}>{next.title}</span>
+      </a>
+    )}
+  </nav>
+)}
+
+<style>
+  .episode-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 16px;
+    padding-top: 24px;
+    padding-bottom: 64px;
+  }
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 22px;
+    border-radius: var(--radius-card);
+    border: 2px solid var(--line-card);
+    background: var(--cream-card);
+    text-decoration: none;
+    color: var(--text);
+  }
+  a:hover {
+    border-color: var(--kumkum);
+    color: var(--text);
+  }
+  .next {
+    text-align: right;
+  }
+  .dir {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--kumkum);
+  }
+  @media (max-width: 760px) {
+    .episode-nav {
+      padding-bottom: 40px;
+    }
+    .next {
+      text-align: left;
+    }
+  }
+</style>

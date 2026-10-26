@@ -1,0 +1,293 @@
+---
+import Kolam from '../ornaments/Kolam.astro';
+import { pick, t, type Lang } from '../../lib/i18n';
+import { CATEGORY_COLOURS, categoryLabel } from '../../lib/episode-view';
+import { CATEGORIES, type Episode, type Scheme } from '../../lib/schema';
+
+interface Props { episode: Episode; schemes: Map<string, Scheme>; lang: Lang }
+const { episode, schemes, lang } = Astro.props;
+const present = CATEGORIES.filter((c) => episode.topics.some((tp) => tp.category === c));
+---
+<section id="topics" class="topics">
+  <Kolam tone="haldi" />
+  <div class="wrap inner">
+    <div class="head bloom">
+      <div>
+        <p class="eyebrow">{t(lang, 'topicsLabel')}</p>
+        <h2 class="section-title">{t(lang, 'topicsTitle')}</h2>
+      </div>
+      <div class="chips needs-js" role="group" aria-label={t(lang, 'filterTopics')}>
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">{t(lang, 'filterAll')}</button>
+        {present.map((c) => (
+          <button type="button" class="chip" data-filter={c} aria-pressed="false">{categoryLabel(lang, c)}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="cards">
+      {episode.topics.map((tp, i) => {
+        const linked = tp.schemeIds.map((id) => schemes.get(id)).filter((s): s is Scheme => !!s);
+        return (
+          <article class="card bloom" id={`topic-${tp.id}`} data-topic={tp.id} data-category={tp.category}>
+            <div class="band" style={`background: ${CATEGORY_COLOURS[tp.category]}`}>
+              <span class="cat">{categoryLabel(lang, tp.category)}</span>
+              <svg class="motif" width="64" height="64" viewBox="-50 -50 100 100" aria-hidden="true" focusable="false">
+                <g fill="none" stroke="#FFFFFF" stroke-width="3">
+                  <path d="M0 -38 C14 -22 14 0 0 14 C-14 0 -14 -22 0 -38Z" />
+                  <path d="M-38 -12 C-18 -14 -4 -2 0 14 C-18 16 -32 6 -38 -12Z" />
+                  <path d="M38 -12 C18 -14 4 -2 0 14 C18 16 32 6 38 -12Z" />
+                  <path d="M-40 24 Q0 40 40 24" />
+                </g>
+              </svg>
+              <span class="num" aria-hidden="true">{i + 1}</span>
+            </div>
+            <div class="body">
+              <h3>{pick(tp.title, lang)}</h3>
+              <p class="explainer">{pick(tp.explainer, lang)}</p>
+              {tp.facts.length > 0 && (
+                <div class="facts">
+                  <span class="facts-label">{t(lang, 'keyFacts')}</span>
+                  <ul>
+                    {tp.facts.map((f) => (
+                      <li>
+                        {pick(f.text, lang)}
+                        {'url' in f.source && (
+                          <> <a href={f.source.url} rel="noopener" class="src">↗<span class="visually-hidden">{t(lang, 'officialSources')}</span></a></>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {linked.length > 0 && (
+                <ul class="scheme-links">
+                  {linked.map((s) => (
+                    <li><a href={`#scheme-${s.id}`}>{t(lang, 'schemesLabel')}: {pick(s.name, lang)} ↓</a></li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .topics {
+    background: var(--chandan);
+    position: relative;
+    overflow: hidden;
+  }
+  .inner {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: 18px;
+    margin-bottom: 32px;
+  }
+  .head .section-title {
+    margin: 0;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--line-haldi);
+    background: var(--white);
+    color: var(--kumkum);
+    font: 600 15px var(--font-body);
+    cursor: pointer;
+  }
+  .chip[aria-pressed='true'] {
+    border-color: var(--kumkum);
+    background: var(--kumkum);
+    color: var(--white);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr));
+    gap: 22px;
+  }
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 0 var(--line-haldi), 0 12px 28px rgba(122, 20, 49, 0.08);
+    scroll-margin-top: 24px;
+  }
+  .card[hidden] {
+    display: none;
+  }
+  .band {
+    height: 92px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+  }
+  .cat {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: var(--radius-pill);
+    padding: 4px 14px;
+  }
+  .num {
+    position: absolute;
+    left: 24px;
+    bottom: -22px;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    background: var(--haldi);
+    color: var(--text);
+    border: 3px solid var(--white);
+    font-family: var(--font-display);
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .body {
+    padding: 34px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+  h3 {
+    margin: 0;
+    font-size: 25px;
+    color: var(--text);
+  }
+  .explainer {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 17px;
+  }
+  .facts {
+    border-top: 2px dotted var(--line-haldi);
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 16px;
+  }
+  .facts-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+  .facts ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .facts li::before {
+    content: '✿ ';
+    color: var(--marigold);
+  }
+  .src {
+    text-decoration: none;
+  }
+  .scheme-links {
+    list-style: none;
+    margin: auto 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .scheme-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 4px 14px;
+    border-radius: var(--radius-pill);
+    background: #FFE9B0;
+    color: #7A3A00;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .scheme-links a:hover {
+    background: var(--haldi);
+    color: var(--text);
+  }
+  @media (max-width: 760px) {
+    .inner {
+      padding-top: 32px;
+      padding-bottom: 28px;
+    }
+    .head {
+      margin-bottom: 18px;
+      gap: 14px;
+    }
+    /* One scrolling row of chips, as on the Mobile board. */
+    .chips {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      width: 100%;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .chip {
+      flex: none;
+      min-height: 42px;
+      padding: 0 16px;
+    }
+    .cards {
+      gap: 14px;
+    }
+    .card {
+      border-radius: 20px;
+      box-shadow: 0 2px 0 var(--line-haldi);
+    }
+    .band {
+      height: 64px;
+      padding: 0 18px;
+    }
+    .cat {
+      font-size: 12px;
+      padding: 3px 12px;
+    }
+    .motif,
+    .num {
+      display: none;
+    }
+    .body {
+      padding: 18px;
+      gap: 8px;
+    }
+    h3 {
+      font-size: 23px;
+    }
+    .explainer {
+      font-size: 16px;
+    }
+  }
+</style>

@@ -1,0 +1,189 @@
+---
+import Toran from '../ornaments/Toran.astro';
+import Mandala from '../ornaments/Mandala.astro';
+import Ajrakh from '../ornaments/Ajrakh.astro';
+import { pick, t, type Lang } from '../../lib/i18n';
+import { longDate } from '../../lib/episode-view';
+import type { Episode } from '../../lib/schema';
+
+interface Props { episode: Episode; lang: Lang; hasSchemes: boolean }
+const { episode, lang, hasSchemes } = Astro.props;
+const transcript = lang === 'en' ? episode.sources.en : episode.sources.hi;
+---
+<section id="top" class="hero on-dark">
+  <Ajrakh />
+  <div class="toran"><Toran /></div>
+  <div class="mandala"><Mandala size={620} motif={episode.theme.motif} spin /></div>
+  <div class="wrap content">
+    <p class="dateline">
+      <span>{t(lang, 'episode')} {episode.episode}</span>
+      <span aria-hidden="true">·</span>
+      <time datetime={episode.date}>{longDate(episode.date, lang, true)}</time>
+    </p>
+    <h1>{pick(episode.title, lang)}</h1>
+    <p class="dek">{pick(episode.summary, lang)}</p>
+    <div class="ctas">
+      <a class="cta primary" href={hasSchemes ? '#schemes' : '#topics'}>
+        {hasSchemes ? t(lang, 'ctaSchemes') : t(lang, 'ctaExplainer')}
+      </a>
+      <a class="cta secondary" href={transcript} rel="noopener">
+        {t(lang, 'ctaTranscript')}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" focusable="false"><path d="M7 17L17 7M9 7h8v8" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--kumkum);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .toran {
+    position: relative;
+    transform-origin: 50% 0;
+    animation: sway 6s ease-in-out infinite alternate;
+  }
+  @keyframes sway {
+    from { transform: translateX(-4px); }
+    to { transform: translateX(4px); }
+  }
+  .mandala {
+    position: absolute;
+    right: -110px;
+    top: 40px;
+    width: 620px;
+    height: 620px;
+    border-radius: 50%;
+    /* Monthly accent glows behind the mandala. */
+    box-shadow: 0 0 120px 10px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  .mandala :global(svg) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .content {
+    position: relative;
+    padding-top: 48px;
+    padding-bottom: 104px;
+  }
+  .dateline {
+    margin: 0 0 18px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    background: var(--haldi);
+    color: var(--text);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    padding: 6px 18px;
+  }
+  h1 {
+    margin: 0;
+    max-width: 720px;
+    font-size: 80px;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  .dek {
+    margin: 26px 0 0;
+    max-width: 600px;
+    font-size: 22px;
+    line-height: 1.5;
+    color: #FFE7EC;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 54px;
+    padding: 0 28px;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    font-size: 18px;
+    text-decoration: none;
+  }
+  .primary {
+    background: var(--haldi);
+    color: var(--text);
+    box-shadow: 0 4px 0 #B88700;
+  }
+  .primary:hover {
+    color: var(--text);
+    background: #FFC928;
+  }
+  .secondary {
+    border: 2px solid var(--haldi);
+    color: var(--white);
+    font-weight: 600;
+  }
+  .secondary:hover {
+    color: var(--haldi);
+  }
+  /* Keep the headline readable where it overlaps the mandala. */
+  @media (max-width: 1100px) {
+    .mandala {
+      opacity: 0.55;
+    }
+  }
+  @media (max-width: 760px) {
+    .hero {
+      padding-bottom: 40px;
+    }
+    .toran :global(svg) {
+      height: 62px;
+    }
+    .mandala {
+      width: 280px;
+      height: 280px;
+      right: -120px;
+      top: 70px;
+      opacity: 1;
+      box-shadow: none;
+    }
+    .content {
+      padding-top: 20px;
+      padding-bottom: 0;
+    }
+    .dateline {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      padding: 4px 14px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      max-width: 300px;
+      font-size: 42px;
+      line-height: 1.05;
+    }
+    .dek {
+      margin-top: 16px;
+      max-width: 290px;
+      font-size: 18px;
+    }
+    .ctas {
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .cta {
+      min-height: 52px;
+      width: 100%;
+      font-size: 17px;
+    }
+  }
+</style>

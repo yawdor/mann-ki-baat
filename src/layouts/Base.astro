@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import { googleFontsHref } from '../lib/fonts';
+import { localePath, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Path below the base, identical in every language, e.g. "/2026-09/". */
+  path: string;
+  /** Languages this page exists in (for canonical + hreflang alternates). */
+  langs: Lang[];
+  accent?: string;
+  ogType?: 'article' | 'website';
+}
+
+const { lang, title, description, path, langs, accent, ogType = 'article' } = Astro.props;
+const site = Astro.site ?? new URL('https://yawdor.github.io');
+const abs = (l: Lang) => new URL(localePath(l, path), site).href;
+const fonts = googleFontsHref(lang);
+---
+<!doctype html>
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={abs(lang)} />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content={`${lang}_IN`} />
+    <meta property="og:url" content={abs(lang)} />
+    <meta name="theme-color" content="#7A1431" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fonts} />
+  </head>
+  <body style={accent ? `--accent: ${accent}` : undefined}>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,80 @@
+---
+import BlockBand from '../ornaments/BlockBand.astro';
+import { t, type Lang } from '../../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const sources = [
+  { href: 'https://www.pib.gov.in/', label: 'Press Information Bureau' },
+  { href: 'https://www.pmindia.gov.in/', label: 'pmindia.gov.in' },
+  { href: 'https://www.myscheme.gov.in/', label: 'myScheme.gov.in' },
+];
+---
+<BlockBand variant="kumkum" />
+<footer class="site-footer on-dark">
+  <div class="wrap inner">
+    <div class="about">
+      <span class="brand">{t(lang, 'siteName')}</span>
+      <p>{t(lang, 'footerDisclaimer')}</p>
+    </div>
+    <div class="sources">
+      <span class="h">{t(lang, 'officialSources')}</span>
+      {sources.map((s) => <a href={s.href} rel="noopener" lang="en">{s.label}</a>)}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--text);
+    color: #F3DFC6;
+  }
+  .inner {
+    padding-top: 56px;
+    padding-bottom: 56px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: space-between;
+  }
+  .about {
+    flex: 1 1 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-size: 26px;
+    color: var(--haldi);
+  }
+  p {
+    margin: 0;
+    font-size: 16px;
+  }
+  .sources {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+  }
+  .h {
+    color: var(--white);
+    font-weight: 700;
+  }
+  a {
+    color: var(--haldi);
+  }
+  a:hover {
+    color: var(--white);
+  }
+  @media (max-width: 760px) {
+    .inner {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .about {
+      flex-basis: 100%;
+    }
+  }
+</style>

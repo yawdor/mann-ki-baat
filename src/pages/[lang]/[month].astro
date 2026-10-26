@@ -1,0 +1,11 @@
+---
+import EpisodePage from '../../components/episode/EpisodePage.astro';
+import { langPaths, type EpisodePageProps } from '../../lib/episode-paths';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+type Props = EpisodePageProps;
+---
+<EpisodePage {...Astro.props} />

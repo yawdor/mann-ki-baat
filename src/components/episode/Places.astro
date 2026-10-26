@@ -1,0 +1,105 @@
+---
+import { pick, t, type Lang } from '../../lib/i18n';
+import type { Episode } from '../../lib/schema';
+
+interface Props { episode: Episode; lang: Lang }
+const { episode, lang } = Astro.props;
+const topics = new Map(episode.topics.map((tp) => [tp.id, tp]));
+---
+<section id="map" class="wrap places">
+  <p class="eyebrow">{t(lang, 'mapLabel')}</p>
+  <h2 class="section-title">{t(lang, 'mapTitle')}</h2>
+  {/* Task 8 adds the India map (PlacesMap) beside this list; the list stays as its accessible alternative. */}
+  <div class="layout bloom">
+    <ol class="list">
+      {episode.places.map((pl, i) => {
+        const topic = topics.get(pl.topicId);
+        return (
+          <li data-place={pl.id}>
+            <span class="n" aria-hidden="true">{i + 1}</span>
+            <span class="text">
+              <span class="name">{pick(pl.name, lang)}{lang === 'en' && <span class="state">, {pl.state}</span>}</span>
+              {topic && <a href={`#topic-${topic.id}`}>{pick(topic.title, lang)}</a>}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .places {
+    padding-top: 96px;
+    padding-bottom: 72px;
+  }
+  .section-title {
+    margin-bottom: 32px;
+  }
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .list {
+    flex: 1 1 300px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 12px;
+    align-content: start;
+  }
+  li {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: var(--cream-card);
+    border: 2px solid var(--line-card);
+    border-radius: 16px;
+    padding: 14px 16px;
+  }
+  .n {
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px 999px 8px 8px;
+    background: #B35500;
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+    min-width: 0;
+  }
+  .name {
+    font-weight: 700;
+  }
+  .state {
+    font-weight: 500;
+    color: var(--text-soft);
+  }
+  .text a {
+    font-size: 15px;
+    color: var(--text-soft);
+  }
+  .text a:hover {
+    color: var(--kumkum);
+  }
+  @media (max-width: 760px) {
+    .places {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .section-title {
+      margin-bottom: 18px;
+    }
+  }
+</style>

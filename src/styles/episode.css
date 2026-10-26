@@ -1,0 +1,111 @@
+/* Shared layout pieces for the episode page (canvas Main / Mobile boards). */
+:root {
+  --text-soft: #5A3A22;
+  --rust: #C2410C;
+  --maroon-deep: #5E0F25;
+  --line-haldi: #E8C770;
+  --line-card: #F2D58A;
+  --cream-card: #FFFBF0;
+  --accent: var(--kumkum);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--peacock);
+}
+
+a:hover {
+  color: var(--kumkum);
+}
+
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: var(--space-gutter);
+  padding-right: var(--space-gutter);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+
+.eyebrow::before {
+  content: '✦ ';
+}
+
+.section-title {
+  margin: 0 0 18px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1.1;
+  color: var(--kumkum);
+}
+
+.on-dark .eyebrow {
+  color: var(--haldi);
+}
+
+.on-dark .section-title {
+  color: var(--white);
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 50;
+  background: var(--haldi);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: var(--radius-button);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Controls that need JS are hidden without it. */
+html:not(.js) .needs-js {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --space-gutter: 16px;
+  }
+  .eyebrow {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-size: 32px;
+    margin-bottom: 14px;
+  }
+  /* Room for the fixed language bar. */
+  body {
+    padding-bottom: 84px;
+  }
+}
