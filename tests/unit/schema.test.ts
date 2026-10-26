@@ -5,6 +5,7 @@ import {
   SchemeSchema,
   isOfficialUrl,
   MONTH_RE,
+  AUDIENCES,
 } from '../../src/lib/schema';
 
 const load = (p: string) => JSON.parse(readFileSync(`tests/fixtures/${p}`, 'utf8'));
@@ -62,5 +63,34 @@ describe('schema', () => {
     expect(isOfficialUrl('https://pmkisan.gov.in/')).toBe(true);
     expect(isOfficialUrl('https://evil-gov.in.example.com/')).toBe(false);
     expect(isOfficialUrl('not a url')).toBe(false);
+  });
+
+  test('parses quote whose en and hi paragraph numbers differ', () => {
+    const ep = load('episodes/2026-09.json');
+    const q = ep.topics[0].quote;
+    expect(q.para.en).not.toBe(q.para.hi);
+    expect(EpisodeSchema.safeParse(ep).success).toBe(true);
+    ep.topics[0].quote.para = 2;
+    expect(EpisodeSchema.safeParse(ep).success).toBe(false);
+  });
+
+  test('2026-09 fixture has exactly one Localized field missing ta: river-cleanup explainer', () => {
+    const ep = load('episodes/2026-09.json');
+    const missing: string[] = [];
+    const walk = (o: any, path: string) => {
+      if (!o || typeof o !== 'object') return;
+      if (path !== 'sources' && typeof o.en === 'string' && typeof o.hi === 'string') {
+        if (!o.ta) missing.push(path);
+        return;
+      }
+      for (const k of Object.keys(o)) walk(o[k], path ? path + '.' + k : k);
+    };
+    walk(ep, '');
+    const idx = ep.topics.findIndex((t: any) => t.id === 'river-cleanup');
+    expect(missing).toEqual(['topics.' + idx + '.explainer']);
+  });
+
+  test('AUDIENCES is exact', () => {
+    expect([...AUDIENCES]).toEqual(['farmers','women','students','senior-citizens','households','youth','health','business','workers','children']);
   });
 });

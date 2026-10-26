@@ -42,8 +42,11 @@ export const LocalizedSchema = z.object({
 });
 export type Localized = z.infer<typeof LocalizedSchema>;
 
+/** 1-based paragraph numbers; EN and HI transcripts differ in length, so each has its own. */
+const ParaSchema = z.object({ en: z.number().int().min(1), hi: z.number().int().min(1) });
+
 export const SourceSchema = z.union([
-  z.object({ transcript: z.enum(['en', 'hi']), para: z.number().int().min(1) }),
+  z.object({ para: ParaSchema }),
   z.object({ url: z.url() }),
 ]);
 export type Source = z.infer<typeof SourceSchema>;
@@ -51,8 +54,8 @@ export type Source = z.infer<typeof SourceSchema>;
 export const FactSchema = z.object({ text: LocalizedSchema, source: SourceSchema });
 export type Fact = z.infer<typeof FactSchema>;
 
-/** Verbatim quote; `para` is the 1-based paragraph in the transcript. */
-export const QuoteSchema = z.object({ text: LocalizedSchema, para: z.number().int().min(1) });
+/** Verbatim quote; `para` is the 1-based paragraph in each language transcript. */
+export const QuoteSchema = z.object({ text: LocalizedSchema, para: ParaSchema });
 
 export const TopicSchema = z.object({
   id,

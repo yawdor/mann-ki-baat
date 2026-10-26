@@ -36,8 +36,10 @@
             "hi": "स्वयं सहायता समूह ने बीज बैंक शुरू किया।"
           },
           "source": {
-            "transcript": "en",
-            "para": 2
+            "para": {
+              "en": 2,
+              "hi": 2
+            }
           }
         }
       ],
@@ -46,7 +48,10 @@
           "en": "a women self-help group started a community seed bank",
           "hi": "महिला स्वयं सहायता समूह ने सामुदायिक बीज बैंक शुरू किया"
         },
-        "para": 2
+        "para": {
+          "en": 2,
+          "hi": 2
+        }
       },
       "schemeIds": [],
       "placeIds": [],
@@ -70,8 +75,10 @@
             "hi": "कई ज़िलों से लोग आए।"
           },
           "source": {
-            "transcript": "en",
-            "para": 3
+            "para": {
+              "en": 3,
+              "hi": 3
+            }
           }
         }
       ],
@@ -80,7 +87,10 @@
           "en": "drew visitors from many districts to enjoy local crafts",
           "hi": "कई ज़िलों से आए लोगों ने स्थानीय शिल्प का आनंद लिया"
         },
-        "para": 3
+        "para": {
+          "en": 3,
+          "hi": 3
+        }
       },
       "schemeIds": [],
       "placeIds": [],
@@ -104,8 +114,10 @@
             "hi": "सैकड़ों बुज़ुर्गों की जाँच हुई।"
           },
           "source": {
-            "transcript": "en",
-            "para": 4
+            "para": {
+              "en": 4,
+              "hi": 4
+            }
           }
         }
       ],
@@ -114,7 +126,10 @@
           "en": "checked eyesight for hundreds of elders",
           "hi": "सैकड़ों बुज़ुर्गों की आँखों की जाँच हुई"
         },
-        "para": 4
+        "para": {
+          "en": 4,
+          "hi": 4
+        }
       },
       "schemeIds": [],
       "placeIds": [],
