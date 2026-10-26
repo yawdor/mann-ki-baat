@@ -1,6 +1,7 @@
 ---
 import { pick, t, type Lang } from '../../lib/i18n';
 import type { Episode } from '../../lib/schema';
+import PlacesMap from './PlacesMap.astro';
 
 interface Props { episode: Episode; lang: Lang }
 const { episode, lang } = Astro.props;
@@ -9,8 +10,8 @@ const topics = new Map(episode.topics.map((tp) => [tp.id, tp]));
 <section id="map" class="wrap places">
   <p class="eyebrow">{t(lang, 'mapLabel')}</p>
   <h2 class="section-title">{t(lang, 'mapTitle')}</h2>
-  {/* Task 8 adds the India map (PlacesMap) beside this list; the list stays as its accessible alternative. */}
   <div class="layout bloom">
+    <PlacesMap places={episode.places} lang={lang} />
     <ol class="list">
       {episode.places.map((pl, i) => {
         const topic = topics.get(pl.topicId);
@@ -43,6 +44,7 @@ const topics = new Map(episode.topics.map((tp) => [tp.id, tp]));
   }
   .list {
     flex: 1 1 300px;
+    min-width: 0;
     margin: 0;
     padding: 0;
     list-style: none;

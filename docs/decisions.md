@@ -28,6 +28,7 @@ Google's website translator was retired on 1 Oct 2026, and Bhashini needs a regi
 - **Secondary:** `udit-001/india-maps-data` `geojson/india.geojson`, dissolved by `st_nm` (no licence stated, so use it only if the primary fails).
 - **Processing:** simplify with mapshaper to ≤ 400 KB.
 - **Verify:** Ladakh's bbox reaches lat ≈ 37.1 and lon 72.5–80.3, and J&K includes PoK.
+- **Outcome (Task 8):** primary used. `SOI_States.geojsonl.7z` extracted with `7zip-bin` and simplified with mapshaper 0.6.112 (0.8%, keep-shapes) to `src/data/india-states.geojson` (358 KB, 36 features, 4 inter-state DISPUTED slivers dropped). Verified Ladakh bbox lon 72.51-80.35, lat 32.34-37.09 and J&K includes PoK. The secondary was not needed. Steps are in `scripts/build-map-data.md`. `bhuvan_states` was rejected (old names such as Orissa, DNH and Daman & Diu split).
 - **Avoid:** Natural Earth, GADM, geoBoundaries, OSM-derived files.
 - **Map note:** "Map for illustration; boundaries as per Survey of India."
 

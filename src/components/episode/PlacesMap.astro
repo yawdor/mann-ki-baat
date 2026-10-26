@@ -1,0 +1,89 @@
+---
+import Kolam from '../ornaments/Kolam.astro';
+import { pick, t, type Lang } from '../../lib/i18n';
+import type { Place } from '../../lib/schema';
+import { MAP_H, MAP_W, projectPlaces, statePaths } from '../../lib/map';
+
+interface Props { places: Place[]; lang: Lang }
+const { places, lang } = Astro.props;
+const paths = places.length ? statePaths(MAP_W, MAP_H) : [];
+const pins = projectPlaces(places, MAP_W, MAP_H);
+// Number comes from the place's position in the list, so unpinned places leave a gap rather than renumbering.
+const numbered = pins.map((p) => ({ ...p, n: places.findIndex((pl) => pl.id === p.id) + 1 }));
+const label = `${t(lang, 'mapTitle')}: ${places.map((pl) => pick(pl.name, lang)).join(', ')}`;
+const PIN = 'M0 0 C-4 -9 -14 -17 -14 -27 a14 14 0 0 1 28 0 C14 -17 4 -9 0 0Z';
+---
+{places.length > 0 && (
+  <figure class="places-map">
+    <div class="frame">
+      <Kolam tone="mehendi" />
+      <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} role="img" aria-label={label} preserveAspectRatio="xMidYMid meet">
+        <g class="states">
+          {paths.map((d) => <path d={d} />)}
+        </g>
+        <g class="pins">
+          {numbered.map((p) => (
+            <g data-pin={p.id} transform={`translate(${p.x} ${p.y}) scale(1.3)`}>
+              <path d={PIN} />
+              <text y="-20" text-anchor="middle" aria-hidden="true">{p.n}</text>
+            </g>
+          ))}
+        </g>
+      </svg>
+    </div>
+    <figcaption>
+      <span class="note">{t(lang, 'mapNote')}</span>
+      <span class="credit" lang="en">Survey of India boundaries via DataMeet / ramSeraph</span>
+    </figcaption>
+  </figure>
+)}
+
+<style>
+  .places-map {
+    flex: 999 1 420px;
+    min-width: 0;
+    margin: 0;
+  }
+  .frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    background: color-mix(in srgb, var(--mehendi) 12%, white);
+    border: 3px solid var(--mehendi);
+  }
+  svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 760px;
+    margin: 0 auto;
+  }
+  .states path {
+    fill: var(--white);
+    stroke: var(--mehendi);
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+  }
+  .pins path {
+    fill: var(--marigold);
+    stroke: var(--white);
+    stroke-width: 3;
+    stroke-linejoin: round;
+  }
+  .pins text {
+    fill: var(--text);
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+  }
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-soft);
+  }
+</style>
