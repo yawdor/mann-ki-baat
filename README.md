@@ -32,7 +32,11 @@ daily at 11:30 IST from the 26th to the 4th of the next month, and follows
    to `main` if every check passes, or pushes everything to a `drafts/<month>` branch if not.
 7. Waits for the page to go live, then emails the owner using
    [`pipeline/notify.md`](pipeline/notify.md): live, not published, or no transcript found
-   (sent on the 4th only).
+   (sent on the 4th only). A repeated failure is emailed only when the failing checks change,
+   plus once on the 4th; fetch and setup failures are emailed on the 4th only.
+
+Commits made by the routine use the identity `Mann Ki Baat Routine
+<yawdor@users.noreply.github.com>` (set per command by `pipeline/publish.ts`).
 
 The routine may only write to `content/`, `sources/` and `reports/`.
 
@@ -48,7 +52,8 @@ The routine may only write to `content/`, `sources/` and `reports/`.
 
 ## Run a month by hand
 
-Use this if the routine is down, or a transcript appeared after the 4th. On a clean `main`:
+Use this if the routine is down, a transcript appeared after the 4th, or the routine missed
+the 4th (an outage: no Missing or final Failure email is sent then). On a clean `main`:
 
     git checkout main
     git pull --ff-only

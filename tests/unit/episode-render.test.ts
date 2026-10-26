@@ -38,7 +38,7 @@ describe('episode page — en', () => {
     expect(doc.querySelector('html')!.getAttribute('lang')).toBe('en');
     expect(doc.querySelector('h1')!.text).toContain('Sample Episode: Together We Grow');
     expect(doc.querySelector('.dateline')!.text).toContain('138');
-    expect(doc.querySelector('body')!.getAttribute('style')).toContain('--accent: #12915A');
+    expect(doc.querySelector('body')!.getAttribute('style')).toContain('--accent: #118754');
     expect(doc.querySelector('link[rel="canonical"]')!.getAttribute('href')).toBe(
       'https://yawdor.github.io/mann-ki-baat/2026-09/',
     );

@@ -8,6 +8,8 @@ import type { ContentReport } from '../validators/run';
 const run = promisify(execFile);
 
 const CO_AUTHOR = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>';
+/** Committer identity passed per command, so the routine never has to run `git config`. */
+const IDENTITY = ['-c', 'user.name=Mann Ki Baat Routine', '-c', 'user.email=yawdor@users.noreply.github.com'];
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -58,7 +60,7 @@ export async function publish(
   if (ok) {
     const commands = [
       git('add', 'content', 'sources'),
-      git('commit', '-m', commitMessage(month, episode, false), '--', 'content', 'sources'),
+      git(...IDENTITY, 'commit', '-m', commitMessage(month, episode, false), '--', 'content', 'sources'),
       git('push', 'origin', 'HEAD:main'),
     ];
     if (dryRun) return { branch: 'main', commands };
@@ -75,7 +77,7 @@ export async function publish(
     git('checkout', '-B', branch),
     ...(present.length ? [git('add', ...present)] : []),
     git('add', '-f', reportRel),
-    git('commit', '-m', commitMessage(month, episode, true), '--', ...present, reportRel),
+    git(...IDENTITY, 'commit', '-m', commitMessage(month, episode, true), '--', ...present, reportRel),
     // checkout -B rebuilds the branch from the current HEAD, so a re-run diverges from the old remote draft.
     git('push', '--force-with-lease', '-u', 'origin', branch),
     git('checkout', orig),

@@ -73,7 +73,7 @@ describe('home — archive', () => {
     const doc = await home('en');
     const cards = doc.querySelectorAll('#archive a.arch');
     expect(cards.map((c) => c.getAttribute('data-month'))).toEqual(['2026-09', '2026-08']);
-    expect(cards[0].getAttribute('style')).toContain('#12915A');
+    expect(cards[0].getAttribute('style')).toContain('#118754');
     expect(cards[1].getAttribute('style')).toContain('#B0124A');
     expect(cards[0].text).toContain('Sample Episode: Together We Grow');
     expect(squash(cards[0].text)).toContain('September 2026');

@@ -227,6 +227,7 @@ describe('fetchWithRetry', () => {
 describe('publish (dry run only)', () => {
   const report = (ok: boolean): ContentReport => ({ month: '2026-10', ok, completeLangs: [], warnings: 0, results: [] });
   const trailer = 'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>';
+  const IDENTITY = ['-c', 'user.name=Mann Ki Baat Routine', '-c', 'user.email=yawdor@users.noreply.github.com'];
 
   test('failing report -> drafts/<month> branch, report force-added, returns to original branch', async () => {
     const root = tmp();
@@ -236,7 +237,9 @@ describe('publish (dry run only)', () => {
     expect(argv[0]).toBe('git checkout -B drafts/2026-10');
     expect(argv).toContain('git add -f reports/2026-10.content.json');
     expect(argv).toContain('git push --force-with-lease -u origin drafts/2026-10');
-    expect(argv.some((a) => a.startsWith('git commit') && a.endsWith('-- reports/2026-10.content.json'))).toBe(true);
+    expect(argv.some((a) => a.startsWith(`git ${IDENTITY.join(' ')} commit`) && a.endsWith('-- reports/2026-10.content.json'))).toBe(true);
+    // Every commit carries the routine's identity, so no git config is needed.
+    expect(argv.filter((a) => / commit /.test(a)).every((a) => a.startsWith(`git ${IDENTITY.join(' ')} commit `))).toBe(true);
     expect(argv.at(-1)).toBe('git checkout <original-branch>');
     expect(argv.some((a) => a.includes('HEAD:main'))).toBe(false);
     expect(r.commands.every((c) => c[0] === 'git')).toBe(true);
@@ -251,8 +254,8 @@ describe('publish (dry run only)', () => {
     expect(r.branch).toBe('main');
     expect(r.commands[0]).toEqual(['git', 'add', 'content', 'sources']);
     expect(r.commands[1].slice(-3)).toEqual(['--', 'content', 'sources']);
-    expect(r.commands[1].slice(0, 3)).toEqual(['git', 'commit', '-m']);
-    expect(r.commands[1][3]).toBe(`content: Mann Ki Baat October 2026 (episode 139)\n\n${trailer}`);
+    expect(r.commands[1].slice(0, 7)).toEqual(['git', ...IDENTITY, 'commit', '-m']);
+    expect(r.commands[1][7]).toBe(`content: Mann Ki Baat October 2026 (episode 139)\n\n${trailer}`);
     expect(r.commands[2]).toEqual(['git', 'push', 'origin', 'HEAD:main']);
   });
 
