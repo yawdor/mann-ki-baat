@@ -234,9 +234,12 @@ describe('publish (dry run only)', () => {
     const r = await publish('2026-10', report(false), { root, dryRun: true });
     expect(r.branch).toBe('drafts/2026-10');
     const argv = r.commands.map((c) => c.join(' '));
-    expect(argv[0]).toBe('git checkout -B drafts/2026-10');
+    expect(argv[0]).toBe('git ls-remote origin refs/heads/drafts/2026-10');
+    expect(argv[1]).toBe('git checkout -B drafts/2026-10');
     expect(argv).toContain('git add -f reports/2026-10.content.json');
-    expect(argv).toContain('git push --force-with-lease -u origin drafts/2026-10');
+    // Explicit lease against the SHA ls-remote reports, so single-branch clones can re-draft.
+    expect(argv).toContain('git push --force-with-lease=refs/heads/drafts/2026-10:<remote-sha> -u origin drafts/2026-10');
+    expect(r).toMatchObject({ failures: [], episode: null, date: null, reportPath: 'reports/2026-10.content.json' });
     expect(argv.some((a) => a.startsWith(`git ${IDENTITY.join(' ')} commit`) && a.endsWith('-- reports/2026-10.content.json'))).toBe(true);
     // Every commit carries the routine's identity, so no git config is needed.
     expect(argv.filter((a) => / commit /.test(a)).every((a) => a.startsWith(`git ${IDENTITY.join(' ')} commit `))).toBe(true);
