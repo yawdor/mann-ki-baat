@@ -8,6 +8,7 @@ export const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
 export const CATEGORIES = [
   'Schemes', 'Environment', 'Culture', 'People', 'Youth', 'Health', 'Science', 'Other',
 ] as const;
+export type Category = (typeof CATEGORIES)[number];
 export const ACCENTS = ['#7A1431', '#F2B705', '#0B4F6C', '#12915A', '#B0124A', '#F07F13'] as const;
 export const MOTIFS = ['lotus', 'diya', 'peacock', 'wheat', 'wheel', 'mandala'] as const;
 export const AUDIENCES = [

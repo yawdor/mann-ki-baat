@@ -16,3 +16,11 @@ const FAMILIES: Record<Lang, string[]> = {
 export function googleFontsHref(lang: Lang): string {
   return `https://fonts.googleapis.com/css2?${FAMILIES[lang].map((f) => `family=${f}`).join('&')}&display=swap`;
 }
+
+const plain = (f: string) => f.split(':')[0].replace(/\+/g, ' ');
+
+/** Display and body family names (without weights) for a language. */
+export function fontFamilyNames(lang: Lang): { display: string; body: string } {
+  const [display, body] = FAMILIES[lang];
+  return { display: plain(display), body: plain(body) };
+}
