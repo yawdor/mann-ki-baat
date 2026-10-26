@@ -301,3 +301,45 @@ describe('guards', () => {
     expect(extractParagraphs(html, 'div.news-bg > p')).toEqual(['Hello']);
   });
 });
+
+describe('pmindia-only fetching re-checks the final URL after redirects', () => {
+  /** A response whose final URL (after redirects) is `finalUrl`. */
+  const redirected = (body: string, finalUrl: string) => {
+    const r = new Response(body, { status: 200 });
+    Object.defineProperty(r, 'url', { value: finalUrl });
+    return r;
+  };
+
+  test('fetchWithRetry with pmindiaOnly throws when a redirect leaves www.pmindia.gov.in (no retry)', async () => {
+    const f = vi.fn(async () => redirected('x', 'https://evil.example/landing')) as unknown as typeof fetch & ReturnType<typeof vi.fn>;
+    await expect(
+      fetchWithRetry(f, 'https://www.pmindia.gov.in/en/x/', { pmindiaOnly: true, retries: 3, backoffMs: 0 }),
+    ).rejects.toThrow(/redirected off www\.pmindia\.gov\.in.*evil\.example/);
+    expect(f.mock.calls).toHaveLength(1);
+  });
+
+  test('fetchWithRetry with pmindiaOnly refuses a non-pmindia start URL without fetching', async () => {
+    const f = vi.fn(async () => new Response('x')) as unknown as typeof fetch & ReturnType<typeof vi.fn>;
+    await expect(fetchWithRetry(f, 'https://evil.example/', { pmindiaOnly: true })).rejects.toThrow(/pmindia/);
+    expect(f).not.toHaveBeenCalled();
+  });
+
+  test('a redirect that stays on pmindia is fine; without pmindiaOnly any host is fine', async () => {
+    const ok = vi.fn(async () => redirected('x', 'https://www.pmindia.gov.in/en/y/')) as unknown as typeof fetch;
+    expect((await fetchWithRetry(ok, 'https://www.pmindia.gov.in/en/x/', { pmindiaOnly: true })).ok).toBe(true);
+    const off = vi.fn(async () => redirected('x', 'https://other.gov.in/')) as unknown as typeof fetch;
+    expect((await fetchWithRetry(off, 'https://x.gov.in/', {})).ok).toBe(true);
+  });
+
+  test('saveSources and discoverEpisode reject an off-host redirect', async () => {
+    const urls = { en: enUrl(139), hi: hiUrl(139) };
+    const f = vi.fn(async (u: string | URL | Request) =>
+      String(u) === urls.hi ? redirected(fx('hi-139'), 'https://evil.example/hi') : new Response(fx('en-139')),
+    ) as unknown as typeof fetch;
+    const root = tmp();
+    await expect(saveSources('2026-10', urls, { root, fetch: f, retry: RETRY })).rejects.toThrow(/redirected off/);
+    expect(existsSync(join(root, 'sources'))).toBe(false);
+    const d = vi.fn(async () => redirected(listing(138), 'https://evil.example/list')) as unknown as typeof fetch;
+    await expect(discoverEpisode({ fetch: d, month: '2026-10', retry: RETRY })).rejects.toThrow(/redirected off/);
+  });
+});

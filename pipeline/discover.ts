@@ -50,7 +50,7 @@ async function getHtml(
   url: string,
   retry: RetryOptions,
 ): Promise<string | null> {
-  const r = await fetchWithRetry(fetchFn, url, { stopOn404: true, ...retry });
+  const r = await fetchWithRetry(fetchFn, url, { stopOn404: true, ...retry, pmindiaOnly: true });
   return r.ok ? r.res.text() : null;
 }
 
@@ -99,7 +99,7 @@ export async function discoverEpisode(opts: {
   retry?: RetryOptions;
 }): Promise<Discovered | null> {
   const retry = opts.retry ?? {};
-  const listing = await fetchWithRetry(opts.fetch, EN_LISTING, retry);
+  const listing = await fetchWithRetry(opts.fetch, EN_LISTING, { ...retry, pmindiaOnly: true });
   if (!listing.ok) throw new Error(`${EN_LISTING}: ${listing.error}`);
   const newest = listingNewest(await listing.res.text());
   if (newest === null) throw new Error(`no episodes found on ${EN_LISTING}`);

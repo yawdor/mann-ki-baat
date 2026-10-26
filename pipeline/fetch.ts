@@ -13,12 +13,13 @@ export type SourceMeta = {
   date: string | null;
 };
 
+/** Fetches a pmindia page as text; a redirect off www.pmindia.gov.in throws. */
 export async function fetchHtml(
   fetchFn: typeof fetch,
   url: string,
   retry: RetryOptions = {},
 ): Promise<string> {
-  const r = await fetchWithRetry(fetchFn, url, retry);
+  const r = await fetchWithRetry(fetchFn, url, { ...retry, pmindiaOnly: true });
   if (!r.ok) throw new Error(`${url}: ${r.error}`);
   return r.res.text();
 }
