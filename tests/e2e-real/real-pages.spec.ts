@@ -1,6 +1,6 @@
 // axe + no-horizontal-scroll over every page of the real build (dist/), run by the deploy job.
 import { existsSync, readdirSync, statSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join, relative, sep } from 'node:path';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -17,7 +17,7 @@ function builtPages(dir = DIST): string[] {
     if (statSync(p).isDirectory()) {
       if (name !== '_astro') out.push(...builtPages(p));
     } else if (name.endsWith('.html')) {
-      const rel = relative(DIST, p).replaceAll('\', '/');
+      const rel = relative(DIST, p).replaceAll(sep, '/');
       out.push(rel === 'index.html' ? '' : rel.replace(/(^|\/)index\.html$/, '$1'));
     }
   }
