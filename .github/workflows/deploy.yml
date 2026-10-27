@@ -54,10 +54,20 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - name: Validate every episode offline (all checks except links)
+        run: npm run validate:all-offline
       - name: Build real content
         run: npx astro build
       - name: Size budget on real build
         run: npx tsx scripts/size-budget.ts dist
+      - name: Playwright axe and no horizontal scroll on the real build
+        run: |
+          if ls content/episodes/*.json >/dev/null 2>&1; then
+            npx playwright install --with-deps chromium
+            npx playwright test -c playwright.real.config.ts
+          else
+            echo "No episodes in content/episodes yet; skipping real-page checks."
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

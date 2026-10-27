@@ -228,8 +228,8 @@ describe('fix round 1', () => {
   test('parseArgs handles month with and without --root', async () => {
     const { parseArgs } = await import('../../validators/args');
     const { resolve } = await import('node:path');
-    expect(parseArgs(['2026-10'])).toEqual({ month: '2026-10', root: resolve('.') });
-    expect(parseArgs(['2026-10', '--root', 'x'])).toEqual({ month: '2026-10', root: resolve('x') });
+    expect(parseArgs(['2026-10'])).toEqual({ month: '2026-10', root: resolve('.'), offline: false });
+    expect(parseArgs(['2026-10', '--root', 'x'])).toEqual({ month: '2026-10', root: resolve('x'), offline: false });
     expect(parseArgs(['--root', 'x', '2026-10']).month).toBe('2026-10');
     expect(parseArgs([]).month).toBeUndefined();
   });
@@ -366,5 +366,48 @@ describe('evidence', () => {
     const report = await runContentValidation('2026-09', { root, fetch: ctxFor().fetch });
     expect(report.ok).toBe(false);
     expect(report.results.find((r) => r.check === 'evidence')).toMatchObject({ ok: false, level: 'error' });
+  });
+});
+
+describe('offline validation', () => {
+  const noNetwork = vi.fn(async () => {
+    throw new Error('network used');
+  }) as unknown as typeof globalThis.fetch;
+
+  test('parseArgs reads --offline in any position', async () => {
+    const { parseArgs } = await import('../../validators/args');
+    expect(parseArgs(['--offline', '2026-10'])).toMatchObject({ month: '2026-10', offline: true });
+    expect(parseArgs(['2026-10', '--root', 'x', '--offline'])).toMatchObject({ month: '2026-10', offline: true });
+  });
+
+  test('offline skips links and never fetches; every other check still runs', async () => {
+    const report = await runContentValidation('2026-09', { root: makeRoot(), fetch: noNetwork, offline: true });
+    expect(noNetwork).not.toHaveBeenCalled();
+    expect(report.ok).toBe(true);
+    const checks = report.results.map((r) => r.check);
+    expect(checks).not.toContain('links');
+    expect(checks).toEqual(expect.arrayContaining(['schema', 'evidence', 'quotes', 'sources', 'languages', 'noGuessing', 'sanity']));
+  });
+
+  test('validateAllOffline covers every month in content/episodes', async () => {
+    const { validateAllOffline } = await import('../../validators/all-offline');
+    const root = makeRoot();
+    const reports = await validateAllOffline(root);
+    expect(reports.map((r) => [r.month, r.ok])).toEqual([['2026-08', true], ['2026-09', true]]);
+    writeFileSync(join(root, 'sources', '2026-08', 'en.html'), 'tampered');
+    const again = await validateAllOffline(root);
+    expect(again.find((r) => r.month === '2026-08')!.ok).toBe(false);
+  });
+
+  test('validateAllOffline with no episodes returns nothing', async () => {
+    const { validateAllOffline } = await import('../../validators/all-offline');
+    const { mkdtempSync } = await import('node:fs');
+    const { tmpdir } = await import('node:os');
+    expect(await validateAllOffline(mkdtempSync(join(tmpdir(), 'mkb-empty-')))).toEqual([]);
+  });
+
+  test('package.json has validate:all-offline', () => {
+    const scripts = JSON.parse(readFileSync('package.json', 'utf8')).scripts;
+    expect(scripts['validate:all-offline']).toBe('tsx validators/all-offline.ts');
   });
 });

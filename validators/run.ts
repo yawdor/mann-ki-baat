@@ -51,7 +51,8 @@ function finish(month: string, results: CheckResult[], langs: Lang[]): ContentRe
 
 export async function runContentValidation(
   month: string,
-  opts: { root: string; fetch?: typeof fetch },
+  /** `offline` skips the `links` check, so nothing is fetched. */
+  opts: { root: string; fetch?: typeof fetch; offline?: boolean },
 ): Promise<ContentReport> {
   const { root } = opts;
   const fail = (msg: string) => finish(month, [result('load', 'error', [msg])], []);
@@ -133,7 +134,7 @@ export async function runContentValidation(
     previous,
     fetch: opts.fetch ?? fetch,
   };
-  for (const check of CHECKS) {
+  for (const check of opts.offline ? CHECKS.filter((c) => c !== links) : CHECKS) {
     try {
       results.push(await check(ctx));
     } catch (e) {

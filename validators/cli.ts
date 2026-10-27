@@ -4,16 +4,16 @@ import { parseArgs } from './args';
 import { runContentValidation, type ContentReport } from './run';
 import { result } from './types';
 
-const { month, root } = parseArgs(process.argv.slice(2));
+const { month, root, offline } = parseArgs(process.argv.slice(2));
 
 if (!month) {
-  console.error('usage: validate:content <YYYY-MM> [--root <dir>]');
+  console.error('usage: validate:content <YYYY-MM> [--root <dir>] [--offline]');
   process.exit(2);
 }
 
 let report: ContentReport;
 try {
-  report = await runContentValidation(month, { root });
+  report = await runContentValidation(month, { root, offline });
 } catch (e) {
   const msg = `threw: ${e instanceof Error ? e.message : String(e)}`;
   report = { month, ok: false, completeLangs: [], warnings: 0, results: [result('run', 'error', [msg])] };
@@ -22,6 +22,7 @@ const out = join(root, 'reports', `${month}.content.json`);
 mkdirSync(join(root, 'reports'), { recursive: true });
 writeFileSync(out, JSON.stringify(report, null, 2) + '\n');
 
+if (offline) console.log(`${month}: offline run, the links check was skipped`);
 const failed = report.results.filter((r) => !r.ok && r.level === 'error').map((r) => r.check);
 console.log(
   `${month}: ${report.ok ? 'OK' : 'FAILED'} | langs: ${report.completeLangs.join(',') || '-'} | warnings: ${report.warnings}` +
