@@ -48,6 +48,38 @@ describe('ROUTINE.md', () => {
   });
 });
 
+describe('ROUTINE.md publish recovery and failure reporting', () => {
+  test('push-rejection recovery covers both git wordings', () => {
+    expect(routine).toContain('`non-fast-forward`');
+    expect(routine).toContain('`(fetch first)`');
+  });
+
+  test('rebase recovery uses the exact identity form (no git config)', () => {
+    expect(routine).toContain(
+      'git -c user.name="Mann Ki Baat Routine" -c user.email="yawdor@users.noreply.github.com" pull --rebase origin main',
+    );
+    expect(routine).not.toMatch(/`git pull --rebase origin main`/);
+  });
+
+  test('failures come from the publish JSON, never from git show or FETCH_HEAD', () => {
+    expect(routine).not.toContain('FETCH_HEAD');
+    expect(routine).not.toMatch(/git show/);
+    expect(routine).not.toContain('git fetch origin drafts');
+    for (const key of ['failures', 'previousFailures', 'reportPath']) expect(routine).toContain(`\`${key}\``);
+  });
+
+  test('publish JSON keys named in ROUTINE.md exist on PublishResult', () => {
+    const src = read('pipeline/publish.ts');
+    for (const key of ['failures', 'episode', 'date', 'reportPath', 'previousFailures'])
+      expect(src).toMatch(new RegExp(`^  ${key}[?]?:`, 'm'));
+  });
+
+  test('lists the publish allow-list and the evidence check', () => {
+    expect(routine).toContain('`content/episodes/<month>.json`, `content/schemes/*.json`, `sources/<month>/`');
+    expect(routine).toContain('| `evidence` |');
+  });
+});
+
 describe('prompt-injection guard', () => {
   test.each([
     ['ROUTINE.md', routine],

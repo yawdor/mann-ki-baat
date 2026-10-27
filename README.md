@@ -69,6 +69,25 @@ the 4th (an outage: no Missing or final Failure email is sent then). On a clean 
 `should-run` only says yes inside the 26th–4th window; outside it, start at `discover`. To test
 the window logic, pass a time: `npm run pipeline -- should-run --now 2026-10-26T06:00:00Z`.
 
+## Go-live checklist
+
+Do these once before the first live month:
+
+- [ ] **Routine push rights:** the routine must be allowed to push to `main` and to `drafts/*`.
+      When you create the routine, enable unrestricted branch pushes; without that, publish
+      cannot push and every run fails.
+- [ ] **Pages source:** in Settings → Pages, the source is **GitHub Actions**.
+- [ ] **No blocking branch protection:** no branch protection rule or ruleset blocks the
+      routine's direct (non-forced) push to `main`.
+- [ ] **Deploy trigger:** confirm that a push by the routine starts `.github/workflows/deploy.yml`
+      (check the Actions tab after the first push).
+- [ ] **Node ≥ 24** on the routine's runner (`node --version`); `package.json` requires it.
+- [ ] **One scratch-remote dry run:** run the routine's steps once against a scratch clone whose
+      `origin` is a throwaway bare repo (`git init --bare`), and check that `main` or
+      `drafts/<month>` there gets the expected commit. Never point it at the real repo for this.
+- [ ] **The map:** the owner eyeballs the places map on the first live episode page once, to check
+      that the pins sit in the right states.
+
 ## Roll back a month
 
 Every published month is a single commit on `main` named
@@ -78,8 +97,12 @@ Every published month is a single commit on `main` named
     git revert <episode commit>
     git push origin main
 
-The deploy rebuilds the site without that month. Reverting removes the episode file, so if you
-are still inside the 26th–4th window the routine will try that month again on its next run.
+The deploy rebuilds the site without that month.
+
+**Pause the routine first if you are inside the 26th–4th window.** Reverting removes the episode
+file, so on its next daily run (the next day) the routine sees the month as unpublished and
+publishes it again. Pause or disable the routine before you revert, and turn it back on only
+after the 4th, or once you have fixed the content and want it re-published.
 
 ## Fix a month
 
