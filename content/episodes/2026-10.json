@@ -1,0 +1,1361 @@
+{
+  "episode": 139,
+  "date": "2026-10-25",
+  "title": {
+    "en": "Local crafts, rivers, health technology and unity",
+    "hi": "स्थानीय हुनर, नदियाँ, स्वास्थ्य तकनीक और एकता"
+  },
+  "summary": {
+    "en": "The Prime Minister marked twelve years of ‘Mann Ki Baat’. He spoke about organic cotton weaving in Punjab, the revival of the Heval river and Swadeshi products. He described e-Sanjeevani tele-consultations, a brain research centre at IIT Madras and young start-ups. He also spoke about Ekta Diwas, millets in the North-East, Maharishi Valmiki and Bhai Parmanand.",
+    "hi": "प्रधानमंत्री ने ‘मन की बात’ के 12 वर्ष पूरे होने की बात की। उन्होंने पंजाब में जैविक कपास की बुनकरी, हेवल नदी के पुनर्जीवन और स्वदेशी उत्पादों पर बात की। उन्होंने e-Sanjeevani के Tele-Consultation, IIT Madras के brain research centre और युवा start-ups के बारे में बताया। उन्होंने एकता दिवस, पूर्वोत्तर में millets, महर्षि वाल्मीकि और भाई परमानंद की भी चर्चा की।"
+  },
+  "theme": {
+    "accent": "#F07F13",
+    "motif": "peacock"
+  },
+  "sources": {
+    "en": "https://www.pmindia.gov.in/en/news_updates/pms-address-in-the-139th-episode-of-mann-ki-baat/",
+    "hi": "https://www.pmindia.gov.in/hi/news_updates/%e0%a4%ae%e0%a4%a8-%e0%a4%95%e0%a5%80-%e0%a4%ac%e0%a4%be%e0%a4%a4-%e0%a4%95%e0%a5%80-139%e0%a4%b5%e0%a5%80%e0%a4%82-%e0%a4%95%e0%a5%9c%e0%a5%80-%e0%a4%ae%e0%a5%87%e0%a4%82-%e0%a4%aa%e0%a5%8d%e0%a4%b0/"
+  },
+  "topics": [
+    {
+      "id": "twelve-years-mann-ki-baat",
+      "title": {
+        "en": "Twelve years of Mann Ki Baat",
+        "hi": "‘मन की बात’ के 12 वर्ष"
+      },
+      "category": "Other",
+      "explainer": {
+        "en": "The Prime Minister said ‘Mann Ki Baat’ began twelve years ago on Vijayadashami. He called it a pilgrimage to understand the efforts of the people. He said it brings stories of people whose work often goes unnoticed.",
+        "hi": "प्रधानमंत्री ने कहा कि ‘मन की बात’ की शुरुआत 12 वर्ष पहले विजयादशमी पर हुई थी। उन्होंने इसे लोगों के प्रयासों को करीब से जानने की एक तीर्थ यात्रा कहा। उन्होंने कहा कि यह उन लोगों की कहानियाँ सामने लाता है जिनके काम पर अक्सर ध्यान नहीं जाता।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "The programme began on the occasion of Vijayadashami twelve years ago.",
+            "hi": "यह कार्यक्रम 12 वर्ष पहले विजयादशमी के अवसर पर शुरू हुआ था।"
+          },
+          "source": {
+            "para": {
+              "en": 2,
+              "hi": 2
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "The Prime Minister said he receives hundreds of messages from listeners.",
+            "hi": "प्रधानमंत्री ने कहा कि उन्हें श्रोताओं के सैंकड़ों संदेश मिलते हैं।"
+          },
+          "source": {
+            "para": {
+              "en": 4,
+              "hi": 4
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "Twelve years ago, on the pious occasion of Vijayadashami, we began ‘Mann Ki Baat’.",
+          "hi": "आज से 12 वर्ष पहले, विजयादशमी के पावन अवसर पर, हमने ‘मन की बात’ की शुरुआत की थी।"
+        },
+        "para": {
+          "en": 2,
+          "hi": 2
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    },
+    {
+      "id": "nav-trinjan-organic-cotton",
+      "title": {
+        "en": "Organic cotton and weaving in Punjab",
+        "hi": "पंजाब में जैविक कपास और बुनकरी"
+      },
+      "category": "People",
+      "explainer": {
+        "en": "‘Kheti Virasat Mission’ started ‘Nav-Trinjan’ to promote natural cotton farming in the Malwa region of Punjab. Cotton is grown without chemicals, including cotton with natural colours. A weaving school has helped many women become skilled weavers.",
+        "hi": "‘खेती विरासत मिशन’ ने पंजाब के मालवा क्षेत्र में कपास की प्राकृतिक खेती को बढ़ावा देने के लिए ‘नव-त्रिन्जन’ शुरू किया। यहाँ बिना chemical के कपास उगाई जाती है, जिसमें प्राकृतिक रंगों वाली कपास भी है। एक weaving स्कूल ने कई महिलाओं को कुशल बुनकर बनने में मदद की।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Organic cotton is grown under the project without the use of any chemicals.",
+            "hi": "इस पहल के तहत बिना chemical का इस्तेमाल किए organic कपास उगाई जाती है।"
+          },
+          "source": {
+            "para": {
+              "en": 7,
+              "hi": 6
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "A weaving school was set up a few years ago to pass the craft of weaving to the next generation.",
+            "hi": "कुछ साल पहले बुनकरी का हुनर नई पीढ़ी तक पहुंचाने के लिए एक weaving स्कूल शुरू किया गया।"
+          },
+          "source": {
+            "para": {
+              "en": 9,
+              "hi": 6
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "The Prime Minister met the team on National Handloom Day a few months ago.",
+            "hi": "प्रधानमंत्री को कुछ महीने पहले National Handloom Day पर इस टीम से मिलने का अवसर मिला था।"
+          },
+          "source": {
+            "para": {
+              "en": 10,
+              "hi": 7
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "organic cotton is grown there without the use of any chemicals",
+          "hi": "बिना chemical का इस्तेमाल किए organic कपास उगाई जाती है"
+        },
+        "para": {
+          "en": 7,
+          "hi": 6
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "malwa-punjab"
+      ],
+      "personIds": [
+        "ramandeep-kaur",
+        "rekha-rani",
+        "suneha-devi",
+        "rajni-kaur"
+      ]
+    },
+    {
+      "id": "heval-river-revival",
+      "title": {
+        "en": "Reviving the Heval river",
+        "hi": "हेवल नदी को नया जीवन"
+      },
+      "category": "Environment",
+      "explainer": {
+        "en": "In Tehri Garhwal, the local administration and villagers launched a campaign to save the Heval river. They captured rainwater, recharged groundwater and planted many trees. The river was revived and dozens of natural water sources were helped.",
+        "hi": "टिहरी गढ़वाल में स्थानीय प्रशासन और गांव के लोगों ने हेवल नदी को बचाने का अभियान चलाया। उन्होंने बारिश का पानी रोका, जमीन में पानी पहुंचाया और बड़ी संख्या में पौधे लगाए। नदी को नया जीवनदान मिला और दर्जनों प्राकृतिक जल-स्रोतों के पुनर्जीवन में मदद मिली।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "The water level in the Heval river had begun to decline and nearby natural water sources were drying up.",
+            "hi": "हेवल नदी में पानी कम होने लगा था और आस-पास के प्राकृतिक जल-स्रोत सूख रहे थे।"
+          },
+          "source": {
+            "para": {
+              "en": 12,
+              "hi": 9
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "Dozens of natural water sources have received help in their restoration.",
+            "hi": "दर्जनों प्राकृतिक जल-स्रोतों के पुनर्जीवन में मदद मिली है।"
+          },
+          "source": {
+            "para": {
+              "en": 13,
+              "hi": 9
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "Measures were undertaken to capture rainwater, facilitate groundwater recharge and plant a large number of trees.",
+          "hi": "बारिश का पानी रोकने के उपाय हुए, जमीन में पानी पहुंचाने के लिए काम हुआ और बड़ी संख्या में पौधे लगाए गए।"
+        },
+        "para": {
+          "en": 13,
+          "hi": 9
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "tehri-garhwal"
+      ],
+      "personIds": []
+    },
+    {
+      "id": "festival-cleanliness-drives",
+      "title": {
+        "en": "Cleanliness before Diwali and Chhath",
+        "hi": "दीवाली और छठ से पहले स्वच्छता"
+      },
+      "category": "Environment",
+      "explainer": {
+        "en": "The Prime Minister said cleanliness drives are being run at many places ahead of Diwali and Chhath. He said it is essential to keep clean the places where we live.",
+        "hi": "प्रधानमंत्री ने कहा कि दीवाली और छठ से पहले जगह-जगह साफ-सफाई का अभियान चलाया जा रहा है। उन्होंने कहा कि हम जहां रहते हैं, वहां की स्वच्छता का ध्यान रखना जरूरी है।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Diwali and Chhath were a few days away.",
+            "hi": "दीवाली और छठ का पर्व कुछ ही दिन बाद आने वाला था।"
+          },
+          "source": {
+            "para": {
+              "en": 15,
+              "hi": 11
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "Only our small, individual efforts can bring about significant change in our surroundings.",
+          "hi": "हमारे छोटे-छोटे प्रयास ही हमारे आस-पास बड़ा बदलाव ला सकते हैं।"
+        },
+        "para": {
+          "en": 15,
+          "hi": 11
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    },
+    {
+      "id": "vocal-for-local-packaging",
+      "title": {
+        "en": "Vocal for Local and packaging",
+        "hi": "वोकल फॉर लोकल और पैकेजिंग"
+      },
+      "category": "Other",
+      "explainer": {
+        "en": "The Prime Minister said people are giving more importance to Swadeshi products. He gave examples of makhana from Purnia and arhar dal from Kalaburagi reaching other countries. He also spoke about packaging, including tribal art packaging in Maharashtra.",
+        "hi": "प्रधानमंत्री ने कहा कि लोग स्वदेशी उत्पादों को ज्यादा महत्व देने लगे हैं। उन्होंने पूर्णिया के मखाना और कलबुर्गी की अरहर दाल के दूसरे देशों में पहुंचने के उदाहरण दिए। उन्होंने packaging पर भी बात की, जिसमें महाराष्ट्र की आदिवासी कला वाली packaging शामिल है।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Makhana from Purnia in Bihar is reaching Greece.",
+            "hi": "बिहार के पूर्णिया का मखाना Greece पहुँच रहा है।"
+          },
+          "source": {
+            "para": {
+              "en": 18,
+              "hi": 13
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "Arhar dal from Kalaburagi in Karnataka is being exported to the Maldives.",
+            "hi": "कर्नाटका के कलबुर्गी की अरहर दाल मालदीव जा रही है।"
+          },
+          "source": {
+            "para": {
+              "en": 18,
+              "hi": 13
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "Packaging of products made through ‘Shabari Naturals’ in Maharashtra has received Japan’s ‘Good Design Award’.",
+            "hi": "महाराष्ट्र में ‘शबरी नेचुरल्स’ के उत्पादों की packaging को जापान का ‘Good Design Award’ मिला है।"
+          },
+          "source": {
+            "para": {
+              "en": 20,
+              "hi": 13
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "A ‘bamboo’ start-up in Karnataka makes packaging material from bamboo and agricultural residue.",
+            "hi": "कर्नाटका का ‘बैंबू’ start-up बांस और खेती से निकलने वाले अवशेषों से packaging material बना रहा है।"
+          },
+          "source": {
+            "para": {
+              "en": 20,
+              "hi": 13
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "This spirit of ‘Vocal for Local’ is now taking our products to global markets.",
+          "hi": "‘Vocal for Local’ की ये भावना अब हमारे उत्पादों को दुनिया के बाजारों तक पहुंचा रही है।"
+        },
+        "para": {
+          "en": 17,
+          "hi": 13
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "purnia-bihar",
+        "kalaburagi-karnataka",
+        "maharashtra"
+      ],
+      "personIds": []
+    },
+    {
+      "id": "khadi-sales-gandhi-jayanti",
+      "title": {
+        "en": "Khadi sales on Gandhi Jayanti",
+        "hi": "गांधी जयंती पर खादी की बिक्री"
+      },
+      "category": "Other",
+      "explainer": {
+        "en": "Khadi Gram Udyog product sales passed ₹28 crore in a single day on Gandhi Jayanti. The Prime Minister said this is ₹1.5 crore more than the previous year. He urged people to prioritise products made by local artisans while shopping for festivals.",
+        "hi": "गांधी जयंती पर एक ही दिन में खादी ग्रामोद्योग के उत्पादों की बिक्री 28 करोड़ रुपये से अधिक रही। प्रधानमंत्री ने कहा कि यह पिछले साल से डेढ़ करोड़ रुपये ज्यादा है। उन्होंने त्योहारों की खरीदारी में स्थानीय कारीगरों के उत्पादों को प्राथमिकता देने का आग्रह किया।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Khadi Gram Udyog sales exceeded ₹28 crore in a single day this Gandhi Jayanti.",
+            "hi": "इस बार गांधी जयंती पर एक दिन में खादी ग्रामोद्योग की बिक्री 28 करोड़ रुपये से अधिक रही।"
+          },
+          "source": {
+            "para": {
+              "en": 22,
+              "hi": 15
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "This is an increase of ₹1.5 crore over the previous year.",
+            "hi": "यह पिछले साल से डेढ़ करोड़ रुपये ज्यादा है।"
+          },
+          "source": {
+            "para": {
+              "en": 22,
+              "hi": 15
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "This time too, do prioritize products made by local artisans when you shop",
+          "hi": "इस बार भी खरीदारी करते समय स्थानीय कारीगरों के बनाए उत्पादों को प्राथमिकता दीजिए"
+        },
+        "para": {
+          "en": 24,
+          "hi": 15
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    },
+    {
+      "id": "e-sanjeevani-tele-consultations",
+      "title": {
+        "en": "e-Sanjeevani and health centres",
+        "hi": "e-Sanjeevani और स्वास्थ्य केंद्र"
+      },
+      "category": "Health",
+      "explainer": {
+        "en": "The Prime Minister said about 50 crore tele-consultations have been held through e-Sanjeevani. He shared stories from the Andaman and Nicobar Islands, Lakshadweep, Ladakh and Nagaland. He also said nearly 190,000 Ayushman Arogya Mandirs are becoming wellness centres for village panchayats.",
+        "hi": "प्रधानमंत्री ने कहा कि e-Sanjeevani के जरिए अब तक करीब 50 करोड़ Tele-Consultation हो चुके हैं। उन्होंने अंडमान-निकोबार, लक्षद्वीप, लद्दाख और नागालैंड की कहानियाँ बताईं। उन्होंने यह भी कहा कि लगभग 1 लाख 90 हजार आयुष्मान आरोग्य मंदिर पंचायतों के wellness centre के रूप में विकसित हो रहे हैं।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Local health workers used e-Sanjeevani to consult an expert doctor for a child with pneumonia on Baratang Island.",
+            "hi": "बाराटाँग द्वीप में निमोनिया वाले बच्चे के लिए स्थानीय स्वास्थ्यकर्मियों ने ई-संजीवनी से विशेषज्ञ डॉक्टर से संपर्क किया।"
+          },
+          "source": {
+            "para": {
+              "en": 28,
+              "hi": 19
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "In Kalpeni, an experienced doctor in Kavaratti guided the local medical team through e-Sanjeevani.",
+            "hi": "कल्पेनी में कवरत्ती के अनुभवी डॉक्टर ने ई-संजीवनी के जरिए स्थानीय चिकित्सा टीम का मार्गदर्शन किया।"
+          },
+          "source": {
+            "para": {
+              "en": 30,
+              "hi": 21
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "Nearly 190,000 Ayushman Arogya Mandirs across the country have brought new facilities.",
+            "hi": "देशभर में लगभग 1 लाख 90 हजार आयुष्मान आरोग्य मंदिर नई सुविधाएं लेकर आए हैं।"
+          },
+          "source": {
+            "para": {
+              "en": 32,
+              "hi": 23
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "approximately 50 crore tele-consultations have been conducted through this platform so far",
+          "hi": "इसके जरिए अब तक करीब 50 करोड़ Tele-Consultation किए जा चुके हैं"
+        },
+        "para": {
+          "en": 26,
+          "hi": 17
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "baratang-island",
+        "kalpeni",
+        "zanskar",
+        "peren"
+      ],
+      "personIds": [
+        "oho-tahane",
+        "kunhi-koya",
+        "kunjang-dolma",
+        "mushem"
+      ]
+    },
+    {
+      "id": "iit-madras-brain-centre",
+      "title": {
+        "en": "Brain research at IIT Madras",
+        "hi": "आईआईटी मद्रास में ब्रेन रिसर्च"
+      },
+      "category": "Science",
+      "explainer": {
+        "en": "The Prime Minister said he inaugurated the ‘Sudha Gopalakrishnan Brain Centre’ at IIT Madras. It aims to map and study 100 human brains in detail using the ‘Param Shakti’ supercomputer. The data is to be made available as an open-source resource for research.",
+        "hi": "प्रधानमंत्री ने कहा कि उन्होंने IIT Madras में ‘सुधा गोपाल कृष्णन brain centre’ का लोकार्पण किया। इसका लक्ष्य परम शक्ति super computer से 100 human brains का बारीकी से अध्ययन करना है। यह data research के लिए open source के तौर पर उपलब्ध कराया जाएगा।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "The centre has developed a brain-imaging technology platform.",
+            "hi": "इस सेंटर ने ब्रेन इमेजिंग टेक्नोलॉजी प्लेटफॉर्म बनाया है।"
+          },
+          "source": {
+            "para": {
+              "en": 35,
+              "hi": 25
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "It has been decided that the data from 100 human brains will be made available as an open-source resource.",
+            "hi": "तय हुआ है कि 100 मानव मस्तिष्कों का डेटा ओपन सोर्स के तौर पर उपलब्ध कराया जाएगा।"
+          },
+          "source": {
+            "para": {
+              "en": 37,
+              "hi": 27
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "This is the first mission of its kind in the world",
+          "hi": "पूरी दुनिया में ये इस तरह का पहला मिशन है"
+        },
+        "para": {
+          "en": 35,
+          "hi": 25
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "chennai"
+      ],
+      "personIds": []
+    },
+    {
+      "id": "organ-donation-shivani",
+      "title": {
+        "en": "Organ donation by a family",
+        "hi": "एक परिवार का अंगदान"
+      },
+      "category": "People",
+      "explainer": {
+        "en": "The Prime Minister said organ donation makes advanced research possible and saves lives. He told of Shivani from Narmadapuram in Madhya Pradesh, whose family decided to donate her organs after a road accident.",
+        "hi": "प्रधानमंत्री ने कहा कि अंगदान research को संभव बनाता है और जीवन बचाता है। उन्होंने नर्मदापुरम, मध्य प्रदेश की शिवानी जी का उदाहरण दिया, जिनके परिवार ने सड़क दुर्घटना के बाद उनके अंग दान करने का फैसला किया।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Shivani had met with a road accident and her family decided to donate her organs.",
+            "hi": "शिवानी जी एक सड़क दुर्घटना की शिकार हुईं और उनके परिवार ने उनके अंग दान करने का फैसला किया।"
+          },
+          "source": {
+            "para": {
+              "en": 40,
+              "hi": 29
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "even in such a difficult time, they made a decision that serves as an inspiration to us all",
+          "hi": "इस कठिन समय मे भी उनके परिवार ने एक ऐसा निर्णय लिया, जो हम सभी के लिए प्रेरणा हैं"
+        },
+        "para": {
+          "en": 40,
+          "hi": 29
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "narmadapuram"
+      ],
+      "personIds": [
+        "shivani"
+      ]
+    },
+    {
+      "id": "chennai-youth-startups",
+      "title": {
+        "en": "Young start-ups in Chennai",
+        "hi": "चेन्नई के युवा स्टार्ट-अप"
+      },
+      "category": "Youth",
+      "explainer": {
+        "en": "The Prime Minister met young innovators during his Chennai visit. One start-up checks the quality of gold and another works on recovering funds lost to bank fraud. Others work on AI for cervical cancer screening, a flying electric vehicle and fast-charging batteries.",
+        "hi": "प्रधानमंत्री चेन्नई यात्रा में युवा नवोन्मेषकों से मिले। एक start-up gold की quality परखता है और एक team बैंक धोखाधड़ी से निकाली गई रकम recover करने पर काम कर रही है। कुछ लोग cervical cancer की screening में AI, उड़ने वाले electric vehicle और तेजी से charge होने वाली बैटरियों पर काम कर रहे हैं।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "One start-up is developing an electric vehicle capable of flying over the sea.",
+            "hi": "एक Start-Up समुद्र के ऊपर उड़ने वाला electric vehicle विकसित कर रहा है।"
+          },
+          "source": {
+            "para": {
+              "en": 44,
+              "hi": 31
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "The start-ups are supported by the incubation ecosystem at IIT Madras.",
+            "hi": "इन स्टार्ट-अप को आईआईटी मद्रास के इन्क्यूबेशन इकोसिस्टम से मदद मिल रही है।"
+          },
+          "source": {
+            "para": {
+              "en": 44,
+              "hi": 31
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "It was truly heartening to see how our youth are working on innovative solutions to problems",
+          "hi": "यह देखना बहुत सुखद रहा कि हमारी युवा शक्ति कैसे problems के innovative solutions पर काम कर रही है"
+        },
+        "para": {
+          "en": 42,
+          "hi": 31
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    },
+    {
+      "id": "narinder-singh-kapany-centenary",
+      "title": {
+        "en": "Narinder Singh Kapany centenary",
+        "hi": "नरिंदर सिंह कपानी की जन्मशती"
+      },
+      "category": "Science",
+      "explainer": {
+        "en": "The Prime Minister said the 100th birth anniversary of scientist Narinder Singh Kapany falls on 31 October. He called him the ‘Father of Fiber Optics’ and said he was born in Moga district of Punjab. He asked youth to read about such scientists.",
+        "hi": "प्रधानमंत्री ने कहा कि 31 अक्टूबर को वैज्ञानिक नरिंदर सिंह कपानी जी की 100वीं जन्मजयंती है। उन्होंने उन्हें ‘Father of Fiber Optics’ कहा और बताया कि उनका जन्म पंजाब के मोगा जिले में हुआ था। उन्होंने युवाओं से ऐसे वैज्ञानिकों के बारे में पढ़ने को कहा।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Narinder Singh Kapany was born in the Moga district of Punjab.",
+            "hi": "नरिंदर सिंह कपानी जी का जन्म पंजाब के मोगा जिले में हुआ था।"
+          },
+          "source": {
+            "para": {
+              "en": 45,
+              "hi": 33
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "I would like our youth to read and learn about scientists like him, and draw inspiration from them.",
+          "hi": "मैं चाहूँगा, हमारे युवा कपानी जी जैसे वैज्ञानिकों के बारे में पढ़ें, जानें और उनसे प्रेरणा लें।"
+        },
+        "para": {
+          "en": 46,
+          "hi": 33
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "moga"
+      ],
+      "personIds": [
+        "narinder-singh-kapany"
+      ]
+    },
+    {
+      "id": "ekta-diwas-run-for-unity",
+      "title": {
+        "en": "Ekta Diwas and Run for Unity",
+        "hi": "एकता दिवस और रन फॉर यूनिटी"
+      },
+      "category": "Other",
+      "explainer": {
+        "en": "The Prime Minister said 31 October is the birth anniversary of Sardar Vallabhbhai Patel, observed as ‘Ekta Diwas’. A ‘Run for Unity’ is organised across the country. He urged everyone to take part with family and friends.",
+        "hi": "प्रधानमंत्री ने कहा कि 31 अक्टूबर सरदार वल्लभभाई पटेल जी की जयंती है, जिसे ‘एकता दिवस’ के तौर पर मनाया जाता है। देशभर में ‘Run for Unity’ का आयोजन होता है। उन्होंने सभी से परिवार और मित्रों के साथ हिस्सा लेने का आग्रह किया।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "A ‘Run for Unity’ is organised across the country on Ekta Diwas.",
+            "hi": "एकता दिवस पर देशभर में ‘Run for Unity’ का आयोजन होता है।"
+          },
+          "source": {
+            "para": {
+              "en": 48,
+              "hi": 35
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "‘Run For Unity’ offers a significant opportunity to strengthen our unity and reaffirm our commitment to the nation.",
+          "hi": "‘Run for Unity’ हमारी एकता को मजबूत करने का, देश के प्रति अपने संकल्प को दोहराने का, एक बहुत बड़ा मौका है।"
+        },
+        "para": {
+          "en": 48,
+          "hi": 35
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": []
+    },
+    {
+      "id": "north-east-millets-revival",
+      "title": {
+        "en": "Millets return in the North-East",
+        "hi": "पूर्वोत्तर में मोटे अनाज की वापसी"
+      },
+      "category": "Culture",
+      "explainer": {
+        "en": "The Prime Minister said millet farming is returning in parts of the North-East. Two women in Khanduli made new millet products, and farmers there began growing millets again. Examples in Sadolpara and Kezoma were also shared.",
+        "hi": "प्रधानमंत्री ने कहा कि पूर्वोत्तर के कई हिस्सों में millets की खेती लौट रही है। खांडुली की दो सहेलियों ने millets से नए products बनाए और वहाँ के किसानों ने फिर से खेती शुरू की। सादोलपाड़ा और केज़ोमा के उदाहरण भी बताए गए।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Two women friends in Khanduli made cookies, cakes, muffins and baby food from millets.",
+            "hi": "खांडुली की दो सहेलियों ने मोटे अनाज से कुकीज़, केक, मफिन और बेबी फूड तैयार किए।"
+          },
+          "source": {
+            "para": {
+              "en": 52,
+              "hi": 39
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "Farmer Chekjing Sangma of Sadolpara started cultivating millets using modern methods, which increased his income.",
+            "hi": "सादोलपाड़ा के किसान चेकजिंग संगमा जी ने आधुनिक तरीकों से millets की खेती शुरू की, जिससे उनकी आय बढ़ी।"
+          },
+          "source": {
+            "para": {
+              "en": 52,
+              "hi": 41
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "Kezoma celebrated its first-ever millet festival in 2025.",
+            "hi": "2025 में केज़ोमा ने अपना पहला millets festival मनाया।"
+          },
+          "source": {
+            "para": {
+              "en": 53,
+              "hi": 41
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "In 2024, the local community resumed the cultivation of millets, and in 2025, Kezoma celebrated its first-ever millet festival.",
+          "hi": "साल 2024 में यहाँ के लोगों ने millets की खेती फिर से शुरू की। 2025 में केज़ोमा ने अपना पहला millets festival मनाया।"
+        },
+        "para": {
+          "en": 53,
+          "hi": 41
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "west-jaintia-hills",
+        "west-garo-hills",
+        "kohima"
+      ],
+      "personIds": [
+        "chekjing-sangma"
+      ]
+    },
+    {
+      "id": "maharishi-valmiki-jayanti",
+      "title": {
+        "en": "Maharishi Valmiki and his Ramayan",
+        "hi": "महर्षि वाल्मीकि और उनकी रामायण"
+      },
+      "category": "Culture",
+      "explainer": {
+        "en": "The Prime Minister said 26 October is Maharishi Valmiki’s birth anniversary. He said the Ramayan teaches persistent effort, service, compassion and social harmony. He noted shrines to Valmiki, Nishadraj and Mata Shabari at the Ram Mandir in Ayodhya.",
+        "hi": "प्रधानमंत्री ने कहा कि 26 अक्टूबर को महर्षि वाल्मीकि जयंती है। उन्होंने कहा कि रामायण निरंतर प्रयास, सेवा, करुणा और सामाजिक समरसता की सीख देती है। उन्होंने बताया कि अयोध्या के राम मंदिर में वाल्मीकि, निषादराज और माता शबरी के मंदिर बनाए गए हैं।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "The airport in Ayodhya has been named after Maharishi Valmiki.",
+            "hi": "अयोध्या में airport का नाम महर्षि वाल्मीकि जी के नाम पर रखा गया है।"
+          },
+          "source": {
+            "para": {
+              "en": 58,
+              "hi": 43
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "Though thousands of years have passed, the Ramayan, of Maharishi Valmiki ji, continues to offer us new insights even today.",
+          "hi": "हजारों वर्ष बीत गए, लेकिन महर्षि वाल्मीकि जी की रामायण आज भी हमें कुछ नया सिखाती है।"
+        },
+        "para": {
+          "en": 57,
+          "hi": 43
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [
+        "ayodhya"
+      ],
+      "personIds": []
+    },
+    {
+      "id": "bhai-parmanand-150th",
+      "title": {
+        "en": "Bhai Parmanand’s 150th birth anniversary",
+        "hi": "भाई परमानंद की 150वीं जयंती"
+      },
+      "category": "People",
+      "explainer": {
+        "en": "The Prime Minister said 4 November marks the 150th birth anniversary of Bhai Parmanand. He spoke of his work for Arya Samaj in South Africa and Guyana and his role in the freedom movement. He said Bhai Parmanand was sentenced to ‘Kala Pani’ by the British.",
+        "hi": "प्रधानमंत्री ने कहा कि 4 नवंबर को भाई परमानंद जी की 150वीं जयंती है। उन्होंने आर्य समाज के काम से दक्षिण अफ्रीका और गुयाना जाने तथा स्वतंत्रता आंदोलन में उनकी भूमिका की बात की। उन्होंने कहा कि अंग्रेजों ने उन्हें काला पानी की सजा दी थी।"
+      },
+      "facts": [
+        {
+          "text": {
+            "en": "Bhai Parmanand was one of the founding members of the Ghadar Party.",
+            "hi": "भाई परमानंद जी गदर पार्टी के संस्थापक सदस्यों में से एक थे।"
+          },
+          "source": {
+            "para": {
+              "en": 63,
+              "hi": 45
+            }
+          }
+        },
+        {
+          "text": {
+            "en": "After completing his sentence he turned to education and taught Veer Bhagat Singh.",
+            "hi": "सजा खत्म होने के बाद वे शिक्षा के क्षेत्र में आए और उन्होंने वीर भगत सिंह को पढ़ाया।"
+          },
+          "source": {
+            "para": {
+              "en": 63,
+              "hi": 45
+            }
+          }
+        }
+      ],
+      "quote": {
+        "text": {
+          "en": "He was also one of the founding members of the Ghadar Party.",
+          "hi": "वे गदर पार्टी के संस्थापक सदस्यों में से भी एक थे।"
+        },
+        "para": {
+          "en": 63,
+          "hi": 45
+        }
+      },
+      "schemeIds": [],
+      "placeIds": [],
+      "personIds": [
+        "bhai-parmanand"
+      ]
+    }
+  ],
+  "people": [
+    {
+      "id": "ramandeep-kaur",
+      "name": {
+        "en": "Ramandeep Kaur",
+        "hi": "रमनदीप कौर"
+      },
+      "place": {
+        "en": "Punjab",
+        "hi": "पंजाब"
+      },
+      "story": {
+        "en": "She previously worked as a labourer and, after training at the school, is now recognised as a skilled weaver.",
+        "hi": "वे पहले मजदूर के रूप में काम करती थीं और स्कूल में training के बाद अब एक कुशल बुनकर के तौर पर जानी जाती हैं।"
+      },
+      "topicId": "nav-trinjan-organic-cotton",
+      "source": {
+        "para": {
+          "en": 9,
+          "hi": 6
+        }
+      }
+    },
+    {
+      "id": "rekha-rani",
+      "name": {
+        "en": "Rekha Rani",
+        "hi": "रेखा रानी"
+      },
+      "place": {
+        "en": "Punjab",
+        "hi": "पंजाब"
+      },
+      "story": {
+        "en": "She had never seen a handloom before training. A shawl woven by her was presented to the President of India.",
+        "hi": "उन्होंने training से पहले कभी handloom नहीं देखा था। उनकी बनाई शॉल राष्ट्रपति जी को भेंट की गई।"
+      },
+      "topicId": "nav-trinjan-organic-cotton",
+      "source": {
+        "para": {
+          "en": 9,
+          "hi": 6
+        }
+      }
+    },
+    {
+      "id": "suneha-devi",
+      "name": {
+        "en": "Suneha Devi",
+        "hi": "सुनेहा देवी"
+      },
+      "place": {
+        "en": "Punjab",
+        "hi": "पंजाब"
+      },
+      "story": {
+        "en": "She once worked as a domestic help and now creates fabrics on a handloom.",
+        "hi": "वे पहले घरों में काम करती थीं और अब handloom पर fabric तैयार कर रही हैं।"
+      },
+      "topicId": "nav-trinjan-organic-cotton",
+      "source": {
+        "para": {
+          "en": 9,
+          "hi": 6
+        }
+      }
+    },
+    {
+      "id": "rajni-kaur",
+      "name": {
+        "en": "Rajni Kaur",
+        "hi": "रजनी कौर"
+      },
+      "place": {
+        "en": "Punjab",
+        "hi": "पंजाब"
+      },
+      "story": {
+        "en": "She once depended on manual labour in the fields, and her new skills have helped her support her household.",
+        "hi": "वे पहले खेतों में मजदूरी पर निर्भर थीं और नए हुनर से उन्हें घर चलाने में मदद मिली है।"
+      },
+      "topicId": "nav-trinjan-organic-cotton",
+      "source": {
+        "para": {
+          "en": 9,
+          "hi": 6
+        }
+      }
+    },
+    {
+      "id": "oho-tahane",
+      "name": {
+        "en": "Oho-Tahane",
+        "hi": "ओहो-ताहाने"
+      },
+      "place": {
+        "en": "Baratang Island, Andaman and Nicobar Islands",
+        "hi": "बाराटाँग द्वीप, अंडमान-निकोबार"
+      },
+      "story": {
+        "en": "A child of the Jarawa tribe with high fever and breathing trouble, who had pneumonia. His condition improved after local health workers consulted an expert doctor through e-Sanjeevani.",
+        "hi": "जारवा जनजाति के इस बच्चे को तेज बुखार और सांस लेने में परेशानी थी और उसे निमोनिया था। स्थानीय स्वास्थ्यकर्मियों के ई-संजीवनी से विशेषज्ञ डॉक्टर से संपर्क करने पर उसकी स्थिति सुधरने लगी।"
+      },
+      "topicId": "e-sanjeevani-tele-consultations",
+      "source": {
+        "para": {
+          "en": 28,
+          "hi": 19
+        }
+      }
+    },
+    {
+      "id": "kunhi-koya",
+      "name": {
+        "en": "Kunhi Koya",
+        "hi": "कुन्ही कोया"
+      },
+      "place": {
+        "en": "Kalpeni, Lakshadweep",
+        "hi": "कल्पेनी, लक्षद्वीप"
+      },
+      "story": {
+        "en": "Around 60 years old, he fell ill suddenly. A doctor in Kavaratti guided the local medical team through e-Sanjeevani.",
+        "hi": "करीब 60 साल के कुन्ही कोया जी की तबीयत अचानक बिगड़ गई थी। कवरत्ती के doctor ने e-Sanjeevani के जरिए local medical team को guide किया।"
+      },
+      "topicId": "e-sanjeevani-tele-consultations",
+      "source": {
+        "para": {
+          "en": 30,
+          "hi": 21
+        }
+      }
+    },
+    {
+      "id": "kunjang-dolma",
+      "name": {
+        "en": "Kunjang Dolma",
+        "hi": "कुंजांग डोलमा"
+      },
+      "place": {
+        "en": "Zanskar, Ladakh",
+        "hi": "जांस्कर, लद्दाख"
+      },
+      "story": {
+        "en": "She had complications during pregnancy, and a specialist doctor helped her at once through e-Sanjeevani.",
+        "hi": "उन्हें गर्भावस्था के दौरान कुछ जटिलताएँ हो गई थीं और विशेषज्ञ डॉक्टर ने ई-संजीवनी से तुरंत उनकी मदद की।"
+      },
+      "topicId": "e-sanjeevani-tele-consultations",
+      "source": {
+        "para": {
+          "en": 30,
+          "hi": 21
+        }
+      }
+    },
+    {
+      "id": "mushem",
+      "name": {
+        "en": "Mushem",
+        "hi": "मुशेम"
+      },
+      "place": {
+        "en": "Peren, Nagaland",
+        "hi": "पेरेन, नागालैंड"
+      },
+      "story": {
+        "en": "A 12-year-old boy with an ear infection and fever, who benefited from e-Sanjeevani.",
+        "hi": "12 साल के मुशेम को कान में infection और बुखार था और उन्हें e-Sanjeevani का फायदा हुआ।"
+      },
+      "topicId": "e-sanjeevani-tele-consultations",
+      "source": {
+        "para": {
+          "en": 30,
+          "hi": 21
+        }
+      }
+    },
+    {
+      "id": "shivani",
+      "name": {
+        "en": "Shivani",
+        "hi": "शिवानी"
+      },
+      "place": {
+        "en": "Narmadapuram, Madhya Pradesh",
+        "hi": "नर्मदापुरम, मध्य प्रदेश"
+      },
+      "story": {
+        "en": "She met with a road accident, and her family decided to donate her organs.",
+        "hi": "वे एक सड़क दुर्घटना की शिकार हुईं और उनके परिवार ने उनके अंग दान करने का फैसला किया।"
+      },
+      "topicId": "organ-donation-shivani",
+      "source": {
+        "para": {
+          "en": 40,
+          "hi": 29
+        }
+      }
+    },
+    {
+      "id": "narinder-singh-kapany",
+      "name": {
+        "en": "Narinder Singh Kapany",
+        "hi": "नरिंदर सिंह कपानी"
+      },
+      "place": {
+        "en": "Moga, Punjab",
+        "hi": "मोगा, पंजाब"
+      },
+      "story": {
+        "en": "A scientist known to the world as the ‘Father of Fiber Optics’, whose research gave new direction to communication.",
+        "hi": "वैज्ञानिक, जिन्हें दुनिया ‘Father of Fiber Optics’ के रूप में जानती है और जिनकी research ने communication की दुनिया को नई दिशा दी।"
+      },
+      "topicId": "narinder-singh-kapany-centenary",
+      "source": {
+        "para": {
+          "en": 45,
+          "hi": 33
+        }
+      }
+    },
+    {
+      "id": "chekjing-sangma",
+      "name": {
+        "en": "Chekjing Sangma",
+        "hi": "चेकजिंग संगमा"
+      },
+      "place": {
+        "en": "Sadolpara, West Garo Hills, Meghalaya",
+        "hi": "सादोलपाड़ा, पश्चिम गारो हिल्स, मेघालय"
+      },
+      "story": {
+        "en": "A farmer who began cultivating millets with modern methods, raising his income and awareness in the village.",
+        "hi": "एक किसान जिन्होंने आधुनिक तरीकों से millets की खेती शुरू की, जिससे उनकी आय और गाँव में जागरूकता बढ़ी।"
+      },
+      "topicId": "north-east-millets-revival",
+      "source": {
+        "para": {
+          "en": 52,
+          "hi": 41
+        }
+      }
+    },
+    {
+      "id": "bhai-parmanand",
+      "name": {
+        "en": "Bhai Parmanand",
+        "hi": "भाई परमानंद"
+      },
+      "place": {
+        "en": "South Africa and Guyana",
+        "hi": "दक्षिण अफ्रीका और गुयाना"
+      },
+      "story": {
+        "en": "He worked for Arya Samaj, played a major role in the freedom movement and was one of the founding members of the Ghadar Party.",
+        "hi": "उन्होंने आर्य समाज के काम किए, स्वतंत्रता आंदोलन में बड़ी भूमिका निभाई और गदर पार्टी के संस्थापक सदस्यों में से एक थे।"
+      },
+      "topicId": "bhai-parmanand-150th",
+      "source": {
+        "para": {
+          "en": 63,
+          "hi": 45
+        }
+      }
+    }
+  ],
+  "places": [
+    {
+      "id": "malwa-punjab",
+      "name": {
+        "en": "Malwa region",
+        "hi": "मालवा क्षेत्र"
+      },
+      "state": "Punjab",
+      "lat": 30.21,
+      "lng": 74.95,
+      "topicId": "nav-trinjan-organic-cotton"
+    },
+    {
+      "id": "tehri-garhwal",
+      "name": {
+        "en": "Tehri Garhwal",
+        "hi": "टिहरी गढ़वाल"
+      },
+      "state": "Uttarakhand",
+      "lat": 30.38,
+      "lng": 78.48,
+      "topicId": "heval-river-revival"
+    },
+    {
+      "id": "purnia-bihar",
+      "name": {
+        "en": "Purnia",
+        "hi": "पूर्णिया"
+      },
+      "state": "Bihar",
+      "lat": 25.78,
+      "lng": 87.47,
+      "topicId": "vocal-for-local-packaging"
+    },
+    {
+      "id": "kalaburagi-karnataka",
+      "name": {
+        "en": "Kalaburagi",
+        "hi": "कलबुर्गी"
+      },
+      "state": "Karnataka",
+      "lat": 17.33,
+      "lng": 76.83,
+      "topicId": "vocal-for-local-packaging"
+    },
+    {
+      "id": "maharashtra",
+      "name": {
+        "en": "Maharashtra",
+        "hi": "महाराष्ट्र"
+      },
+      "state": "Maharashtra",
+      "lat": 19.75,
+      "lng": 75.71,
+      "topicId": "vocal-for-local-packaging"
+    },
+    {
+      "id": "baratang-island",
+      "name": {
+        "en": "Baratang Island",
+        "hi": "बाराटाँग द्वीप"
+      },
+      "state": "Andaman and Nicobar Islands",
+      "lat": 12.19,
+      "lng": 92.75,
+      "topicId": "e-sanjeevani-tele-consultations"
+    },
+    {
+      "id": "kalpeni",
+      "name": {
+        "en": "Kalpeni",
+        "hi": "कल्पेनी"
+      },
+      "state": "Lakshadweep",
+      "lat": 10.07,
+      "lng": 73.65,
+      "topicId": "e-sanjeevani-tele-consultations"
+    },
+    {
+      "id": "zanskar",
+      "name": {
+        "en": "Zanskar",
+        "hi": "जांस्कर"
+      },
+      "state": "Ladakh",
+      "lat": 33.47,
+      "lng": 76.88,
+      "topicId": "e-sanjeevani-tele-consultations"
+    },
+    {
+      "id": "peren",
+      "name": {
+        "en": "Peren",
+        "hi": "पेरेन"
+      },
+      "state": "Nagaland",
+      "lat": 25.51,
+      "lng": 93.74,
+      "topicId": "e-sanjeevani-tele-consultations"
+    },
+    {
+      "id": "chennai",
+      "name": {
+        "en": "Chennai",
+        "hi": "चेन्नई"
+      },
+      "state": "Tamil Nadu",
+      "lat": 13.08,
+      "lng": 80.27,
+      "topicId": "iit-madras-brain-centre"
+    },
+    {
+      "id": "narmadapuram",
+      "name": {
+        "en": "Narmadapuram",
+        "hi": "नर्मदापुरम"
+      },
+      "state": "Madhya Pradesh",
+      "lat": 22.75,
+      "lng": 77.72,
+      "topicId": "organ-donation-shivani"
+    },
+    {
+      "id": "moga",
+      "name": {
+        "en": "Moga",
+        "hi": "मोगा"
+      },
+      "state": "Punjab",
+      "lat": 30.82,
+      "lng": 75.17,
+      "topicId": "narinder-singh-kapany-centenary"
+    },
+    {
+      "id": "west-jaintia-hills",
+      "name": {
+        "en": "West Jaintia Hills",
+        "hi": "पश्चिम जयंतिया हिल्स"
+      },
+      "state": "Meghalaya",
+      "lat": 25.43,
+      "lng": 92.2,
+      "topicId": "north-east-millets-revival"
+    },
+    {
+      "id": "west-garo-hills",
+      "name": {
+        "en": "West Garo Hills",
+        "hi": "पश्चिम गारो हिल्स"
+      },
+      "state": "Meghalaya",
+      "lat": 25.51,
+      "lng": 90.22,
+      "topicId": "north-east-millets-revival"
+    },
+    {
+      "id": "kohima",
+      "name": {
+        "en": "Kohima",
+        "hi": "कोहिमा"
+      },
+      "state": "Nagaland",
+      "lat": 25.67,
+      "lng": 94.11,
+      "topicId": "north-east-millets-revival"
+    },
+    {
+      "id": "ayodhya",
+      "name": {
+        "en": "Ayodhya",
+        "hi": "अयोध्या"
+      },
+      "state": "Uttar Pradesh",
+      "lat": 26.79,
+      "lng": 82.2,
+      "topicId": "maharishi-valmiki-jayanti"
+    }
+  ],
+  "stats": [
+    {
+      "value": "50",
+      "label": {
+        "en": "crore tele-consultations through e-Sanjeevani",
+        "hi": "करोड़ टेली-कंसल्टेशन, ई-संजीवनी के जरिए"
+      },
+      "context": {
+        "en": "About 50 crore tele-consultations have been conducted so far.",
+        "hi": "अब तक करीब 50 करोड़ Tele-Consultation किए जा चुके हैं।"
+      },
+      "source": {
+        "para": {
+          "en": 26,
+          "hi": 17
+        }
+      }
+    },
+    {
+      "value": "190,000",
+      "label": {
+        "en": "Ayushman Arogya Mandirs (nearly)",
+        "hi": "आयुष्मान आरोग्य मंदिर (लगभग)"
+      },
+      "context": {
+        "en": "Nearly 190,000 Ayushman Arogya Mandirs are in the country.",
+        "hi": "देशभर में लगभग 1 लाख 90 हजार आयुष्मान आरोग्य मंदिर हैं।"
+      },
+      "source": {
+        "para": {
+          "en": 32,
+          "hi": 23
+        }
+      }
+    },
+    {
+      "value": "₹28",
+      "label": {
+        "en": "crore Khadi Gram Udyog sales in one day",
+        "hi": "करोड़ रुपये खादी ग्रामोद्योग की एक दिन की बिक्री"
+      },
+      "context": {
+        "en": "Sales exceeded ₹28 crore in a single day on Gandhi Jayanti.",
+        "hi": "गांधी जयंती पर एक दिन में बिक्री 28 करोड़ रुपये से अधिक रही।"
+      },
+      "source": {
+        "para": {
+          "en": 22,
+          "hi": 15
+        }
+      }
+    },
+    {
+      "value": "100",
+      "label": {
+        "en": "human brains to be mapped and studied",
+        "hi": "मानव मस्तिष्कों की मैपिंग और अध्ययन"
+      },
+      "context": {
+        "en": "The goal is to map and study 100 human brains in minute detail.",
+        "hi": "लक्ष्य 100 human brains की बारीकी से mapping और अध्ययन करना है।"
+      },
+      "source": {
+        "para": {
+          "en": 35,
+          "hi": 25
+        }
+      }
+    },
+    {
+      "value": "12",
+      "label": {
+        "en": "years of Mann Ki Baat",
+        "hi": "वर्ष ‘मन की बात’ के"
+      },
+      "context": {
+        "en": "The programme has continued without a break since it began.",
+        "hi": "यह कार्यक्रम शुरू होने के बाद से निरंतर जारी है।"
+      },
+      "source": {
+        "para": {
+          "en": 2,
+          "hi": 2
+        }
+      }
+    }
+  ]
+}
