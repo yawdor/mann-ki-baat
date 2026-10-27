@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { t } from '../../src/lib/i18n';
 
-const PAGES = ['', '2026-09/', 'hi/2026-09/', 'kn/2026-09/'];
+const PAGES = ['', '2026-09/', 'hi/2026-09/', 'kn/2026-09/', '404.html'];
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 900 },
   { name: 'mobile', width: 390, height: 844 },
@@ -18,6 +18,13 @@ async function open(page: Page, path: string) {
   await page.waitForLoadState('load');
   return errors;
 }
+
+test('an unknown URL gets the bilingual 404 page', async ({ page }) => {
+  const res = await page.goto('no-such-page/');
+  expect(res?.status()).toBe(404);
+  await expect(page.locator('main h1')).toHaveText('Page not found');
+  await expect(page.locator('main [lang="hi"] h2')).toHaveText('पृष्ठ नहीं मिला');
+});
 
 for (const vp of VIEWPORTS) {
   test.describe(`${vp.name} ${vp.width}x${vp.height}`, () => {

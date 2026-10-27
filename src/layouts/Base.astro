@@ -13,9 +13,11 @@ interface Props {
   langs: Lang[];
   accent?: string;
   ogType?: 'article' | 'website';
+  /** Error pages: `robots: noindex`, and no canonical, alternates or og:url. */
+  noindex?: boolean;
 }
 
-const { lang, title, description, path, langs, accent, ogType = 'article' } = Astro.props;
+const { lang, title, description, path, langs, accent, ogType = 'article', noindex = false } = Astro.props;
 const site = Astro.site ?? new URL('https://yawdor.github.io');
 const abs = (l: Lang) => new URL(localePath(l, path), site).href;
 const fonts = googleFontsHref(lang);
@@ -28,13 +30,14 @@ const fonts = googleFontsHref(lang);
     <script is:inline>document.documentElement.classList.add('js')</script>
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={abs(lang)} />
-    {langs.map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={abs(lang)} />}
+    {!noindex && langs.map((l) => <link rel="alternate" hreflang={l} href={abs(l)} />)}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={`${lang}_IN`} />
-    <meta property="og:url" content={abs(lang)} />
+    {!noindex && <meta property="og:url" content={abs(lang)} />}
     <meta name="theme-color" content="#7A1431" />
     <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} type="image/svg+xml" />
     {/* Web fonts load after the page has painted (text shows in the fallback font first; display=swap then swaps it). */}

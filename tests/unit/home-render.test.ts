@@ -245,3 +245,24 @@ describe('every internal link resolves to a built page', () => {
     ]);
   });
 });
+
+describe('404 page', () => {
+  it('is bilingual, uses the site header and footer, links home and to the scheme index, and is not indexed', async () => {
+    const { default: NotFound } = await import('../../src/pages/404.astro');
+    const doc = await render(NotFound);
+    expect(doc.querySelector('html')!.getAttribute('lang')).toBe('en');
+    expect(doc.querySelector('meta[name="robots"]')!.getAttribute('content')).toBe('noindex');
+    expect(doc.querySelector('link[rel="canonical"]')).toBeNull();
+    expect(doc.querySelector('header.site-header')).not.toBeNull();
+    expect(doc.querySelector('footer.site-footer')!.text).toContain(t('en', 'footerDisclaimer'));
+    const h1 = doc.querySelector('main h1')!;
+    expect(squash(h1.text)).toBe('Page not found');
+    const hi = doc.querySelector('main [lang="hi"]')!;
+    expect(squash(hi.querySelector('h2')!.text)).toBe('पृष्ठ नहीं मिला');
+    const hrefs = doc.querySelectorAll('main a').map((a) => a.getAttribute('href'));
+    expect(hrefs).toEqual(
+      expect.arrayContaining(['/mann-ki-baat/', '/mann-ki-baat/schemes/', '/mann-ki-baat/hi/', '/mann-ki-baat/hi/schemes/']),
+    );
+    expect(doc.querySelectorAll('main svg').every((s) => s.getAttribute('aria-hidden') === 'true')).toBe(true);
+  });
+});

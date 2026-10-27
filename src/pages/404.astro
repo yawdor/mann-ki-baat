@@ -1,0 +1,120 @@
+---
+// Served by GitHub Pages for any unknown URL under the site. Bilingual, because a visitor may
+// have come from either language; built to dist/404.html.
+import '../styles/episode.css';
+import Base from '../layouts/Base.astro';
+import Header from '../components/episode/Header.astro';
+import Footer from '../components/episode/Footer.astro';
+import Toran from '../components/ornaments/Toran.astro';
+import { localePath, t, type Lang } from '../lib/i18n';
+import type { NavItem } from '../lib/home-paths';
+
+const nav = (lang: Lang): NavItem[] => [
+  { href: localePath(lang, '/'), label: lang === 'en' ? 'Home' : 'मुखपृष्ठ' },
+  { href: localePath(lang, '/schemes/'), label: t(lang, 'navSchemeIndex') },
+];
+const blocks = [
+  {
+    lang: 'en' as Lang,
+    title: 'Page not found',
+    text: 'This page does not exist, or it has moved. Every month’s explainer is listed on the home page.',
+    home: 'Go to the home page',
+  },
+  {
+    lang: 'hi' as Lang,
+    title: 'पृष्ठ नहीं मिला',
+    text: 'यह पृष्ठ मौजूद नहीं है, या इसका पता बदल गया है। हर महीने की जानकारी मुखपृष्ठ पर मिलेगी।',
+    home: 'मुखपृष्ठ पर जाएँ',
+  },
+];
+---
+<Base
+  lang="en"
+  title={`Page not found · ${t('en', 'siteName')}`}
+  description="This page does not exist. पृष्ठ नहीं मिला।"
+  path="/404.html"
+  langs={['en']}
+  ogType="website"
+  noindex
+>
+  <Header lang="en" path="/" langs={['en', 'hi']} nav={nav('en')} />
+  <div class="toran"><Toran height={60} /></div>
+  <main id="main" class="wrap page">
+    <p class="eyebrow">404</p>
+    {blocks.map((b, i) => (
+      <section class="block" lang={b.lang === 'en' ? undefined : b.lang}>
+        {i === 0 ? <h1 class="section-title">{b.title}</h1> : <h2 class="section-title">{b.title}</h2>}
+        <p class="text">{b.text}</p>
+        <p class="links">
+          <a class="btn primary" href={localePath(b.lang, '/')}>{b.home}</a>
+          <a class="btn" href={localePath(b.lang, '/schemes/')}>{t(b.lang, 'navSchemeIndex')}</a>
+        </p>
+      </section>
+    ))}
+  </main>
+  <Footer lang="en" />
+</Base>
+
+<style>
+  .toran {
+    background: var(--kumkum);
+  }
+  .page {
+    padding-top: 48px;
+    padding-bottom: 96px;
+    display: grid;
+    gap: 40px;
+  }
+  .page > .eyebrow {
+    margin: 0 0 -24px;
+  }
+  .block {
+    border-left: 6px solid var(--haldi);
+    padding-left: 20px;
+  }
+  .block + .block {
+    border-left-color: var(--marigold);
+  }
+  .text {
+    margin: 0 0 20px;
+    color: var(--text-soft);
+    max-width: 60ch;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: 2px solid var(--kumkum);
+    color: var(--kumkum);
+    background: var(--white);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .btn.primary {
+    background: var(--kumkum);
+    color: var(--white);
+  }
+  .btn:hover {
+    background: var(--chandan);
+    color: var(--kumkum);
+  }
+  @media (max-width: 760px) {
+    .page {
+      padding-top: 28px;
+      padding-bottom: 56px;
+      gap: 32px;
+    }
+  }
+</style>
+
+<script>
+  import '../scripts/nav';
+</script>
