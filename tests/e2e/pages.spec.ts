@@ -38,6 +38,9 @@ for (const vp of VIEWPORTS) {
         });
 
         test('axe: no serious or critical violations', async ({ page }) => {
+          // Reduced motion shows .bloom sections at full opacity, so contrast
+          // is measured on final colours rather than mid-fade.
+          await page.emulateMedia({ reducedMotion: 'reduce' });
           await open(page, p);
           const { violations } = await new AxeBuilder({ page }).analyze();
           const bad = violations

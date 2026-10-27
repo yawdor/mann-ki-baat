@@ -41,6 +41,9 @@ for (const vp of VIEWPORTS) {
     test.use({ viewport: { width: vp.width, height: vp.height } });
     for (const p of PAGES) {
       test(`/${p}: axe has no serious or critical violations, no horizontal scroll`, async ({ page }) => {
+        // Reduced motion shows .bloom sections at full opacity, so contrast
+        // is measured on final colours rather than mid-fade.
+        await page.emulateMedia({ reducedMotion: 'reduce' });
         await page.goto(p);
         await page.waitForLoadState('load');
         const { violations } = await new AxeBuilder({ page }).analyze();
