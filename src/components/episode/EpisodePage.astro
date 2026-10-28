@@ -12,6 +12,11 @@ import Schemes from './Schemes.astro';
 import People from './People.astro';
 import Places from './Places.astro';
 import EpisodeNav from './EpisodeNav.astro';
+import StoryCards from './StoryCards.astro';
+import ForYou from './ForYou.astro';
+import YouthBand from './YouthBand.astro';
+import Quiz from './Quiz.astro';
+import AskBox from './AskBox.astro';
 import Footer from './Footer.astro';
 import { LANG_META, completeLangs, localePath, pick, t, type Lang } from '../../lib/i18n';
 import { referencedSchemes } from '../../lib/langs';
@@ -49,10 +54,15 @@ const nav = [
   <main id="main">
     <Hero episode={episode} lang={lang} hasSchemes={episodeSchemes.length > 0} />
     <BlockBand variant="haldi" />
+    {episode.topics.length > 0 && <StoryCards episode={episode} lang={lang} />}
     <Glance episode={episode} schemes={schemes} lang={lang} />
+    <ForYou episode={episode} schemes={episodeSchemes} lang={lang} />
     <Topics episode={episode} schemes={schemes} lang={lang} />
+    <YouthBand episode={episode} lang={lang} />
     {quote && <Quote episode={episode} quote={quote} lang={lang} />}
     {episodeSchemes.length > 0 && <Schemes schemes={episodeSchemes} lang={lang} />}
+    <Quiz episode={episode} lang={lang} month={month} />
+    <AskBox episode={episode} lang={lang} month={month} />
     {episode.people.length > 0 && <People episode={episode} lang={lang} />}
     {episode.places.length > 0 && <Places episode={episode} lang={lang} />}
     <EpisodeNav lang={lang} prev={prev} next={next} />
@@ -65,4 +75,5 @@ const nav = [
   import '../../scripts/filter';
   import '../../scripts/schemes';
   import '../../scripts/motion';
+  import '../../scripts/share';
 </script>

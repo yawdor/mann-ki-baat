@@ -1,0 +1,177 @@
+---
+import { pick, type Lang } from '../../lib/i18n';
+import { CATEGORY_COLOURS, categoryLabel } from '../../lib/episode-view';
+import { firstSentence, youthCopy } from '../../lib/youth-copy';
+import type { Episode } from '../../lib/schema';
+
+interface Props { episode: Episode; lang: Lang }
+const { episode, lang } = Astro.props;
+const c = youthCopy(lang);
+const site = new URL(Astro.url.pathname, Astro.site ?? 'https://yawdor.github.io').href;
+const cards = episode.topics.map((tp, i) => ({
+  id: tp.id,
+  n: i + 1,
+  title: pick(tp.title, lang),
+  takeaway: tp.takeaway ? pick(tp.takeaway, lang) : firstSentence(pick(tp.explainer, lang)),
+  colour: CATEGORY_COLOURS[tp.category],
+  cat: categoryLabel(lang, tp.category),
+}));
+---
+<section id="stories" class="stories" aria-labelledby="stories-title" data-share-site={site} data-share-footer={c.shareFooter}>
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <p class="eyebrow">{c.storiesLabel}</p>
+        <h2 class="section-title" id="stories-title">{c.storiesTitle}</h2>
+        <p class="hint">{c.storiesHint}</p>
+      </div>
+      <div class="arrows needs-js">
+        <button type="button" class="arrow" data-story-prev aria-label={c.prev}>‹</button>
+        <button type="button" class="arrow" data-story-next aria-label={c.next}>›</button>
+      </div>
+    </div>
+  </div>
+  <ol class="track" data-story-track tabindex="0" aria-label={c.storiesTitle}>
+    {cards.map((card) => (
+      <li class="story" style={`--c: ${card.colour}`} data-share-card
+          data-share-title={card.title} data-share-text={card.takeaway} data-share-cat={card.cat}>
+        <span class="num" aria-hidden="true">{card.n}</span>
+        <span class="cat">{card.cat}</span>
+        <h3>{card.title}</h3>
+        <p>{card.takeaway}</p>
+        <div class="actions">
+          <a href={`#topic-${card.id}`}>{c.readMore} →</a>
+          <button type="button" class="share needs-js" data-share aria-label={`${c.share}: ${card.title}`}>{c.share}</button>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .stories {
+    padding: 56px 0 24px;
+    background: var(--white);
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .hint {
+    margin: 4px 0 0;
+    color: #5A3A22;
+  }
+  .arrows {
+    display: flex;
+    gap: 8px;
+  }
+  .arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 2px solid var(--kumkum);
+    background: var(--white);
+    color: var(--kumkum);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .track {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 4px max(16px, calc((100% - 1200px) / 2 + 24px)) 16px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(82%, 320px);
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: max(16px, calc((100% - 1200px) / 2 + 24px));
+    overscroll-behavior-x: contain;
+  }
+  .story {
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 300px;
+    padding: 24px 22px 20px;
+    border-radius: 999px 999px 22px 22px / 140px 140px 22px 22px;
+    /* Darkened so white body text meets 4.5:1 on every category colour (Youth orange alone is ~3.6:1). */
+    background: color-mix(in srgb, var(--c), #000 22%);
+    color: var(--white);
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.3);
+  }
+  .num {
+    align-self: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--haldi);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .cat {
+    align-self: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 999px;
+    padding: 3px 12px;
+  }
+  h3 {
+    margin: 4px 0 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.2;
+    text-align: center;
+  }
+  p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  .actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .actions a {
+    color: var(--white);
+    font-weight: 700;
+  }
+  .share {
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 0;
+    background: var(--white);
+    color: var(--text);
+    font: 700 15px var(--font-body);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const track = document.querySelector<HTMLElement>('[data-story-track]');
+  const step = (dir: number) => {
+    if (!track) return;
+    const card = track.querySelector<HTMLElement>('li');
+    track.scrollBy({ left: dir * ((card?.offsetWidth ?? 300) + 16), behavior: 'smooth' });
+  };
+  document.querySelector('[data-story-prev]')?.addEventListener('click', () => step(-1));
+  document.querySelector('[data-story-next]')?.addEventListener('click', () => step(1));
+</script>

@@ -1,0 +1,60 @@
+---
+import { pick, type Lang } from '../../lib/i18n';
+import { firstSentence, youthCopy } from '../../lib/youth-copy';
+import type { Episode } from '../../lib/schema';
+
+interface Props { episode: Episode; lang: Lang }
+const { episode, lang } = Astro.props;
+const c = youthCopy(lang);
+const topics = episode.topics.filter(
+  (tp) => tp.category === 'Youth' || tp.audiences?.some((a) => a === 'youth' || a === 'students'),
+);
+---
+{topics.length > 0 && (
+  <section id="youth" class="youth on-dark" aria-labelledby="youth-title">
+    <div class="wrap">
+      <p class="eyebrow">{c.youthLabel}</p>
+      <h2 class="section-title" id="youth-title">{c.youthTitle}</h2>
+      <ul>
+        {topics.map((tp) => (
+          <li>
+            <a href={`#topic-${tp.id}`}>{pick(tp.title, lang)}</a>
+            <p>{tp.takeaway ? pick(tp.takeaway, lang) : firstSentence(pick(tp.explainer, lang))}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .youth {
+    padding: 64px 0;
+    background: var(--peacock);
+    color: var(--white);
+  }
+  ul {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+  li {
+    border: 2px solid var(--haldi);
+    border-radius: 20px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.15);
+  }
+  a {
+    color: var(--haldi);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.25;
+  }
+  p {
+    margin: 8px 0 0;
+    color: var(--white);
+  }
+</style>

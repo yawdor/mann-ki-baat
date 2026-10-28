@@ -1,0 +1,130 @@
+---
+import { pick, t, type Lang } from '../../lib/i18n';
+import { audienceLabel, host } from '../../lib/episode-view';
+import { youthCopy } from '../../lib/youth-copy';
+import { AUDIENCES, type Episode, type Scheme } from '../../lib/schema';
+
+interface Props { episode: Episode; schemes: Scheme[]; lang: Lang }
+const { episode, schemes, lang } = Astro.props;
+const c = youthCopy(lang);
+const groups = AUDIENCES.map((a) => ({
+  a,
+  label: audienceLabel(lang, a),
+  topics: episode.topics.filter((tp) => tp.audiences?.includes(a)),
+  schemes: schemes.filter((s) => s.audiences.includes(a)),
+})).filter((g) => g.topics.length + g.schemes.length > 0);
+---
+{groups.length > 0 && (
+  <section id="for-you" class="for-you" aria-labelledby="for-you-title">
+    <div class="wrap">
+      <p class="eyebrow">{c.forYouLabel}</p>
+      <h2 class="section-title" id="for-you-title">{c.forYouTitle}</h2>
+      <p class="hint">{c.forYouHint}</p>
+      <div class="chips needs-js" role="group" aria-label={c.forYouTitle}>
+        {groups.map((g, i) => (
+          <button type="button" class="chip" data-foryou={g.a} aria-pressed={i === 0 ? 'true' : 'false'}>{g.label}</button>
+        ))}
+      </div>
+      <div class="panels">
+        {groups.map((g) => (
+          <div class="panel" data-foryou-panel={g.a}>
+            <h3>{g.label}</h3>
+            <ul>
+              {g.topics.map((tp) => (
+                <li><a href={`#topic-${tp.id}`}>{pick(tp.title, lang)}</a></li>
+              ))}
+              {g.schemes.map((s) => (
+                <li class="scheme">
+                  <a href={`#scheme-${s.id}`}>{pick(s.name, lang)}</a>
+                  <a class="apply" href={s.officialUrl} rel="noopener">{t(lang, 'ctaApply')} {host(s.officialUrl)} ↗</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .for-you {
+    padding: 64px 0;
+    background: var(--chandan);
+  }
+  .hint {
+    margin: 4px 0 16px;
+    color: #5A3A22;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .chip {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 2px solid var(--kumkum);
+    background: var(--white);
+    color: var(--kumkum);
+    font: 700 15px var(--font-body);
+    cursor: pointer;
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--kumkum);
+    color: var(--white);
+  }
+  .panels {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  }
+  .panel {
+    background: var(--white);
+    border-radius: 999px 999px 22px 22px / 60px 60px 22px 22px;
+    padding: 28px 24px 22px;
+    box-shadow: 0 2px 0 #E8C770;
+  }
+  .panel h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--kumkum);
+    text-align: center;
+  }
+  ul {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  a {
+    color: var(--peacock);
+    font-weight: 600;
+  }
+  .scheme {
+    display: flex;
+    flex-direction: column;
+  }
+  .apply {
+    font-size: 15px;
+    color: var(--kumkum);
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-foryou]');
+  const panels = document.querySelectorAll<HTMLElement>('[data-foryou-panel]');
+  const show = (a: string) => {
+    chips.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.foryou === a)));
+    panels.forEach((p) => (p.hidden = p.dataset.foryouPanel !== a));
+  };
+  if (chips.length) {
+    show(chips[0].dataset.foryou!);
+    chips.forEach((b) => b.addEventListener('click', () => show(b.dataset.foryou!)));
+  }
+</script>

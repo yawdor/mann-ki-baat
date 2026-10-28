@@ -137,6 +137,10 @@
         "rekha-rani",
         "suneha-devi",
         "rajni-kaur"
+      ],
+      "audiences": [
+        "farmers",
+        "women"
       ]
     },
     {
@@ -190,7 +194,10 @@
       "placeIds": [
         "tehri-garhwal"
       ],
-      "personIds": []
+      "personIds": [],
+      "audiences": [
+        "households"
+      ]
     },
     {
       "id": "festival-cleanliness-drives",
@@ -229,7 +236,10 @@
       },
       "schemeIds": [],
       "placeIds": [],
-      "personIds": []
+      "personIds": [],
+      "audiences": [
+        "households"
+      ]
     },
     {
       "id": "vocal-for-local-packaging",
@@ -308,7 +318,11 @@
         "kalaburagi-karnataka",
         "maharashtra"
       ],
-      "personIds": []
+      "personIds": [],
+      "audiences": [
+        "business",
+        "farmers"
+      ]
     },
     {
       "id": "khadi-sales-gandhi-jayanti",
@@ -359,7 +373,11 @@
       },
       "schemeIds": [],
       "placeIds": [],
-      "personIds": []
+      "personIds": [],
+      "audiences": [
+        "business",
+        "workers"
+      ]
     },
     {
       "id": "e-sanjeevani-tele-consultations",
@@ -432,6 +450,11 @@
         "kunhi-koya",
         "kunjang-dolma",
         "mushem"
+      ],
+      "audiences": [
+        "health",
+        "children",
+        "senior-citizens"
       ]
     },
     {
@@ -485,7 +508,11 @@
       "placeIds": [
         "chennai"
       ],
-      "personIds": []
+      "personIds": [],
+      "audiences": [
+        "students",
+        "youth"
+      ]
     },
     {
       "id": "organ-donation-shivani",
@@ -528,6 +555,9 @@
       ],
       "personIds": [
         "shivani"
+      ],
+      "audiences": [
+        "health"
       ]
     },
     {
@@ -579,7 +609,12 @@
       },
       "schemeIds": [],
       "placeIds": [],
-      "personIds": []
+      "personIds": [],
+      "audiences": [
+        "youth",
+        "students",
+        "business"
+      ]
     },
     {
       "id": "narinder-singh-kapany-centenary",
@@ -622,6 +657,9 @@
       ],
       "personIds": [
         "narinder-singh-kapany"
+      ],
+      "audiences": [
+        "students"
       ]
     },
     {
@@ -661,7 +699,10 @@
       },
       "schemeIds": [],
       "placeIds": [],
-      "personIds": []
+      "personIds": [],
+      "audiences": [
+        "youth"
+      ]
     },
     {
       "id": "north-east-millets-revival",
@@ -730,6 +771,10 @@
       ],
       "personIds": [
         "chekjing-sangma"
+      ],
+      "audiences": [
+        "farmers",
+        "women"
       ]
     },
     {
@@ -1354,6 +1399,163 @@
         "para": {
           "en": 2,
           "hi": 2
+        }
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "question": {
+        "en": "When did Mann Ki Baat begin?",
+        "hi": "‘मन की बात’ कब शुरू हुई थी?"
+      },
+      "options": [
+        {
+          "en": "On Vijayadashami, twelve years ago",
+          "hi": "12 वर्ष पहले विजयादशमी पर"
+        },
+        {
+          "en": "On Diwali, ten years ago",
+          "hi": "10 वर्ष पहले दीवाली पर"
+        },
+        {
+          "en": "On Republic Day, five years ago",
+          "hi": "5 वर्ष पहले गणतंत्र दिवस पर"
+        }
+      ],
+      "answer": 0,
+      "explanation": {
+        "en": "The programme began on the occasion of Vijayadashami twelve years ago.",
+        "hi": "यह कार्यक्रम 12 वर्ष पहले विजयादशमी के अवसर पर शुरू हुआ था।"
+      },
+      "source": {
+        "para": {
+          "en": 2,
+          "hi": 2
+        }
+      }
+    },
+    {
+      "question": {
+        "en": "Khadi Gram Udyog sales on Gandhi Jayanti crossed how much in a single day?",
+        "hi": "गांधी जयंती पर एक दिन में खादी ग्रामोद्योग की बिक्री कितनी से अधिक रही?"
+      },
+      "options": [
+        {
+          "en": "₹5 crore",
+          "hi": "5 करोड़ रुपये"
+        },
+        {
+          "en": "₹28 crore",
+          "hi": "28 करोड़ रुपये"
+        },
+        {
+          "en": "₹100 crore",
+          "hi": "100 करोड़ रुपये"
+        }
+      ],
+      "answer": 1,
+      "explanation": {
+        "en": "Sales exceeded ₹28 crore in a single day, ₹1.5 crore more than the previous year.",
+        "hi": "एक दिन में बिक्री 28 करोड़ रुपये से अधिक रही, जो पिछले साल से डेढ़ करोड़ रुपये ज्यादा है।"
+      },
+      "source": {
+        "para": {
+          "en": 22,
+          "hi": 15
+        }
+      }
+    },
+    {
+      "question": {
+        "en": "Which platform did health workers on Baratang Island use to consult an expert doctor?",
+        "hi": "बाराटाँग द्वीप में स्वास्थ्यकर्मियों ने विशेषज्ञ डॉक्टर से संपर्क के लिए किस प्लेटफॉर्म का उपयोग किया?"
+      },
+      "options": [
+        {
+          "en": "DigiLocker",
+          "hi": "डिजिलॉकर"
+        },
+        {
+          "en": "UMANG",
+          "hi": "उमंग"
+        },
+        {
+          "en": "e-Sanjeevani",
+          "hi": "ई-संजीवनी"
+        }
+      ],
+      "answer": 2,
+      "explanation": {
+        "en": "Local health workers used e-Sanjeevani to consult an expert doctor for a child with pneumonia.",
+        "hi": "निमोनिया वाले बच्चे के लिए स्थानीय स्वास्थ्यकर्मियों ने ई-संजीवनी से विशेषज्ञ डॉक्टर से संपर्क किया।"
+      },
+      "source": {
+        "para": {
+          "en": 28,
+          "hi": 19
+        }
+      }
+    },
+    {
+      "question": {
+        "en": "Data from how many human brains at the IIT Madras centre will be made open source?",
+        "hi": "आईआईटी मद्रास के सेंटर में कितने मानव मस्तिष्कों का डेटा ओपन सोर्स किया जाएगा?"
+      },
+      "options": [
+        {
+          "en": "10",
+          "hi": "10"
+        },
+        {
+          "en": "100",
+          "hi": "100"
+        },
+        {
+          "en": "1,000",
+          "hi": "1,000"
+        }
+      ],
+      "answer": 1,
+      "explanation": {
+        "en": "It has been decided that the data from 100 human brains will be made available as an open-source resource.",
+        "hi": "तय हुआ है कि 100 मानव मस्तिष्कों का डेटा ओपन सोर्स के तौर पर उपलब्ध कराया जाएगा।"
+      },
+      "source": {
+        "para": {
+          "en": 37,
+          "hi": 27
+        }
+      }
+    },
+    {
+      "question": {
+        "en": "What is organised across the country on Ekta Diwas?",
+        "hi": "एकता दिवस पर देशभर में क्या आयोजित होता है?"
+      },
+      "options": [
+        {
+          "en": "A Run for Unity",
+          "hi": "एकता दौड़"
+        },
+        {
+          "en": "A national yoga camp",
+          "hi": "राष्ट्रीय योग शिविर"
+        },
+        {
+          "en": "A science fair",
+          "hi": "विज्ञान मेला"
+        }
+      ],
+      "answer": 0,
+      "explanation": {
+        "en": "A ‘Run for Unity’ is organised across the country on Ekta Diwas, Sardar Vallabhbhai Patel’s birth anniversary.",
+        "hi": "सरदार वल्लभभाई पटेल की जयंती, एकता दिवस पर देशभर में ‘Run for Unity’ का आयोजन होता है।"
+      },
+      "source": {
+        "para": {
+          "en": 48,
+          "hi": 35
         }
       }
     }

@@ -41,6 +41,8 @@ for (const vp of VIEWPORTS) {
     test.use({ viewport: { width: vp.width, height: vp.height } });
     for (const p of PAGES) {
       test(`/${p}: axe has no serious or critical violations, no horizontal scroll`, async ({ page }) => {
+        // A full episode page is large; axe needs more than the default 30 s on slow machines.
+        test.setTimeout(120_000);
         // Reduced motion shows .bloom sections at full opacity, so contrast
         // is measured on final colours rather than mid-fade.
         await page.emulateMedia({ reducedMotion: 'reduce' });

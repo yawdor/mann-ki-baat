@@ -1,0 +1,143 @@
+---
+import { type Lang } from '../../lib/i18n';
+import { youthCopy } from '../../lib/youth-copy';
+import type { Episode } from '../../lib/schema';
+
+interface Props { episode: Episode; lang: Lang; month: string }
+const { episode, lang, month } = Astro.props;
+const c = youthCopy(lang);
+const paraLang = lang === 'hi' ? 'hi' : 'en';
+const dataUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/data/${month}/${paraLang}.json`;
+---
+<section id="ask" class="ask" aria-labelledby="ask-title">
+  <div class="wrap">
+    <p class="eyebrow">{c.askLabel}</p>
+    <h2 class="section-title" id="ask-title">{c.askTitle}</h2>
+    <p class="hint">{c.askHint}</p>
+    <form class="needs-js" data-ask={dataUrl} data-transcript={episode.sources[paraLang]}
+          data-none={c.askNone} data-para={c.askPara} data-loading={c.askLoading} role="search">
+      <label for="ask-q" class="visually-hidden">{c.askSearch}</label>
+      <input id="ask-q" type="search" placeholder={c.askPlaceholder} autocomplete="off" lang={paraLang} />
+      <button type="submit">{c.askSearch}</button>
+    </form>
+    <ol class="results" aria-live="polite" lang={paraLang}></ol>
+    <noscript><p><a href={episode.sources[paraLang]}>{c.askSearch} ↗</a></p></noscript>
+  </div>
+</section>
+
+<style>
+  .ask {
+    padding: 64px 0;
+    background: var(--chandan);
+  }
+  .hint {
+    margin: 4px 0 16px;
+    color: #5A3A22;
+  }
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  input {
+    flex: 1 1 260px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 0 16px;
+    border: 2px solid #E8C770;
+    border-radius: 14px;
+    font: 17px var(--font-body);
+    background: var(--white);
+    color: var(--text);
+  }
+  button {
+    min-height: 52px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--kumkum);
+    color: var(--white);
+    font: 700 16px var(--font-body);
+    cursor: pointer;
+  }
+  .results {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .results :global(li) {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 2px 0 #E8C770;
+  }
+  .results :global(mark) {
+    background: var(--haldi);
+    color: var(--text);
+  }
+  .results :global(a) {
+    color: var(--peacock);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-ask]').forEach((form) => {
+    const input = form.querySelector('input')!;
+    const out = form.parentElement!.querySelector<HTMLOListElement>('.results')!;
+    let paras: string[] | null = null;
+    const norm = (s: string) => s.normalize('NFC').toLocaleLowerCase();
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const q = input.value.trim();
+      out.replaceChildren();
+      if (!q) return;
+      if (!paras) {
+        const wait = document.createElement('li');
+        wait.textContent = form.dataset.loading!;
+        out.append(wait);
+        try { paras = await (await fetch(form.dataset.ask!)).json(); } catch { paras = []; }
+        out.replaceChildren();
+      }
+      const words = norm(q).split(/\s+/).filter(Boolean);
+      const hits = paras!
+        .map((p, i) => ({ p, n: i + 1 }))
+        .filter(({ p }) => words.every((w) => norm(p).includes(w)))
+        .slice(0, 8);
+      if (!hits.length) {
+        const li = document.createElement('li');
+        li.textContent = form.dataset.none!;
+        out.append(li);
+        return;
+      }
+      for (const { p, n } of hits) {
+        const li = document.createElement('li');
+        const text = document.createElement('p');
+        // Highlight the first search word without injecting HTML.
+        const i = norm(p).indexOf(words[0]);
+        if (i >= 0) {
+          const mark = document.createElement('mark');
+          mark.textContent = p.slice(i, i + words[0].length);
+          text.append(p.slice(0, i), mark, p.slice(i + words[0].length));
+        } else text.textContent = p;
+        const a = document.createElement('a');
+        a.href = form.dataset.transcript!;
+        a.rel = 'noopener';
+        a.textContent = `${form.dataset.para} ${n} ↗`;
+        li.append(text, a);
+        out.append(li);
+      }
+    });
+  });
+</script>

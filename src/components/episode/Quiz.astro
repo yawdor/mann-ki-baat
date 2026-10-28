@@ -1,0 +1,155 @@
+---
+import { pick, type Lang } from '../../lib/i18n';
+import { youthCopy } from '../../lib/youth-copy';
+import type { Episode } from '../../lib/schema';
+
+interface Props { episode: Episode; lang: Lang; month: string }
+const { episode, lang, month } = Astro.props;
+const c = youthCopy(lang);
+const quiz = episode.quiz ?? [];
+const paraLang = lang === 'hi' ? 'hi' : 'en';
+const transcript = episode.sources[paraLang];
+---
+{quiz.length > 0 && (
+  <section id="quiz" class="quiz" aria-labelledby="quiz-title">
+    <div class="wrap">
+      <p class="eyebrow">{c.quizLabel}</p>
+      <h2 class="section-title" id="quiz-title">{c.quizTitle}</h2>
+      <form data-quiz={month} data-total={quiz.length}
+            data-score-tpl={c.quizScore(9999, quiz.length)} data-best-tpl={c.quizBest(9999, quiz.length)}>
+        <ol>
+          {quiz.map((q, i) => (
+            <li class="q" data-answer={q.answer}>
+              <fieldset>
+                <legend>{pick(q.question, lang)}</legend>
+                {q.options.map((o, j) => (
+                  <label><input type="radio" name={`q${i}`} value={j} /> {pick(o, lang)}</label>
+                ))}
+              </fieldset>
+              <details class="why">
+                <summary><span class="verdict" data-correct={c.correct} data-wrong={c.wrong}></span> {pick(q.options[q.answer], lang)}</summary>
+                <p>{pick(q.explanation, lang)}</p>
+                <p class="src"><a href={transcript} rel="noopener">{c.quizSource} {q.source.para[paraLang]} ↗</a></p>
+              </details>
+            </li>
+          ))}
+        </ol>
+        <button type="submit" class="check needs-js">{c.quizCheck}</button>
+        <p class="score" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+)}
+
+<style>
+  .quiz {
+    padding: 64px 0;
+    background: var(--white);
+  }
+  ol {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 16px;
+    counter-reset: q;
+  }
+  .q {
+    counter-increment: q;
+    border: 2px solid #F2D58A;
+    border-radius: 20px;
+    padding: 18px 20px;
+    background: #FFFBF0;
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  legend {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  legend::before {
+    content: counter(q) '. ';
+    color: #B35500;
+  }
+  label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    min-height: 40px;
+    cursor: pointer;
+  }
+  input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--kumkum);
+  }
+  .why {
+    margin-top: 8px;
+  }
+  .why summary {
+    cursor: pointer;
+    color: var(--peacock);
+    font-weight: 600;
+  }
+  .q.right {
+    border-color: var(--mehendi);
+  }
+  .q.wrong {
+    border-color: var(--kumkum);
+  }
+  .src a {
+    color: var(--peacock);
+  }
+  .check {
+    margin-top: 20px;
+    min-height: 52px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--haldi);
+    color: var(--text);
+    font: 700 17px var(--font-body);
+    cursor: pointer;
+    box-shadow: 0 4px 0 #B88700;
+  }
+  .score {
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--kumkum);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-quiz]').forEach((form) => {
+    const key = `mkb-quiz-${form.dataset.quiz}`;
+    const total = Number(form.dataset.total);
+    const fill = (tpl: string, n: number) => tpl.replace('9999', String(n));
+    const out = form.querySelector<HTMLElement>('.score')!;
+    let best = 0;
+    try { best = Number(localStorage.getItem(key) ?? 0); } catch {}
+    if (best) out.textContent = fill(form.dataset.bestTpl!, best);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let score = 0;
+      form.querySelectorAll<HTMLElement>('.q').forEach((q, i) => {
+        const picked = form.querySelector<HTMLInputElement>(`input[name="q${i}"]:checked`);
+        const right = picked !== null && Number(picked.value) === Number(q.dataset.answer);
+        if (right) score++;
+        q.classList.toggle('right', right);
+        q.classList.toggle('wrong', !right);
+        const v = q.querySelector<HTMLElement>('.verdict')!;
+        v.textContent = (right ? v.dataset.correct : v.dataset.wrong) + ':';
+        q.querySelector('details')!.open = true;
+      });
+      best = Math.max(best, score);
+      try { localStorage.setItem(key, String(best)); } catch {}
+      out.textContent = `${fill(form.dataset.scoreTpl!, score)} ${fill(form.dataset.bestTpl!, best)}`;
+    });
+  });
+</script>

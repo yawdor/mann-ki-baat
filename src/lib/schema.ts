@@ -71,8 +71,24 @@ export const TopicSchema = z.object({
   schemeIds: z.array(id),
   placeIds: z.array(id),
   personIds: z.array(id),
+  /** One-line takeaway for the "60 seconds" story card; falls back to the explainer's first sentence. */
+  takeaway: LocalizedSchema.optional(),
+  /** Who the topic matters to, for the "What's in it for you" picker. */
+  audiences: z.array(z.enum(AUDIENCES)).optional(),
 });
 export type Topic = z.infer<typeof TopicSchema>;
+
+/** Multiple-choice question answered from a cited transcript paragraph. */
+export const QuizItemSchema = z
+  .object({
+    question: LocalizedSchema,
+    options: z.array(LocalizedSchema).min(3).max(4),
+    answer: z.number().int().min(0),
+    explanation: LocalizedSchema,
+    source: z.object({ para: ParaSchema }),
+  })
+  .refine((q) => q.answer < q.options.length, { message: 'answer must index an option', path: ['answer'] });
+export type QuizItem = z.infer<typeof QuizItemSchema>;
 
 export const PersonSchema = z.object({
   id,
@@ -114,6 +130,7 @@ export const EpisodeSchema = z.object({
   people: z.array(PersonSchema),
   places: z.array(PlaceSchema),
   stats: z.array(StatSchema),
+  quiz: z.array(QuizItemSchema).max(10).optional(),
 });
 export type Episode = z.infer<typeof EpisodeSchema>;
 

@@ -310,6 +310,19 @@ Do this **only after** `en` and `hi` are complete and correct.
 - Do not mention political parties, elections or opponents unless the transcript does, and then
   only factually.
 
+## 8a. Youth features: takeaway, audiences, quiz
+
+The site is written so young first-time readers can follow it. That changes the presentation, never the facts.
+
+- **`takeaway`** (optional, per topic): one plain sentence, ≤ 20 words, saying what was said. It must be supported by that topic's facts. If unsure, leave it out; the site uses the explainer's first sentence instead.
+- **`audiences`** (optional, per topic): only values from `AUDIENCES` (farmers, women, students, senior-citizens, households, youth, health, business, workers, children), for groups the topic clearly concerns according to the transcript. An empty or missing list is fine.
+- **`quiz`**: exactly 5 questions when the episode has at least 5 sourced facts; otherwise omit it.
+  - Each question is answered by one fact already in the episode file. `source.para` is that fact's paragraph `{ en, hi }`.
+  - 3–4 options. Exactly one option is correct, and `answer` is its 0-based index.
+  - Wrong options must be plausible but clearly wrong. They must never state something the transcript says is true.
+  - `explanation` restates the fact in both `en` and `hi`. Hindi options must be mostly Devanagari.
+- **Neutrality:** no campaign messaging, no appeals to vote, no party names or symbols, and no praise of the Prime Minister or the government beyond the transcript's own words in a quote. Content aimed at young readers explains what was said and points to official links. It never persuades.
+
 ## 9. Imagery and branding
 
 - The episode and scheme files contain **no** image, logo, emblem, photo or icon fields or URLs.

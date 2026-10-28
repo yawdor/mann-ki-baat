@@ -12,6 +12,7 @@ import { completeLangs } from '../src/lib/langs';
 import { schemaCheck } from './checks/schema';
 import { evidence } from './checks/evidence';
 import { quotes } from './checks/quotes';
+import { quiz } from './checks/quiz';
 import { sources } from './checks/sources';
 import { links } from './checks/links';
 import { languages, machineLanguages } from './checks/languages';
@@ -32,6 +33,7 @@ const readJson = (p: string): unknown => JSON.parse(readFileSync(p, 'utf8'));
 export const CHECKS: Check[] = [
   evidence,
   quotes,
+  quiz,
   sources,
   links,
   languages,
