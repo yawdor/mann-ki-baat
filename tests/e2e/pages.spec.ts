@@ -38,6 +38,8 @@ for (const vp of VIEWPORTS) {
         });
 
         test('axe: no serious or critical violations', async ({ page }) => {
+          // A full episode page is large; axe needs more than the default 30 s on slow machines.
+          test.setTimeout(120_000);
           // Reduced motion shows .bloom sections at full opacity, so contrast
           // is measured on final colours rather than mid-fade.
           await page.emulateMedia({ reducedMotion: 'reduce' });
